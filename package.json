@@ -19,8 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "DO_NOT_USE_eject": "react-scripts eject",
+    "lint": "npx eslint src/**/*.tsx --fix"
   },
   "eslintConfig": {
     "extends": [
