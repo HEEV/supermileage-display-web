@@ -17,11 +17,11 @@ export default function StopwatchTimer() {
     isRunning,
     start,
     reset
-  } = useStopwatch({ autoStart: true });
+  } = useStopwatch({ autoStart: false });
 
   return (
     <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
-      <div style={{fontSize: '100px'}}>
+      <div style={{fontSize: '50px'}}>
         <span>{formatNumber(hours)}</span>:<span>{formatNumber(minutes)}</span>:<span>{formatNumber(seconds)}</span>
       </div>
       <button style={{width: '200px', height: '40px', margin: '1px'}} onClick={start}>Start</button>

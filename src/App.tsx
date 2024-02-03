@@ -82,7 +82,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px'}}>
               <Chart
                 chartType='Gauge'
-                height='400px'
+                height='250px'
                 loader={<div>Loading...</div>}
                 data={[
                   ['Label', 'Value'],
@@ -109,7 +109,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <Card>
               <Chart
                 chartType='Gauge'
-                height='400px'
+                height='250px'
                 loader={<div>Loading...</div>}
                 data={[
                   ['Label', 'Value'],
