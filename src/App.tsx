@@ -77,9 +77,9 @@ export default class App extends Component<Record<string, string>, AppState> {
           <h1>Race: {this.state.currentRaceName}</h1>
           <StopwatchTimer />
         </Box>
-        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
+        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px'}}>
+            <Card sx={{ alignItems: 'center', padding: '20px'}}>
               <Chart
                 chartType='Gauge'
                 height='250px'
@@ -106,7 +106,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 height={180}
               />
             </Card>
-            <Card>
+            <Card sx={{ alignItems: 'center', padding: '20px'}}>
               <Chart
                 chartType='Gauge'
                 height='250px'
@@ -126,12 +126,17 @@ export default class App extends Component<Record<string, string>, AppState> {
               />
             </Card>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
-            <Card>
+          <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px'}}>
+            <Card sx={{width: '460px'}}>
               <h3>
                 Track Map
               </h3>
 
+            </Card>
+            <Card sx={{width: '460px'}}>
+              <h3>
+                Battery Voltage
+              </h3>
             </Card>
           </Box>
         </Box>

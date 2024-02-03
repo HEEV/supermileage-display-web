@@ -21,13 +21,11 @@ export default function StopwatchTimer() {
 
   return (
     <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
-      <div style={{fontSize: '50px'}}>
+      <div style={{fontSize: '30px'}}>
         <span>{formatNumber(hours)}</span>:<span>{formatNumber(minutes)}</span>:<span>{formatNumber(seconds)}</span>
       </div>
-      <button style={{width: '200px', height: '40px', margin: '1px'}} onClick={start}>Start</button>
-      <button style={{width: '200px', height: '40px', margin: '1px'}} onClick={() => {
-        reset(undefined, false);
-      }}>Reset</button>
+      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : null; }}>Start</button>
+      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { reset(undefined, false); }}>Reset</button>
     </div>
   );
 }
