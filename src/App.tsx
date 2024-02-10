@@ -16,9 +16,9 @@ export type AppState = {
   currentRaceName: string;
 }
 
+import './style.css';
 import { Box, Card } from '@mui/material';
 import { Component } from 'react';
-import './style.css';
 import { Socket, io } from 'socket.io-client';
 import ReactSpeedometer from 'react-d3-speedometer';
 import { Chart } from 'react-google-charts';
@@ -134,6 +134,12 @@ export default class App extends Component<Record<string, string>, AppState> {
                 }}
               />
             </Card>
+            <Card>
+              <progress id='battery-meter' value={this.state.history[0].batteryVoltage} max='14'></progress>
+              <h3>
+                Battery Voltage
+              </h3>
+            </Card>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px'}}>
             <Card sx={{width: '460px'}}>
@@ -142,11 +148,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               </h3>
 
             </Card>
-            <Card sx={{width: '460px'}}>
-              <h3>
-                Battery Voltage
-              </h3>
-            </Card>
+            
           </Box>
         </Box>
 
