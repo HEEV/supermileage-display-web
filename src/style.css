@@ -1,0 +1,43 @@
+body {
+    font-family: sans-serif;
+}
+
+.wait-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gauge-box {
+    align-items: center;
+    padding: 20px;
+}
+
+#main-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#primary-gauges {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+#tiltometer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+}
+
+#stopwatch {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid lightgray;
+}

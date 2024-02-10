@@ -16,9 +16,11 @@ export type AppState = {
 
 import { Box, Card } from '@mui/material';
 import { Component } from 'react';
+import './style.css';
 import { Socket, io } from 'socket.io-client';
 import ReactSpeedometer from 'react-d3-speedometer';
 import { Chart } from 'react-google-charts';
+import CircularProgress from '@mui/material/CircularProgress';
 import StopwatchTimer from './stopwatchTimer';
 
 
@@ -67,19 +69,22 @@ export default class App extends Component<Record<string, string>, AppState> {
   render() {
     if (this.state.history.length === 0) {
       return (
-        <h1>Waiting for data...</h1>
+        <Box className='wait-screen'>
+          <h1>Waiting for data...</h1>
+          <CircularProgress />
+        </Box>
       );
     }
 
     return (
       <>
-        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottom: '4px solid lightgray'}}>
-          <h1>Race: {this.state.currentRaceName}</h1>
+        <Box id='stopwatch'>
+          <h2>Race: {this.state.currentRaceName}</h2>
           <StopwatchTimer />
         </Box>
-        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
-            <Card sx={{ alignItems: 'center', padding: '20px'}}>
+        <Box id='main-box'>
+          <Box id='primary-gauges'>
+            <Card className='gauge-box'>
               <Chart
                 chartType='Gauge'
                 height='250px'
@@ -94,7 +99,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 }}
               />
             </Card>
-            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
+            <Card id='tiltometer'>
               <ReactSpeedometer 
                 maxValue={70}
                 minValue={-70} 
@@ -106,7 +111,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 height={180}
               />
             </Card>
-            <Card sx={{ alignItems: 'center', padding: '20px'}}>
+            <Card className='gauge-box'>
               <Chart
                 chartType='Gauge'
                 height='250px'
