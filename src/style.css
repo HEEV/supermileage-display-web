@@ -3,7 +3,7 @@ body {
 }
 
 progress {
-    transform: rotate(90deg);
+    transform: rotate(0);
     height: 50px;
     width: 400px;
 }
@@ -46,4 +46,9 @@ progress {
     justify-content: space-between;
     align-items: center;
     border-bottom: 4px solid lightgray;
+}
+
+#battery-card {
+    display: flex;
+    flex-direction: column;
 }
