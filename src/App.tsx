@@ -27,6 +27,8 @@ import StopwatchTimer from './stopwatchTimer';
 import { LinearGauge, LinearGaugeProps } from '@progress/kendo-react-gauges';
 import { motion } from 'framer-motion';
 
+const DATA_SOURCE = 'http://localhost:8080';
+// const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: Socket;
@@ -41,7 +43,7 @@ export default class App extends Component<Record<string, string>, AppState> {
   }
 
   componentDidMount(): void {
-    this._socket = io('https://judas.arkinsolomon.net', {
+    this._socket = io(DATA_SOURCE, {
       autoConnect: false
     });
     this._socket.on('new_data', (data: (DataEntry | { time: string }) | HistoryData) => {
