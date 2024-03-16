@@ -44,6 +44,10 @@ export default class App extends Component<Record<string, string>, AppState> {
     };
   }
 
+  newRace(): void {
+    this._socket?.emit('request_new_race');
+  }
+
   componentDidMount(): void {
     this._socket = io(DATA_SOURCE, {
       autoConnect: false
