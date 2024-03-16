@@ -19,6 +19,11 @@ progress {
     padding: 20px;
 }
 
+.race-info {
+    display: flex;
+    flex-direction: column;
+}
+
 #main-box {
     display: flex;
     flex-direction: column;

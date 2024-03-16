@@ -42,6 +42,8 @@ export default class App extends Component<Record<string, string>, AppState> {
       ],
       currentRaceName: '<no race>'
     };
+
+    this.newRace = this.newRace.bind(this);
   }
 
   newRace(): void {
@@ -106,7 +108,10 @@ export default class App extends Component<Record<string, string>, AppState> {
     return (
       <>
         <Box id='stopwatch'>
-          <h2>Race: {this.state.currentRaceName}</h2>
+          <Box id='race-info'>
+            <h2>Race: {this.state.currentRaceName}</h2>
+            <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button>
+          </Box>
           <StopwatchTimer />
         </Box>
         <Box id='main-box'>
@@ -165,12 +170,10 @@ export default class App extends Component<Record<string, string>, AppState> {
               </h3>
             </Card>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', margin: '10px'}}>
+          <Box id='track-box'>
             <Card>
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} />
             </Card>
-            
-            
           </Box>
         </Box>
 
