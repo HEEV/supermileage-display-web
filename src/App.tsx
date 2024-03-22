@@ -25,7 +25,7 @@ import { Chart } from 'react-google-charts';
 import CircularProgress from '@mui/material/CircularProgress';
 import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
-import { LinearGauge, LinearGaugeProps } from '@progress/kendo-react-gauges';
+import LinearGauge from './linearGauge';
 
 const DATA_SOURCE = 'http://localhost:8080';
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
@@ -38,7 +38,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity: 0, time: new Date(), distanceTraveled: 450, batteryVoltage: 0, engineTemp: 0, wind: 0, tilt: 0, latency: 0}
+        //{velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -92,19 +92,6 @@ export default class App extends Component<Record<string, string>, AppState> {
       );
     }
 
-    const linearOptions: LinearGaugeProps = {
-      pointer : {
-        value: 10
-      },
-      scale: {
-        min: 0,
-        max: 100,
-        majorUnit: 20,
-        minorUnit: 5,
-        vertical: true
-      }
-    };
-
     return (
       <>
         <Box id='stopwatch'>
@@ -150,33 +137,30 @@ export default class App extends Component<Record<string, string>, AppState> {
                 loader={<div>Loading...</div>}
                 data={[
                   ['Label', 'Value'],
-                  ['Temp (F)', Math.round(this.state.history[0].engineTemp)]
+                  ['Wind (MPH)', Math.round(this.state.history[0].wind)]
                 ]}
                 options={{
-                  redFrom: 180,
-                  redTo: 200,
-                  yellowFrom: 155,
-                  yellowTo: 180,
                   minorTicks: 5,
-                  max: 200,
+                  max: 50,
                 }}
               />
             </Card>
-            <Card id='battery-card'>
-              <LinearGauge
-                {...linearOptions} />
-              <h3>
-                Battery Voltage
-              </h3>
-            </Card>
           </Box>
           <Box id='track-box'>
+            <Card id='battery-card'>
+              <LinearGauge length={200} value={this.state.history[0].engineTemp} max={200} units={'F'} precision={0} />
+            </Card>
             <Card>
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} />
             </Card>
+            <Card id='battery-card'>
+              <LinearGauge length={200} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
+            </Card>
           </Box>
         </Box>
-
+        <Card id='latency'>
+          <p>Latency (ms): {this.state.history[0].latency}</p>
+        </Card>
         
       </>
     );

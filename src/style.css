@@ -56,4 +56,20 @@ progress {
 #battery-card {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#track-box {
+    display: flex;
+    flex-direction: row;
+}
+
+#latency {
+    position: fixed;
+    margin: 10px;
+    padding: 0px 10px;
+    bottom: 0px;
+    left: 0px;
 }

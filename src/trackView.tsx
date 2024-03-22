@@ -20,7 +20,7 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
           d={tracks[props.trackName as keyof typeof tracks]}
           fill="lightgray"
           strokeWidth="12"
-          stroke="rgba(255, 2, 255, 0.69)"
+          stroke="Gold"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: props.distanceTraveled / trackLength}}
