@@ -8,10 +8,10 @@ export type DataEntry = {
   tilt: number;
 }
 
+// latency is in ms
 export type HistoryData = DataEntry & { latency: number; };
 
 export type AppState = {
-  // latency is in ms
   history: HistoryData[];
   currentRaceName: string;
 }
@@ -53,7 +53,6 @@ export default class App extends Component<Record<string, string>, AppState> {
     this._socket.on('new_data', (data: (DataEntry | { time: string }) | HistoryData) => {
       data.time = new Date(data.time);
       (data as HistoryData & { latency?: number }).latency = Date.now() - data.time.valueOf();
-      
       this.setState({
         history: [data as HistoryData, ...this.state.history]
       });
