@@ -2,12 +2,6 @@ body {
     font-family: sans-serif;
 }
 
-progress {
-    transform: rotate(0);
-    height: 50px;
-    width: 400px;
-}
-
 .wait-screen {
     display: flex;
     flex-direction: column;

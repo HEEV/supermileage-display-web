@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 
+
 export default function TrackView(props: {trackName: string, distanceTraveled: number}) {
     
   const tracks = {
@@ -7,26 +8,30 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
     EnduranceFixed: 'm473.44003,262.68008l19.03,16.58l49.83,43.63l29.04,6.29l59.15,31.63l10.62,12.66l19.82,23.29l27.2,32.09l19.28,39.87l82.12,68.68l75.4,-44.41l6.07,-14.74l-9.27,-9.16l-23.01,-20.31l-29.91,-21.66l-11.91,-3.69l-39,-16.68l-19.51,-13l-13,-15.6l-11.05,-18.42l-5.85,-14.08l-11.91,-16.47l-15.17,-11.49l-38.14,-22.1l-26.93,-21.21l-26.82,-21.73l-45.48,-36.36l-27.95,-10.4l-24.92,-11.7l-17.55,-15.17l-32.81,-35.12l-18.31,-18.27l-38.63,-38.35l-28.71,-27.56l-48.51,-46.17l-54.69,-51.85l-17.77,-9.1l-33.15,13l-89.92,49.4l-30.12,20.58l30.44,24.25l45.48,36.21l41.32,33.13l34.09,27.3l14.64,13.45l45.72,-20.15l29.04,17.55l58.93,14.3l92.78,81.06z'
   };
 
-  const transition = {duration: 4, yoyo: Infinity, ease: 'easeInOut'};
+  const transition = {duration: 0.5, yoyo: Infinity};
   const trackLength = 1000;
 
   return (
-    <svg viewBox="0 0 800 600" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.1">
-      <g>
-        <title>Layer 1</title>
-        <motion.path 
-          transform="rotate(90, 400, 300)"
-          id="svg_3" 
-          d={tracks[props.trackName as keyof typeof tracks]}
-          fill="lightgray"
-          strokeWidth="12"
-          stroke="Gold"
-          strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: props.distanceTraveled / trackLength}}
-          transition={transition}
-        />
-      </g>
-    </svg>
+    <div>
+      <svg id='map' viewBox="0 0 800 600" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.1">
+        <g>
+          <title>Layer 1</title>
+          <motion.path 
+            transform="rotate(90, 400, 300)"
+            id="svg_3" 
+            d={tracks[props.trackName as keyof typeof tracks]}
+            fill="lightgray"
+            strokeWidth="12"
+            stroke="Gold"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: props.distanceTraveled % trackLength / trackLength }}
+            transition={transition}
+          />
+        </g>
+      </svg>
+      <p>{props.distanceTraveled}</p>
+      <h3 style={{textAlign: 'center'}}>Lap: {props.distanceTraveled < trackLength ? 1 : Math.trunc(props.distanceTraveled/trackLength + 1) }</h3>
+    </div>
   );
 }

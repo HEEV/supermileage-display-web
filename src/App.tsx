@@ -27,12 +27,12 @@ import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
 import LinearGauge from './linearGauge';
 
-const DATA_SOURCE = 'http://localhost:8080';
-//const DATA_SOURCE = 'https://judas.arkinsolomon.net';
+//const DATA_SOURCE = 'http://judas.arkinsolomon.net';
+const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'http://judas.arkinsolomon.net';
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: Socket;
-  
+
   constructor(props: Record<string, string>) {
     super(props);
 
@@ -82,6 +82,7 @@ export default class App extends Component<Record<string, string>, AppState> {
   }
 
   render() {
+
     if (this.state.history.length === 0) {
       return (
         <Box className='wait-screen'>
@@ -96,9 +97,9 @@ export default class App extends Component<Record<string, string>, AppState> {
         <Box id='stopwatch'>
           <Box id='race-info'>
             <h2>Race: {this.state.currentRaceName}</h2>
-            <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button>
+            {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
           </Box>
-          <StopwatchTimer />
+          {window.location.hostname === 'localhost' ? <StopwatchTimer /> : null}
         </Box>
         <Box id='main-box'>
           <Box id='primary-gauges'>
@@ -151,6 +152,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             </Card>
             <Card>
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} />
+              
             </Card>
             <Card id='battery-card'>
               <LinearGauge length={200} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
