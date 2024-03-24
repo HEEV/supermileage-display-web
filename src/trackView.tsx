@@ -9,7 +9,7 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
   };
 
   const transition = {duration: 0.5, yoyo: Infinity};
-  const trackLength = 1000;
+  const trackLength = 2.39072566 * 5280;
 
   return (
     <div>
