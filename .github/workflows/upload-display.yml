@@ -33,7 +33,7 @@ jobs:
             ~/.oci-cli-installed
           key: ${{ runner.os }}-display-build
       - name: Install
-        run: npm ci --include=dev --verbose
+        run: npm ci --include=dev --verbose --force
       - name: Build
         if: ${{ success() }}
         run: npm run build
