@@ -152,7 +152,6 @@ export default class App extends Component<Record<string, string>, AppState> {
             </Card>
             <Card>
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} />
-              
             </Card>
             <Card id='battery-card'>
               <LinearGauge length={200} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
@@ -162,7 +161,6 @@ export default class App extends Component<Record<string, string>, AppState> {
         <Card id='latency'>
           <p>Latency (ms): {this.state.history[0].latency}</p>
         </Card>
-        
       </>
     );
   }
