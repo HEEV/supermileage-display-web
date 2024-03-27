@@ -16,6 +16,8 @@ for EXT in $EXTENSIONS; do
     MIME_TYPE="text/css"
   elif [ "$EXT" = "js" ]; then
     MIME_TYPE="application/javascript"
+  elif [ "$EXT" = "ico" ]; then
+    MIME_TYPE="image/x-icon"
   else 
     TEST_FILE=$(find . -type f -iname "*.$EXT" | head -1)
     MIME_TYPE=$(file -b --mime-type "$TEST_FILE")
