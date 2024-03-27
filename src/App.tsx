@@ -27,8 +27,8 @@ import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
 import LinearGauge from './linearGauge';
 
-//const DATA_SOURCE = 'http://judas.arkinsolomon.net';
-const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'http://judas.arkinsolomon.net';
+//const DATA_SOURCE = 'https://judas.arkinsolomon.net';
+const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'https://judas.arkinsolomon.net';
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: Socket;
