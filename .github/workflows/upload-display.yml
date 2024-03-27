@@ -41,6 +41,6 @@ jobs:
         uses: oracle-actions/run-oci-cli-command@v1.1.1
         with:
           silent: false
-          command: os object bulk-delete --namespace-name ${{ vars.OCI_OBJECT_STORAGE_NAMESPACE }} --bucket-name ${{ vars.ACCOUNTS_BUCKET_NAME }} --force
+          command: os object bulk-delete --namespace-name ${{ vars.OCI_OBJECT_STORAGE_NAMESPACE }} --bucket-name ${{ vars.BUCKET_NAME }} --force
       - name: Upload Contents
-        run: ./upload-display.sh ${{ vars.OCI_OBJECT_STORAGE_NAMESPACE }} ${{ vars.ACCOUNTS_BUCKET_NAME }}
+        run: ./upload-display.sh ${{ vars.OCI_OBJECT_STORAGE_NAMESPACE }} ${{ vars.BUCKET_NAME }}
