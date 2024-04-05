@@ -38,7 +38,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        //{velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        {velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -106,7 +106,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <Card className='gauge-box'>
               <Chart
                 chartType='Gauge'
-                height='250px'
+                height='100%'
                 loader={<div>Loading...</div>}
                 data={[
                   ['Label', 'Value'],
@@ -133,7 +133,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <Card className='gauge-box'>
               <Chart
                 chartType='Gauge'
-                height='250px'
+                height='100%'
                 loader={<div>Loading...</div>}
                 data={[
                   ['Label', 'Value'],
@@ -146,15 +146,15 @@ export default class App extends Component<Record<string, string>, AppState> {
               />
             </Card>
           </Box>
-          <Box id='track-box'>
+          <Box id='track-box' sx={{height: '30vh'}}>
             <Card id='battery-card'>
-              <LinearGauge length={200} value={this.state.history[0].engineTemp} max={200} units={'F'} precision={0} />
+              <LinearGauge length={150} value={this.state.history[0].engineTemp} max={200} units={'F'} precision={0} />
             </Card>
-            <Card>
-              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} />
+            <Card sx={{minHeight: '225px', height: '20vh', display: 'flex', alignItems: 'center'}}>
+              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={80} />
             </Card>
             <Card id='battery-card'>
-              <LinearGauge length={200} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
+              <LinearGauge length={150} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
             </Card>
           </Box>
         </Box>
