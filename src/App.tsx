@@ -38,7 +38,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        //{velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
