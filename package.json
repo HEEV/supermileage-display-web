@@ -1,21 +1,21 @@
 {
   "name": "supermileage-display-web",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.5",
-    "@progress/kendo-react-gauges": "^7.2.2",
     "framer-motion": "^11.0.6",
     "gsap": "^3.12.5",
     "konva": "^9.3.1",
-    "react": "^18.2.0",
-    "react-d3-speedometer": "^1.1.0",
-    "react-dom": "^18.2.0",
-    "react-gauge-chart": "^0.4.1",
-    "react-google-charts": "^4.0.1",
-    "react-konva": "^18.2.10",
+    "react": "^19.0.0",
+    "react-d3-speedometer": "^3.1.1",
+    "react-dom": "^19.0.0",
+    "react-google-charts": "^5.2.1",
+    "react-konva": "^19.0.3",
+    "react-scripts": "^5.0.1",
     "react-timer-hook": "^3.0.7",
     "socket.io-client": "^4.7.4"
   },
@@ -24,6 +24,10 @@
     "build": "react-scripts build",
     "DO_NOT_USE_eject": "react-scripts eject",
     "lint": "npx eslint src/**/*.tsx --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HEEV/supermileage-display-web.git"
   },
   "browserslist": {
     "production": [
@@ -37,14 +41,12 @@
       "last 1 safari version"
     ]
   },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HEEV/supermileage-display-web/issues"
+  },
+  "homepage": "/",
   "devDependencies": {
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "@types/react-gauge-chart": "^0.4.3",
-    "@typescript-eslint/eslint-plugin": "^6.19.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "react-scripts": "^5.0.1",
-    "typescript": "^5.3.3"
+    "@types/react-dom": "^19.0.4"
   }
 }

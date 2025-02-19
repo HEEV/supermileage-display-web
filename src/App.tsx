@@ -28,7 +28,7 @@ import TrackView from './trackView';
 import LinearGauge from './linearGauge';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
-const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'https://judas.arkinsolomon.net';
+const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: Socket;
@@ -38,7 +38,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        //{velocity: 23, time: new Date(), distanceTraveled: 450, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        {velocity: 23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -46,37 +46,52 @@ export default class App extends Component<Record<string, string>, AppState> {
     this.newRace = this.newRace.bind(this);
   }
 
+  // request a new race on the db, may not be needed anymore
   newRace(): void {
     this._socket?.emit('request_new_race');
   }
 
+  // handle connection to local data server, when components initially mount to DOM
   componentDidMount(): void {
-    this._socket = io(DATA_SOURCE, {
-      autoConnect: false
-    });
-    this._socket.on('new_data', (data: (DataEntry | { time: string }) | HistoryData) => {
-      data.time = new Date(data.time);
-      (data as HistoryData & { latency?: number }).latency = Date.now() - data.time.valueOf();
-      this.setState({
-        history: [data as HistoryData, ...this.state.history]
+    // If we are running on the car, we don't need remote data server connection
+    if (DATA_SOURCE === 'http://localhost:8080') {
+      this._socket = io(DATA_SOURCE, {
+        autoConnect: false
       });
-    });
+      
+      // data receipt event handler
+      this._socket.on('new_data', (data: (DataEntry | { time: string }) | HistoryData) => {
+        data.time = new Date(data.time);
+        (data as HistoryData & { latency?: number }).latency = Date.now() - data.time.valueOf();
+        this.setState({
+          history: [data as HistoryData, ...this.state.history]
+        });
+      });
 
-    this._socket.on('new_race_created', name => {
-      this.setState({
-        history: [],
-        currentRaceName: name
+      // race creation event handler, may not be needed
+      this._socket.on('new_race_created', name => {
+        this.setState({
+          history: [],
+          currentRaceName: name
+        });
       });
-    });
 
-    this._socket.on('current_race', name => {
-      this.setState({
-        currentRaceName: name
+      // current race event handler, not sure what this does
+      this._socket.on('current_race', name => {
+        this.setState({
+          currentRaceName: name
+        });
       });
-    });
-    this._socket.connect();
+      this._socket.connect();
+    }
+    else {
+      // fetch data from postgres db
+      // TODO: implement fetch from remote data server, requires separate api backend
+      console.log('setting up setInterval for data fetch.');
+    }
   }
 
+  // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
   }
@@ -113,8 +128,8 @@ export default class App extends Component<Record<string, string>, AppState> {
                   ['Speed (MPH)', Math.round(this.state.history[0].velocity)]
                 ]}
                 options={{
-                  minorTicks: 5,
-                  max: 35,
+                  minorTicks: 10,
+                  max: 40,
                 }}
               />
             </Card>
@@ -154,7 +169,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={80} />
             </Card>
             <Card id='battery-card'>
-              <LinearGauge length={150} value={this.state.history[0].batteryVoltage} max={12} units={'V'} />
+              <LinearGauge length={150} value={this.state.history[0].batteryVoltage} max={12} units={'V'} barColor={'navy'} />
             </Card>
           </Box>
         </Box>

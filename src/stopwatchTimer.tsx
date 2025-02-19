@@ -16,6 +16,7 @@ export default function StopwatchTimer() {
     hours,
     isRunning,
     start,
+    pause,
     reset
   } = useStopwatch({ autoStart: false });
 
@@ -24,7 +25,7 @@ export default function StopwatchTimer() {
       <div style={{fontSize: '30px'}}>
         <span>{formatNumber(hours)}</span>:<span>{formatNumber(minutes)}</span>:<span>{formatNumber(seconds)}</span>
       </div>
-      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : null; }}>Start</button>
+      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
       <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { reset(undefined, false); }}>Reset</button>
     </div>
   );
