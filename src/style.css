@@ -14,8 +14,12 @@ body {
 }
 
 .gauge-box {
+    display: flex;
     align-items: center;
+    justify-content: center;
     padding: 20px;
+    width: 240px;
+    max-width: 33%;
 }
 
 .race-info {

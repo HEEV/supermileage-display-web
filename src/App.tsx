@@ -17,15 +17,15 @@ export type AppState = {
 }
 
 import './style.css';
-import { Box, Card } from '@mui/material';
+import { Box, Card} from '@mui/material';
 import { Component } from 'react';
 import { Socket, io } from 'socket.io-client';
 import ReactSpeedometer from 'react-d3-speedometer';
-import { Chart } from 'react-google-charts';
 import CircularProgress from '@mui/material/CircularProgress';
 import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
 import LinearGauge from './linearGauge';
+import BasicGauge from './basicGauge';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
@@ -38,7 +38,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity: 23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -119,19 +119,7 @@ export default class App extends Component<Record<string, string>, AppState> {
         <Box id='main-box'>
           <Box id='primary-gauges'>
             <Card className='gauge-box'>
-              <Chart
-                chartType='Gauge'
-                height='100%'
-                loader={<div>Loading...</div>}
-                data={[
-                  ['Label', 'Value'],
-                  ['Speed (MPH)', Math.round(this.state.history[0].velocity)]
-                ]}
-                options={{
-                  minorTicks: 10,
-                  max: 40,
-                }}
-              />
+              <BasicGauge title='Velocity' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
             </Card>
             <Card id='tiltometer'>
               <ReactSpeedometer 
@@ -146,19 +134,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               />
             </Card>
             <Card className='gauge-box'>
-              <Chart
-                chartType='Gauge'
-                height='100%'
-                loader={<div>Loading...</div>}
-                data={[
-                  ['Label', 'Value'],
-                  ['Wind (MPH)', Math.round(this.state.history[0].wind)]
-                ]}
-                options={{
-                  minorTicks: 5,
-                  max: 50,
-                }}
-              />
+              <BasicGauge title='Wind Speed' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
             </Card>
           </Box>
           <Box id='track-box' sx={{height: '30vh'}}>
