@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Rect, Layer, Stage } from 'react-konva';
 
 
@@ -10,12 +10,19 @@ linearGauge.defaultProps = {
 };
 
 export default function linearGauge(props: {length: number, value: number, max: number, 
-                                    backgroundColor: string, barColor: string, units: string, precision: number}) {
+                                    backgroundColor: string, barColor: string, units: string, 
+                                    precision: number, label?: string, warnValue?: number}) {
 
-  const {length, value, max, backgroundColor, barColor, units, precision} = props;
+  const {length, value, max, backgroundColor, barColor, units, precision, label, warnValue} = props;
+
+  const warnValueValid = warnValue && warnValue <= max;
+  if (!warnValueValid) {
+    console.warn('warnValue must be less than max');
+  }
 
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      {label ? <Typography variant='h6'>{label}</Typography> : null}
       <Stage width={length * 0.3} height={length}>
         <Layer>
           <Rect 
@@ -48,6 +55,15 @@ export default function linearGauge(props: {length: number, value: number, max: 
             height={2}
             fill="black"
           />
+          {warnValueValid ?
+            <Rect 
+              x={length * 0.3 - (length * 0.25)}
+              y={length * (1 - warnValue / max)}
+              width={length * 0.2}
+              height={4}
+              fill="red"
+            />
+            : null}
         </Layer>
         <Layer>
           <Rect

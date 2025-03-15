@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 
@@ -83,7 +84,10 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
           />
         </g>
       </svg>
-      <h3 style={{textAlign: 'center'}}>Lap: {props.distanceTraveled < trackLength ? 1 : Math.trunc(props.distanceTraveled/trackLength + 1)}</h3>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', left: '5em', bottom: '4.5em', position: 'relative'}}>
+        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>Lap</Typography>
+        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em', fontWeight: 'bold' }}>{props.distanceTraveled < trackLength ? 1 : Math.trunc(props.distanceTraveled/trackLength + 1)}</Typography>
+      </div>
     </div>
   );
 }

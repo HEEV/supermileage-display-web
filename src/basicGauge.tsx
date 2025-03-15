@@ -10,11 +10,23 @@ export default function BasicGauge(props: {
   unit: string;
 }): JSX.Element {
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}} className="basic-gauge">
-      <Typography style={{textAlign: 'center'}} variant="h6">{props.title}</Typography>
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', border: '8px solid darkgray', margin: '20px', width: '90%'}}>
-        <Typography style={{textAlign: 'center', width: 'min', marginRight: '10px'}} variant="h1">{Math.round(props.value)}</Typography>
-        <Typography style={{textAlign: 'center', alignContent: 'bottom'}} variant="h6">{props.unit}</Typography>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%'}} className="basic-gauge">
+      <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1.5em', lineHeight: '0.95' }}>
+        {props.title}
+      </Typography>
+      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        <Typography sx={{ 
+          fontSize: '12em', 
+          lineHeight: 0.9, 
+          margin: 0, 
+          padding: 0,
+          display: 'block'
+        }}>
+          {Math.round(props.value)}
+        </Typography>
+        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
+          {props.unit}
+        </Typography>
       </div>
     </div>
   );

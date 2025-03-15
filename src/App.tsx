@@ -17,10 +17,9 @@ export type AppState = {
 }
 
 import './style.css';
-import { Box, Card} from '@mui/material';
+import { Box, Card, Typography} from '@mui/material';
 import { Component } from 'react';
 import { Socket, io } from 'socket.io-client';
-import ReactSpeedometer from 'react-d3-speedometer';
 import CircularProgress from '@mui/material/CircularProgress';
 import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
@@ -38,7 +37,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        {velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -118,40 +117,37 @@ export default class App extends Component<Record<string, string>, AppState> {
         </Box>
         <Box id='main-box'>
           <Box id='primary-gauges'>
-            <Card className='gauge-box'>
-              <BasicGauge title='Velocity' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
-            </Card>
+           
             <Card id='tiltometer'>
-              <ReactSpeedometer 
-                maxValue={70}
-                minValue={-70} 
-                value={Math.round(this.state.history[0].tilt)} 
-                segments={7}
-                maxSegmentLabels={7} 
-                currentValueText='${value} Degrees' 
-                segmentColors={['red', 'red', 'yellow', 'green', 'yellow', 'red', 'red']} 
-                height={180}
-              />
+              <Typography variant='h6'>acceleromter gauge goes here</Typography>
             </Card>
             <Card className='gauge-box'>
-              <BasicGauge title='Wind Speed' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
+              <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
+            </Card>
+            <Card className='gauge-box'>
+              <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
             </Card>
           </Box>
           <Box id='track-box' sx={{height: '30vh'}}>
-            <Card id='battery-card'>
-              <LinearGauge length={150} value={this.state.history[0].engineTemp} max={200} units={'F'} precision={0} />
+            <Box sx={{width: '30%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+              <Card id='battery-card'>
+                <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} />
+              </Card>
+              <Card id='battery-card'>
+                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={160} units={'F'} precision={0} />
+              </Card>
+              <Card id='battery-card'>
+                <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
+              </Card>
+            </Box>
+            <Card sx={{ height: '100%', width: '40%', display: 'flex', alignItems: 'center'}}>
+              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} />
             </Card>
-            <Card sx={{minHeight: '225px', height: '20vh', display: 'flex', alignItems: 'center'}}>
-              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={80} />
-            </Card>
-            <Card id='battery-card'>
-              <LinearGauge length={150} value={this.state.history[0].batteryVoltage} max={12} units={'V'} barColor={'navy'} />
+            <Card sx={{width: '30%'}} id='time-card'>
+              {/*will contain lap time statistics*/}
             </Card>
           </Box>
         </Box>
-        <Card id='latency'>
-          <p>Latency (ms): {this.state.history[0].latency}</p>
-        </Card>
       </>
     );
   }
