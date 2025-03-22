@@ -37,7 +37,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -119,7 +119,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           <Box id='primary-gauges'>
            
             <Card id='tiltometer'>
-              <Typography variant='h6'>acceleromter gauge goes here</Typography>
+              <Typography variant='h6'>accelerometer gauge goes here</Typography>
             </Card>
             <Card className='gauge-box'>
               <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
