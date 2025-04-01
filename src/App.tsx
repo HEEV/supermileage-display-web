@@ -132,10 +132,10 @@ export default class App extends Component<Record<string, string>, AppState> {
           <Box id='track-box' sx={{height: '30vh'}}>
             <Box sx={{width: '30%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
               <Card id='battery-card'>
-                <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} />
+                <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
               </Card>
               <Card id='battery-card'>
-                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} />
+                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
               </Card>
               <Card id='battery-card'>
                 <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
