@@ -4,6 +4,7 @@ export type DataEntry = {
   distanceTraveled: number;
   batteryVoltage: number;
   engineTemp: number;
+  radTemp: number;
   wind: number;
   tilt: number;
 }
@@ -134,7 +135,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} />
               </Card>
               <Card id='battery-card'>
-                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={160} units={'F'} precision={0} />
+                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} />
               </Card>
               <Card id='battery-card'>
                 <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
