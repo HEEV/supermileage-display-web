@@ -5,6 +5,8 @@ export type DataEntry = {
   batteryVoltage: number;
   engineTemp: number;
   radTemp: number;
+  timerResetButton: boolean;
+  toggleTimerButton: boolean;
   wind: number;
   tilt: number;
 }
@@ -19,7 +21,7 @@ export type AppState = {
 
 import './style.css';
 import { Box, Card, Typography} from '@mui/material';
-import { Component } from 'react';
+import { Component, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import StopwatchTimer from './stopwatchTimer';
@@ -29,6 +31,8 @@ import BasicGauge from './basicGauge';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
+
+const [distOffset, setDistOffset] = useState(0);
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: Socket;
@@ -107,6 +111,11 @@ export default class App extends Component<Record<string, string>, AppState> {
       );
     }
 
+    // If reset button is active, zero out the distance traveled.
+    if (this.state.history[0].timerResetButton) {
+      setDistOffset(this.state.history[0].distanceTraveled);
+    }
+
     return (
       <>
         <Box id='stopwatch'>
@@ -114,7 +123,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <h2>Race: {this.state.currentRaceName}</h2>
             {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
           </Box>
-          {window.location.hostname === 'localhost' ? <StopwatchTimer /> : null}
+          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={this.state.history[0].timerResetButton} toggleRun={this.state.history[0].toggleTimerButton} /> : null}
         </Box>
         <Box id='main-box'>
           <Box id='primary-gauges'>
@@ -142,7 +151,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               </Card>
             </Box>
             <Card sx={{ height: '100%', width: '40%', display: 'flex', alignItems: 'center'}}>
-              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} />
+              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled - distOffset} scale={130} />
             </Card>
             <Card sx={{width: '30%'}} id='time-card'>
               {/*will contain lap time statistics*/}

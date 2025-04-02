@@ -9,7 +9,7 @@ function formatNumber(num: number) {
   }
 }
 
-export default function StopwatchTimer() {
+export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: boolean}) {
   const {
     seconds,
     minutes,
@@ -19,6 +19,12 @@ export default function StopwatchTimer() {
     pause,
     reset
   } = useStopwatch({ autoStart: false });
+
+  // Handle user inputs
+  if (props.resetTime) { reset(); }
+  if (props.toggleRun) {
+    !isRunning ? start() : pause();
+  }
 
   return (
     <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
