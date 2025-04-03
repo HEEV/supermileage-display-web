@@ -5,8 +5,8 @@ export type DataEntry = {
   batteryVoltage: number;
   engineTemp: number;
   radTemp: number;
-  timerResetButton: boolean;
-  toggleTimerButton: boolean;
+  timerResetButton: number;
+  toggleTimerButton: number;
   wind: number;
   tilt: number;
 }
@@ -40,7 +40,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, wind: 4, tilt: 3, latency: 0}
+        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 0, toggleTimerButton: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -116,7 +116,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <h2>Race: {this.state.currentRaceName}</h2>
             {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
           </Box>
-          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={this.state.history[0].timerResetButton} toggleRun={this.state.history[0].toggleTimerButton} /> : null}
+          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimerButton)} /> : null}
         </Box>
         <Box id='main-box'>
           <Box id='primary-gauges'>
@@ -144,7 +144,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               </Card>
             </Box>
             <Card sx={{ height: '100%', width: '40%', display: 'flex', alignItems: 'center'}}>
-              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={this.state.history[0].timerResetButton} />
+              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={Boolean(this.state.history[0].timerResetButton)} />
             </Card>
             <Card sx={{width: '30%'}} id='time-card'>
               {/*will contain lap time statistics*/}
