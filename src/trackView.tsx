@@ -23,7 +23,7 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
   const trackTransition = {duration: 0.5, yoyo: Infinity};
   const pathRef = useRef<SVGPathElement>(null);
   const trackLength = tracks[props.trackName as keyof typeof tracks].length;
-  const progress = (props.distanceTraveled - distOffset) % trackLength / trackLength;
+  const progress = (Math.max(0, props.distanceTraveled - distOffset)) % trackLength / trackLength;
   
   // Calculate the position of the arrow based on progress
   const [arrowX, setArrowX] = useState(0);
@@ -95,7 +95,7 @@ export default function TrackView(props: {trackName: string, distanceTraveled: n
       </svg>
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', left: '5em', bottom: '4.5em', position: 'relative'}}>
         <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>Lap</Typography>
-        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em', fontWeight: 'bold' }}>{(props.distanceTraveled - distOffset) < trackLength ? 1 : Math.trunc((props.distanceTraveled - distOffset)/trackLength + 1)}</Typography>
+        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em', fontWeight: 'bold' }}>{(Math.max(0, props.distanceTraveled - distOffset)) < trackLength ? 1 : Math.trunc((Math.max(0, props.distanceTraveled - distOffset))/trackLength + 1)}</Typography>
       </div>
     </div>
   );
