@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 
 function formatNumber(num: number) {
@@ -20,11 +21,29 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
     reset
   } = useStopwatch({ autoStart: false });
 
-  // Handle user inputs
-  if (props.resetTime) { reset(); }
-  if (props.toggleRun) {
-    !isRunning ? start() : pause();
-  }
+  // Use refs to track previous prop values
+  const prevResetTimeRef = useRef(props.resetTime);
+  const prevToggleRunRef = useRef(props.toggleRun);
+ 
+  // Handle reset
+  useEffect(() => {
+    // Only reset when resetTime changes from false to true
+    if (props.resetTime && !prevResetTimeRef.current && isRunning) {
+      reset();
+    }
+    // Update the ref
+    prevResetTimeRef.current = props.resetTime;
+  }, [props.resetTime, reset, isRunning]);
+ 
+  // Handle toggle run
+  useEffect(() => {
+    // Only toggle when toggleRun changes from false to true
+    if (props.toggleRun && !prevToggleRunRef.current) {
+      !isRunning ? start() : pause();
+    }
+    // Update the ref
+    prevToggleRunRef.current = props.toggleRun;
+  }, [props.toggleRun, isRunning, start, pause]);
 
   return (
     <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
