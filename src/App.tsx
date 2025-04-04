@@ -6,7 +6,7 @@ export type DataEntry = {
   engineTemp: number;
   radTemp: number;
   timerResetButton: number;
-  toggleTimerButton: number;
+  toggleTimeButton: number;
   wind: number;
   tilt: number;
 }
@@ -40,7 +40,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 1, toggleTimerButton: 0, wind: 4, tilt: 3, latency: 0}
+        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 1, toggleTimerButton: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -116,7 +116,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <h2>Race: {this.state.currentRaceName}</h2>
             {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
           </Box>
-          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimerButton)} /> : null}
+          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimeButton)} /> : null}
         </Box>
         <Box id='main-box'>
           <Box id='primary-gauges'>

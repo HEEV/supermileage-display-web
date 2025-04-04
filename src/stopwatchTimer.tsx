@@ -28,8 +28,10 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
   // Handle reset
   useEffect(() => {
     // Only reset when resetTime changes from false to true
-    if (props.resetTime && !prevResetTimeRef.current && isRunning) {
+    if (props.resetTime && !prevResetTimeRef.current) {
       reset();
+      pause();
+      console.log('reset');
     }
     // Update the ref
     prevResetTimeRef.current = props.resetTime;
@@ -37,13 +39,19 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
  
   // Handle toggle run
   useEffect(() => {
+    console.log('Toggle effect running', { toggleRun: props.toggleRun, prev: prevToggleRunRef.current });
     // Only toggle when toggleRun changes from false to true
     if (props.toggleRun && !prevToggleRunRef.current) {
-      !isRunning ? start() : pause();
+      if (!isRunning) {
+        start();
+      } else {
+        pause();
+      }
+      console.log('toggled', !isRunning ? 'start' : 'pause');
     }
     // Update the ref
     prevToggleRunRef.current = props.toggleRun;
-  }, [props.toggleRun, isRunning, start, pause]);
+  }, [props.toggleRun, start, pause, isRunning]);
 
   return (
     <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
