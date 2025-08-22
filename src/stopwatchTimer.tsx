@@ -10,7 +10,7 @@ function formatNumber(num: number) {
   }
 }
 
-export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: boolean}) {
+export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: boolean, withButtons?: boolean}) {
   const {
     seconds,
     minutes,
@@ -21,7 +21,7 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
     reset
   } = useStopwatch({ autoStart: false });
 
-  // Use refs to track previous prop values
+  // Use refs to track previous prop values, using resetTime and toggleRun as events
   const prevResetTimeRef = useRef(props.resetTime);
   const prevToggleRunRef = useRef(props.toggleRun);
  
@@ -54,12 +54,20 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
   }, [props.toggleRun, start, pause, isRunning]);
 
   return (
-    <div style={{textAlign: 'center', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
-      <div style={{fontSize: '30px'}}>
+    <div style={{textAlign: 'center', padding: '4px', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
+      <div style={{fontSize: `${props.withButtons ? '30px' : '60px'}`}}>
         <span>{formatNumber(hours)}</span>:<span>{formatNumber(minutes)}</span>:<span>{formatNumber(seconds)}</span>
       </div>
-      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
-      <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { reset(undefined, false); }}>Reset</button>
+      {props.withButtons ? 
+        <>
+          <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
+          <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { reset(undefined, false); }}>Reset</button>
+        </>
+        : null}
     </div>
   );
 }
+
+StopwatchTimer.defaultProps = {
+  withButtons: true
+};

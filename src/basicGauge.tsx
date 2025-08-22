@@ -10,7 +10,7 @@ export default function BasicGauge(props: {
   unit: string;
 }): JSX.Element {
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%'}} className="basic-gauge">
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}} className="basic-gauge">
       <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1.5em', lineHeight: '0.95' }}>
         {props.title}
       </Typography>

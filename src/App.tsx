@@ -40,7 +40,7 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        //{velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 1, toggleTimerButton: 0, wind: 4, tilt: 3, latency: 0}
+        {velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 0, toggleTimeButton: 0, wind: 4, tilt: 3, latency: 0}
       ],
       currentRaceName: '<no race>'
     };
@@ -112,17 +112,19 @@ export default class App extends Component<Record<string, string>, AppState> {
     return (
       <>
         <Box id='stopwatch'>
+          {/*
           <Box id='race-info'>
             <h2>Race: {this.state.currentRaceName}</h2>
             {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
           </Box>
-          {window.location.hostname === 'localhost' ? <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimeButton)} /> : null}
+          */}
+          <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimeButton)} withButtons={false} />
         </Box>
+          
         <Box id='main-box'>
           <Box id='primary-gauges'>
-           
             <Card id='tiltometer'>
-              <Typography variant='h6'>accelerometer gauge goes here</Typography>
+              <Typography>accelerometer gauge goes here</Typography>
             </Card>
             <Card className='gauge-box'>
               <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
@@ -131,8 +133,8 @@ export default class App extends Component<Record<string, string>, AppState> {
               <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
             </Card>
           </Box>
-          <Box id='track-box' sx={{height: '30vh'}}>
-            <Box sx={{width: '30%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+          <Box id='track-box' sx={{height: '30vh', width: '100%'}}>
+            <Box sx={{width: '25%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
               <Card id='battery-card'>
                 <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
               </Card>
