@@ -16,9 +16,6 @@ export default function Widget(props: WidgetProps) {
       style={{
         width: `${widthPercent}vw`,
         height: `${heightPercent}vh`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}
     >
       <div className="widget-content">

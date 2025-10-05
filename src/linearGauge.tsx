@@ -39,9 +39,7 @@ export default function linearGauge(props: {
 
   return (
     <Widget size={[2, 8]}>
-      <Box
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-      >
+      <Box className="basic-gauge">
         {label ? <Typography variant="h6">{label}</Typography> : null}
         <Stage width={length * 0.3} height={length}>
           <Layer>

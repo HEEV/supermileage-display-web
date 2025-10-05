@@ -13,15 +13,39 @@ body {
     align-items: center;
 }
 
-.gauge-box {
+.widget {
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
 }
 
-.race-info {
+.basic-gauge {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge-title {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em !important;
+    line-height: 0.95 !important;
+}
+
+.gauge-value {
+    font-size: 12em !important;
+    line-height: 0.9 !important;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.gauge-unit {
+    margin: 0;
+    margin-top: -0.5em !important;
+    font-size: 2em !important;
+    text-align: center;
 }
 
 #main-box {
@@ -36,13 +60,6 @@ body {
     justify-content: center;
 }
 
-#tiltometer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 #stopwatch {
     display: flex;
     flex-direction: row;
@@ -51,24 +68,8 @@ body {
     border-bottom: 4px solid lightgray;
 }
 
-#battery-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 10px 0px 10px;
-}
-
 #track-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
-
-#latency {
-    position: fixed;
-    margin: 10px;
-    padding: 0px 10px;
-    bottom: 0px;
-    left: 0px;
 }
