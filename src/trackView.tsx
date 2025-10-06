@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
-import Widget from './components/widget';
 
 export default function TrackView(props: {
   trackName: string;
@@ -71,89 +70,90 @@ export default function TrackView(props: {
   }, [progress]);
 
   return (
-    <Widget size={[10, 8]}>
-      <div style={{ 
+    <div
+      style={{
         position: 'relative',
-      }}>
-        <div style={{
+      }}
+    >
+      <div
+        style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-        }}>
-          <svg
-            id="map"
-            viewBox="0 0 710 485"
-            width={props.scale + '%'}
-            height={props.scale + '%'}
-            xmlns="http://www.w3.org/2000/svg"
-            baseProfile="tiny"
-            version="1.1"
-          >
-            <g transform="rotate(90, 400, 300)">
-              <title>Layer 1</title>
+        }}
+      >
+        <svg
+          id="map"
+          viewBox="0 0 710 485"
+          width={props.scale + '%'}
+          height={props.scale + '%'}
+          xmlns="http://www.w3.org/2000/svg"
+          baseProfile="tiny"
+          version="1.1"
+        >
+          <g transform="rotate(90, 400, 300)">
+            <title>Layer 1</title>
 
-              {/* Reference path (invisible) */}
-              <path
-                ref={pathRef}
-                d={tracks[props.trackName as keyof typeof tracks].shape}
-                fill="none"
-                stroke="none"
-                style={{ visibility: 'hidden' }}
-              />
+            {/* Reference path (invisible) */}
+            <path
+              ref={pathRef}
+              d={tracks[props.trackName as keyof typeof tracks].shape}
+              fill="none"
+              stroke="none"
+              style={{ visibility: 'hidden' }}
+            />
 
-              {/* Visible track */}
-              <motion.path
-                id="svg_3"
-                d={tracks[props.trackName as keyof typeof tracks].shape}
-                fill="lightgray"
-                strokeWidth="12"
-                stroke="Gold"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: progress }}
-                transition={trackTransition}
-              />
+            {/* Visible track */}
+            <motion.path
+              id="svg_3"
+              d={tracks[props.trackName as keyof typeof tracks].shape}
+              fill="lightgray"
+              strokeWidth="12"
+              stroke="Gold"
+              strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: progress }}
+              transition={trackTransition}
+            />
 
-              {/* Arrow marker */}
-              <polygon
-                points="-22,-15 22,0 -22,15"
-                fill="red"
-                transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle})`}
-              />
-            </g>
-          </svg>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            left: '10em',
-            bottom: '0em',
-            position: 'absolute',
+            {/* Arrow marker */}
+            <polygon
+              points="-22,-15 22,0 -22,15"
+              fill="red"
+              transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle})`}
+            />
+          </g>
+        </svg>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          left: '10em',
+          bottom: '0em',
+          position: 'absolute',
+        }}
+      >
+        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
+          Lap
+        </Typography>
+        <Typography
+          sx={{
+            margin: 0,
+            marginTop: '-0.5em',
+            fontSize: '2em',
+            fontWeight: 'bold',
           }}
         >
-          <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
-            Lap
-          </Typography>
-          <Typography
-            sx={{
-              margin: 0,
-              marginTop: '-0.5em',
-              fontSize: '2em',
-              fontWeight: 'bold',
-            }}
-          >
-            {Math.max(0, props.distanceTraveled - distOffset) < trackLength
-              ? 1
-              : Math.trunc(
-                Math.max(0, props.distanceTraveled - distOffset) /
-                    trackLength +
-                    1
-              )}
-          </Typography>
-        </div>
+          {Math.max(0, props.distanceTraveled - distOffset) < trackLength
+            ? 1
+            : Math.trunc(
+              Math.max(0, props.distanceTraveled - distOffset) / trackLength +
+                  1
+            )}
+        </Typography>
       </div>
-    </Widget>
+    </div>
   );
 }

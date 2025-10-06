@@ -13,6 +13,14 @@ export type WidgetProps = {
 };
 
 /**
+ * Constants for the widget grid system
+ */
+export const WIDGET_GRID = {
+  WIDTH_UNITS: 30,
+  HEIGHT_UNITS: 16,
+} as const;
+
+/**
  * Validates a widget size tuple
  * @param size - The size tuple [width, height] to validate
  * @throws Error if the size is invalid
@@ -21,22 +29,17 @@ export type WidgetProps = {
 export function validateWidgetSize(size: WidgetSize): WidgetSize {
   const [width, height] = size;
 
-  // Validate that both values are numbers
-  if (typeof width !== 'number' || typeof height !== 'number') {
-    throw new Error('Widget size must contain two numbers [width, height]');
-  }
-
   // Validate that values are positive
   if (width <= 0 || height <= 0) {
     throw new Error('Widget size dimensions must be positive numbers');
   }
 
   // Validate that values don't exceed grid bounds (30 width, 16 height)
-  if (width > 30) {
+  if (width > WIDGET_GRID.WIDTH_UNITS) {
     throw new Error(`Widget width (${width}) exceeds maximum grid width (30 units)`);
   }
 
-  if (height > 16) {
+  if (height > WIDGET_GRID.HEIGHT_UNITS) {
     throw new Error(`Widget height (${height}) exceeds maximum grid height (16 units)`);
   }
 
@@ -61,11 +64,3 @@ export function isValidWidgetSize(size: WidgetSize): boolean {
     return false;
   }
 }
-
-/**
- * Constants for the widget grid system
- */
-export const WIDGET_GRID = {
-  WIDTH_UNITS: 30,
-  HEIGHT_UNITS: 16,
-} as const;

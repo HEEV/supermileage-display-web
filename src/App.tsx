@@ -113,15 +113,27 @@ export default class App extends Component<Record<string, string>, AppState> {
       <>  
         <Box id='main-box'>
           <Box id='primary-gauges'>
-            <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
-            <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
+            <Widget size={[15, 8]}>
+              <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
+            </Widget>
+            <Widget size={[15, 8]}>
+              <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
+            </Widget>
           </Box>
           <Box id='track-box'>
-            <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
-            <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
-            <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
-            <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={Boolean(this.state.history[0].timerResetButton)} />
-            <Widget size={[6, 8]}></Widget>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
+            </Widget>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
+            </Widget>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
+            </Widget>
+            <Widget size={[10, 8]} >
+              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={Boolean(this.state.history[0].timerResetButton)} />
+            </Widget>
+            <Widget size={[10, 5]}></Widget>
           </Box>
         </Box>
       </>
