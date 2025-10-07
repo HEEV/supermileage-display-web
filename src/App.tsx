@@ -20,20 +20,20 @@ export type AppState = {
 }
 
 import './style.css';
-import { Box, Card, Typography} from '@mui/material';
+import { Box } from '@mui/material';
 import { Component } from 'react';
-import { Socket, io } from 'socket.io-client';
+import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
-import StopwatchTimer from './stopwatchTimer';
 import TrackView from './trackView';
 import LinearGauge from './linearGauge';
 import BasicGauge from './basicGauge';
+import Widget from './components/widget';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
 
 export default class App extends Component<Record<string, string>, AppState> {
-  private _socket?: Socket;
+  private _socket?: ReturnType<typeof io>;
 
   constructor(props: Record<string, string>) {
     super(props);
@@ -71,7 +71,7 @@ export default class App extends Component<Record<string, string>, AppState> {
       });
 
       // race creation event handler, may not be needed
-      this._socket.on('new_race_created', name => {
+      this._socket.on('new_race_created', (name: string) => {
         this.setState({
           history: [],
           currentRaceName: name
@@ -79,7 +79,7 @@ export default class App extends Component<Record<string, string>, AppState> {
       });
 
       // current race event handler, not sure what this does
-      this._socket.on('current_race', name => {
+      this._socket.on('current_race', (name: string) => {
         this.setState({
           currentRaceName: name
         });
@@ -110,51 +110,33 @@ export default class App extends Component<Record<string, string>, AppState> {
     }
 
     return (
-      <>
-        <Box id='stopwatch'>
-          {/*
-          <Box id='race-info'>
-            <h2>Race: {this.state.currentRaceName}</h2>
-            {window.location.hostname === 'localhost' ? <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={this.newRace}>Start New Race</button> : null}
-          </Box>
-          */}
-          <StopwatchTimer resetTime={Boolean(this.state.history[0].timerResetButton)} toggleRun={Boolean(this.state.history[0].toggleTimeButton)} withButtons={false} />
-        </Box>
-          
+      <>  
         <Box id='main-box'>
           <Box id='primary-gauges'>
-            <Card id='tiltometer'>
-              <Typography>accelerometer gauge goes here</Typography>
-            </Card>
-            <Card className='gauge-box'>
+            <Widget size={[15, 8]}>
               <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
-            </Card>
-            <Card className='gauge-box'>
+            </Widget>
+            <Widget size={[15, 8]}>
               <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
-            </Card>
+            </Widget>
           </Box>
-          <Box id='track-box' sx={{height: '30vh', width: '100%'}}>
-            <Box sx={{width: '25%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-              <Card id='battery-card'>
-                <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
-              </Card>
-              <Card id='battery-card'>
-                <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
-              </Card>
-              <Card id='battery-card'>
-                <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
-              </Card>
-            </Box>
-            <Card sx={{ height: '100%', width: '40%', display: 'flex', alignItems: 'center'}}>
+          <Box id='track-box'>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
+            </Widget>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
+            </Widget>
+            <Widget size={[2, 8]}>
+              <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
+            </Widget>
+            <Widget size={[10, 8]} >
               <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={Boolean(this.state.history[0].timerResetButton)} />
-            </Card>
-            <Card sx={{width: '30%'}} id='time-card'>
-              {/*will contain lap time statistics*/}
-            </Card>
+            </Widget>
+            <Widget size={[10, 5]}></Widget>
           </Box>
         </Box>
       </>
     );
   }
 }
-
