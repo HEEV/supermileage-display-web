@@ -9,28 +9,33 @@ export type DataEntry = {
   toggleTimeButton: number;
   wind: number;
   tilt: number;
-}
+};
 
 // latency is in ms
-export type HistoryData = DataEntry & { latency: number; };
+export type HistoryData = DataEntry & { latency: number };
 
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
-}
+};
 
 import './style.css';
-import { Box } from '@mui/material';
+import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 import { Component } from 'react';
 import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
-import TrackView from './trackView';
-import LinearGauge from './linearGauge';
-import BasicGauge from './basicGauge';
+import BasicGauge from './components/basicGauge';
 import Widget from './components/widget';
+import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
-const DATA_SOURCE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
+const DATA_SOURCE =
+  window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
+
+const menuActions = [
+  { icon: <ArrowDownToLine />, name: 'Pull Settings' },
+  { icon: <PanelTopBottomDashed />, name: 'Select Layout' },
+];
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
@@ -40,9 +45,21 @@ export default class App extends Component<Record<string, string>, AppState> {
 
     this.state = {
       history: [
-        {velocity:23, time: new Date(), distanceTraveled: 15500, batteryVoltage: 4, engineTemp: 0, radTemp: 0, timerResetButton: 0, toggleTimeButton: 0, wind: 4, tilt: 3, latency: 0}
+        {
+          velocity: 23,
+          time: new Date(),
+          distanceTraveled: 15500,
+          batteryVoltage: 4,
+          engineTemp: 0,
+          radTemp: 0,
+          timerResetButton: 0,
+          toggleTimeButton: 0,
+          wind: 4,
+          tilt: 3,
+          latency: 0,
+        },
       ],
-      currentRaceName: '<no race>'
+      currentRaceName: '<no race>',
     };
 
     this.newRace = this.newRace.bind(this);
@@ -58,35 +75,38 @@ export default class App extends Component<Record<string, string>, AppState> {
     // If we are running on the car, we don't need remote data server connection
     if (DATA_SOURCE === 'http://localhost:8080') {
       this._socket = io(DATA_SOURCE, {
-        autoConnect: false
+        autoConnect: false,
       });
-      
+
       // data receipt event handler
-      this._socket.on('new_data', (data: (DataEntry | { time: string }) | HistoryData) => {
-        data.time = new Date(data.time);
-        (data as HistoryData & { latency?: number }).latency = Date.now() - data.time.valueOf();
-        this.setState({
-          history: [data as HistoryData, ...this.state.history]
-        });
-      });
+      this._socket.on(
+        'new_data',
+        (data: (DataEntry | { time: string }) | HistoryData) => {
+          data.time = new Date(data.time);
+          (data as HistoryData & { latency?: number }).latency =
+            Date.now() - data.time.valueOf();
+          this.setState({
+            history: [data as HistoryData, ...this.state.history],
+          });
+        }
+      );
 
       // race creation event handler, may not be needed
       this._socket.on('new_race_created', (name: string) => {
         this.setState({
           history: [],
-          currentRaceName: name
+          currentRaceName: name,
         });
       });
 
       // current race event handler, not sure what this does
       this._socket.on('current_race', (name: string) => {
         this.setState({
-          currentRaceName: name
+          currentRaceName: name,
         });
       });
       this._socket.connect();
-    }
-    else {
+    } else {
       // fetch data from postgres db
       // TODO: implement fetch from remote data server, requires separate api backend
       console.log('setting up setInterval for data fetch.');
@@ -99,10 +119,9 @@ export default class App extends Component<Record<string, string>, AppState> {
   }
 
   render() {
-
     if (this.state.history.length === 0) {
       return (
-        <Box className='wait-screen'>
+        <Box className="wait-screen">
           <h1>Waiting for data...</h1>
           <CircularProgress />
         </Box>
@@ -110,31 +129,44 @@ export default class App extends Component<Record<string, string>, AppState> {
     }
 
     return (
-      <>  
-        <Box id='main-box'>
-          <Box id='primary-gauges'>
-            <Widget size={[15, 8]}>
-              <BasicGauge title='Speed' value={this.state.history[0].velocity} min={0} max={80} unit='MPH' />
-            </Widget>
-            <Widget size={[15, 8]}>
-              <BasicGauge title='Wind' value={this.state.history[0].wind} min={0} max={40} unit='MPH' />
-            </Widget>
-          </Box>
-          <Box id='track-box'>
-            <Widget size={[2, 8]}>
-              <LinearGauge label={'Engine'} length={150} value={this.state.history[0].engineTemp} max={180} warnValue={170} units={'F'} precision={0} barColor={'navy'} />
-            </Widget>
-            <Widget size={[2, 8]}>
-              <LinearGauge label={'Radiator'} length={150} value={this.state.history[0].radTemp} max={180} warnValue={160} units={'F'} precision={0} barColor={'navy'} />
-            </Widget>
-            <Widget size={[2, 8]}>
-              <LinearGauge label={'Battery'} length={150} value={this.state.history[0].batteryVoltage} max={14} warnValue={9} units={'V'} barColor={'navy'} />
-            </Widget>
-            <Widget size={[10, 8]} >
-              <TrackView trackName={'ShellTrackFixed'} distanceTraveled={this.state.history[0].distanceTraveled} scale={130} resetTriggered={Boolean(this.state.history[0].timerResetButton)} />
-            </Widget>
-            <Widget size={[10, 5]}></Widget>
-          </Box>
+      <>
+        <Box id="main-box">
+          <Widget size={[15, 8]}>
+            <BasicGauge
+              title="Speed"
+              value={this.state.history[0].velocity}
+              min={0}
+              max={80}
+              unit="MPH"
+            />
+          </Widget>
+          <Widget size={[15, 8]}>
+            <BasicGauge
+              title="Wind"
+              value={this.state.history[0].wind}
+              min={0}
+              max={40}
+              unit="MPH"
+            />
+          </Widget>
+          <Widget size={[10, 5]}>This is a mostly empty widget wrapper</Widget>
+        </Box>
+        <Box>
+          <SpeedDial
+            ariaLabel='Settings'
+            sx={{ position: 'absolute', top: 8, right: 8}}
+            icon={<Settings />}
+            direction='down'
+          >
+            {menuActions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                tooltipOpen={true}
+              />
+            ))}
+          </SpeedDial>
         </Box>
       </>
     );

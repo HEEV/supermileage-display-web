@@ -14,8 +14,8 @@ export default function Widget(props: WidgetProps) {
     <Card 
       className="widget" 
       style={{
-        width: `${widthPercent}vw`,
-        height: `${heightPercent}vh`,
+        width: `calc(${widthPercent}vw - 1vw)`,
+        height: `calc(${heightPercent}vh - 1vh)`,
       }}
     >
       <div className="widget-content">
