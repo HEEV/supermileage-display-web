@@ -61,7 +61,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 93vh;
+    height: 99vh;
     /* Add dot grid background */
     background-image: radial-gradient(circle, #ccc 1px, transparent 1px);
     background-size: 20px 20px;
