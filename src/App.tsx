@@ -19,7 +19,8 @@ export type AppState = {
   currentRaceName: string;
 }
 
-import './style.css';
+import './styles/style.css';
+import './styles/colors.css'; // unused import right now
 import { Box } from '@mui/material';
 import { Component } from 'react';
 import io from 'socket.io-client';

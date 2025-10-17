@@ -1,0 +1,66 @@
+/* src/styles/colors.css */
+:root{
+  /* Clarity is Key */
+  --color-bg:  #000000;
+  --color-text: #ffffff;
+  --color-text-secondary: #61CBF4;
+  --color-tech: #00A8FF;
+  --color-tech-secondary: #007BFF;
+  --color-green-highlight:  #00FF88;
+  --color-green-dull:  #00E060;
+  --color-alert: #FF0000;
+  --color-warning:  #FFD500;
+  --color-orange: #FF8C00;
+
+  /* Use case color variables */
+  --color-position-sim: var(--color-tech-secondary);
+  --color-position-real: var(--color-green-dull);
+  --color-gas-sim: var(--color-orange);
+  --color-gas-real: var(--color-warning);
+  --color-engine-on: var(--color-green-highlight);
+  --color-engine-off: var(--color-alert);
+  --color-blue-pattern-fg: var(--color-tech-secondary);
+  --color-blue-pattern-bg: #7FC8F9;
+
+}
+
+/* Dark theme overrides */
+.theme-dark {
+  --color-bg:          var(--color-brand-600);
+  --color-surface:     #0f1724; /* ?????? */
+  --color-text-primary: #f8fafc; /* ?????? */
+  --color-text-muted:   #94a3b8; /* ?????? */
+  --color-border:       #1f2a37; /* ?????? */
+
+  --color-brand-500: #8b5cf6; /* slightly lighter brand in dark */
+  --color-focus: var(--color-brand-500);
+}
+
+.cedarville-theme { /* Cedarville Colors */
+  /* Brand */
+  --color-brand-50:  #003a60; /* CU Blue */
+  --color-brand-100: #255f93;
+  --color-brand-500: #005993; /* Monochromatic of CU Blue */
+  --color-brand-600: #000A60; /* Purple Analogous of CU Blue */
+  --color-brand-700: #006056; /* Green Analogous of CU Blue */
+
+  /* Neutral */
+  --color-neutral-white:  #ffffff;
+  --color-neutral-offwhite:#f3f4f6;
+  --color-neutral-gray:#63656A; /* CU Gray */
+  --color-neutral-black:#111827; /* not true black */
+
+  /* Functional */
+  --color-on-track: #16a34a;
+  --color-alert:   #ef4444;
+
+  /* Semantic surface/text */
+  --color-bg:         var(--color-brand-50);
+  --color-surface:    var(--color-brand-100);
+  --color-text-primary: #fdb813; /* CU Gold */
+  --color-text-muted:   #F4C659; /* CU Alumni Gold */
+  --color-border:       black;
+
+  /* Focus */
+  --color-focus: var(--color-brand-500);
+}
