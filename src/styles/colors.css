@@ -27,43 +27,17 @@
 
 }
 
-/* Dark theme overrides */
-.theme-dark {
-  --color-bg:          var(--color-brand-600);
-  --color-surface:     #0f1724; /* ?????? */
-  --color-text-primary: #f8fafc; /* ?????? */
-  --color-text-muted:   #94a3b8; /* ?????? */
-  --color-border:       #1f2a37; /* ?????? */
-
-  --color-brand-500: #8b5cf6; /* slightly lighter brand in dark */
-  --color-focus: var(--color-brand-500);
+/* Max values for contrast */
+.theme-high-contrast {
+  filter: brightness(1.0) contrast(1.5);
 }
 
-.cedarville-theme { /* Cedarville Colors */
-  /* Brand */
-  --color-brand-50:  #003a60; /* CU Blue */
-  --color-brand-100: #255f93;
-  --color-brand-500: #005993; /* Monochromatic of CU Blue */
-  --color-brand-600: #000A60; /* Purple Analogous of CU Blue */
-  --color-brand-700: #006056; /* Green Analogous of CU Blue */
+/* Max values of brightness and contrast filter */
+.theme-bright {
+  filter: brightness(1.3) contrast(1.5);
+}
 
-  /* Neutral */
-  --color-neutral-white:  #ffffff;
-  --color-neutral-offwhite:#f3f4f6;
-  --color-neutral-gray:#63656A; /* CU Gray */
-  --color-neutral-black:#111827; /* not true black */
-
-  /* Functional */
-  --color-on-track: #16a34a;
-  --color-alert:   #ef4444;
-
-  /* Semantic surface/text */
-  --color-bg:         var(--color-brand-50);
-  --color-surface:    var(--color-brand-100);
-  --color-text-primary: #fdb813; /* CU Gold */
-  --color-text-muted:   #F4C659; /* CU Alumni Gold */
-  --color-border:       black;
-
-  /* Focus */
-  --color-focus: var(--color-brand-500);
+/* Min values of brightness and contrast filter */
+.theme-dark {
+  filter: brightness(0.75) contrast(0.75);
 }
