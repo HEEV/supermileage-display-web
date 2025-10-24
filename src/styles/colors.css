@@ -7,6 +7,7 @@
   --color-bg:  #000000;
   --color-text: #ffffff;
   --color-text-secondary: #61CBF4;
+  --color-faded-text: #3a3a3a;
   --color-tech: #00A8FF;
   --color-tech-secondary: #007BFF;
   --color-green-highlight:  #00FF88;
@@ -14,8 +15,11 @@
   --color-alert: #FF0000;
   --color-warning:  #FFD500;
   --color-orange: #FF8C00;
-
-  /* Use case color variables */
+  --color-gray: #808080;
+  --color-icon-green: #00B050;
+  --color-icon-red: #C00000;
+  --color-icon-yellow: #FFC000;
+  /* Use color variables for colors w/ multiple use cases*/
   --color-position-sim: var(--color-tech-secondary);
   --color-position-real: var(--color-green-dull);
   --color-gas-sim: var(--color-orange);
