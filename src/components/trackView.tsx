@@ -107,9 +107,9 @@ export default function TrackView(props: {
             <motion.path
               id="svg_3"
               d={tracks[props.trackName as keyof typeof tracks].shape}
-              fill="lightgray"
+              fill="var(--color-faded-text)"
               strokeWidth="12"
-              stroke="Gold"
+              stroke="var(--color-tech-secondary)"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: progress }}

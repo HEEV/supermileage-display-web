@@ -2,12 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 
 function formatNumber(num: number) {
-  if (num < 10) {
-    return `0${num}`;
-  }
-  else {
-    return num;
-  }
+  return (num < 10) ? `0${num}` : num;
 }
 
 export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: boolean, withButtons?: boolean}) {
@@ -54,14 +49,14 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
   }, [props.toggleRun, start, pause, isRunning]);
 
   return (
-    <div style={{textAlign: 'center', padding: '4px', border: `8px solid ${isRunning ? 'green' : 'red'}`}}>
+    <div style={{textAlign: 'center', padding: '4px', border: `8px solid ${isRunning ? 'var(--color-green-highlight)' : 'var(--color-alert)'}`}}>
       <div style={{fontSize: `${props.withButtons ? '30px' : '60px'}`}}>
         <span>{formatNumber(hours)}</span>:<span>{formatNumber(minutes)}</span>:<span>{formatNumber(seconds)}</span>
       </div>
       {props.withButtons ? 
         <>
-          <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
-          <button style={{width: '150px', height: '35px', margin: '1px'}} onClick={() => { reset(undefined, false); }}>Reset</button>
+          <button className='stopwatch-button' onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
+          <button className='stopwatch-button' onClick={() => { reset(undefined, false); }}>Reset</button>
         </>
         : null}
     </div>

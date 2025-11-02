@@ -1,6 +1,7 @@
 html {
     height: 100vh;
     width: 100%;
+    background-color: var(--color-bg);
 }
 
 body {
@@ -18,6 +19,10 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0.5vh 0.5vw;
+}
+
+.widget-content {
+    color: var(--color-text);
 }
 
 .basic-gauge {
@@ -40,6 +45,7 @@ body {
     margin: 0;
     padding: 0;
     display: block;
+    color: var(--color-text-secondary);
 }
 
 .gauge-unit {
@@ -63,9 +69,18 @@ body {
     align-items: center;
     height: 99vh;
     /* Add dot grid background */
-    background-image: radial-gradient(circle, #ccc 1px, transparent 1px);
+    background-image: radial-gradient(circle, var(--color-faded-text) 1px, transparent 1px);
     background-size: 20px 20px;
     background-position: 0 0;
+}
+
+.stopwatch-button {
+    width: 150px;
+    height: 35px;
+    margin: 1px;
+    border: none;
+    color: var(--color-text);
+    background-color: var(--color-faded-text);
 }
 
 #stopwatch {

@@ -1,6 +1,18 @@
 import { Box, Typography } from '@mui/material';
 import { Rect, Layer, Stage } from 'react-konva';
 
+function getCSSVariable(color: string): string {
+  if (color.startsWith('var(')) {
+    const varName = color.match(/var\((--[^)]+)\)/)?.[1];
+    if (varName) {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim();
+    }
+  }
+  return color;
+}
+
 linearGauge.defaultProps = {
   backgroundColor: 'lightgray',
   barColor: 'Gold',
@@ -46,7 +58,7 @@ export default function linearGauge(props: {
             y={0}
             width={length * 0.3}
             height={length}
-            fill={backgroundColor}
+            fill={getCSSVariable(backgroundColor)}
           />
         </Layer>
         <Layer>
@@ -55,21 +67,21 @@ export default function linearGauge(props: {
             y={length * 0.25}
             width={length * 0.07}
             height={2}
-            fill="black"
+            fill={getCSSVariable('var(--color-faded-text)')}
           />
           <Rect
             x={length * 0.3 - length * 0.1}
             y={length * 0.5}
             width={length * 0.1}
             height={2}
-            fill="black"
+            fill={getCSSVariable('var(--color-faded-text)')}
           />
           <Rect
             x={length * 0.3 - length * 0.07}
             y={length * 0.75}
             width={length * 0.07}
             height={2}
-            fill="black"
+            fill={getCSSVariable('var(--color-faded-text)')}
           />
           {warnValueValid ? (
             <Rect
@@ -77,7 +89,7 @@ export default function linearGauge(props: {
               y={length * (1 - warnValue / max)}
               width={length * 0.2}
               height={4}
-              fill="red"
+              fill={getCSSVariable('var(--color-alert)')}
             />
           ) : null}
         </Layer>
@@ -88,7 +100,7 @@ export default function linearGauge(props: {
             width={length * 0.1}
             height={length}
             strokeWidth={length * 0.005}
-            stroke="gray"
+            stroke={getCSSVariable('var(--color-text)')}
           />
         </Layer>
         <Layer>
@@ -97,7 +109,7 @@ export default function linearGauge(props: {
             y={length * (1 - value / max)}
             width={length * 0.1}
             height={(length * value) / max}
-            fill={barColor}
+            fill={getCSSVariable(barColor)}
           />
         </Layer>
       </Stage>
