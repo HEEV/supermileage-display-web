@@ -28,6 +28,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import BasicGauge from './components/basicGauge';
 import Widget from './components/widget';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
+import LinearGauge from './components/linearGauge';
+import TrackView from './components/trackView';
+import StopwatchTimer from './components/stopwatchTimer';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -150,17 +153,57 @@ export default class App extends Component<Record<string, string>, AppState> {
               unit="MPH"
             />
           </Widget>
-          <Widget size={[10, 5]}>This is a mostly empty widget wrapper</Widget>
+          <Box display='flex' flexDirection={'row'}>
+            <Widget size={[6, 5]}>This is a mostly empty widget wrapper</Widget>
+            <Widget size={[5, 5]}>
+              <LinearGauge
+                length={200}
+                value={this.state.history[0].batteryVoltage}
+                max={10}
+                backgroundColor='var(--color-bg)'
+                barColor='var(--color-green-dull)'
+                units="V"
+                precision={2}
+                warnValue={6}
+              />
+            </Widget>
+            <Widget size={[7, 5]}>
+              <TrackView
+                trackName='ShellTrackFixed'
+                distanceTraveled={this.state.history[0].distanceTraveled}
+                scale={100}
+              />
+            </Widget>
+            <Widget size={[10, 5]}>
+              <StopwatchTimer withButtons />
+            </Widget>
+          </Box>
+          
         </Box>
         <Box>
           <SpeedDial
             ariaLabel='Settings'
-            sx={{ position: 'absolute', top: 8, right: 8}}
+            sx={{ 
+              position: 'absolute', 
+              top: 8, 
+              right: 8,
+              '& .MuiFab-primary': {
+                backgroundColor: 'var(--color-tech)',
+                '&:hover': {
+                  backgroundColor: 'var(--color-tech-secondary)',
+                }
+              }
+            }}
             icon={<Settings />}
             direction='down'
           >
             {menuActions.map((action) => (
               <SpeedDialAction
+                sx={{
+                  '& .MuiFab-primary': {
+                    backgroundColor: 'var(--color-tech)',
+                  }
+                }}
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}

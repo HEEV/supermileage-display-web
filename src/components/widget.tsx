@@ -16,6 +16,7 @@ export default function Widget(props: WidgetProps) {
       style={{
         width: `calc(${widthPercent}vw - 1vw)`,
         height: `calc(${heightPercent}vh - 1vh)`,
+        backgroundColor: 'var(--color-bg)',
       }}
     >
       <div className="widget-content">
