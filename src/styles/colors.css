@@ -7,6 +7,7 @@
   --color-bg:  #000000;
   --color-text: #ffffff;
   --color-text-secondary: #61CBF4;
+  --color-icon-on-text: ;
   --color-faded-text: #3a3a3a;
   --color-tech: #00A8FF;
   --color-tech-secondary: #007BFF;
@@ -28,7 +29,10 @@
   --color-engine-off: var(--color-alert);
   --color-blue-pattern-fg: var(--color-tech-secondary);
   --color-blue-pattern-bg: #7FC8F9;
-
+  --color-icon-on-text: var(--color-bg);
+  --color-icon-off-text: var(--color-text);
+  --color-icon-on: var(--color-icon-green);
+  --color-icon-off: var(--color-icon-red);
 }
 
 /* Max values for contrast */
