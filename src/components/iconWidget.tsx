@@ -28,7 +28,7 @@ export default function IndicatorIcon(props: {
     >
       <span
         style={{
-          color: Icon ? (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)') : (on ? 'var(--color-icon-on-text)' : 'var(--color-icon-off-text)'),
+          color: Icon ? (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)') : 'var(--color-icon-text)',
         }}
       >
         {text ? <strong>{text}</strong> : Icon ? (<Icon width={30} height={30} fill="currentColor" />) : null}
