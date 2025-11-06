@@ -33,8 +33,8 @@ import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
 // downloaded from https://fontawesome.com/icons
-import { ReactComponent as CarIcon } from './styles/car-solid-full.svg';
-import { ReactComponent as FlagIcon } from './styles/flag-solid-full.svg';
+import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
+import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
 
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
@@ -161,13 +161,13 @@ export default class App extends Component<Record<string, string>, AppState> {
           </Widget>
           <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
             <Widget size={[4, 1]}>
-              <IndicatorIcon on={false} text={''} img={true} Icon={FlagIcon}/>
+              <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
             </Widget>
             <Widget size={[4, 1]}>
-              <IndicatorIcon on={false} text={'Armed'} img={false} />
+              <IndicatorIcon on={true} text={'Armed'} />
             </Widget>
             <Widget size={[4, 1]}>
-              <IndicatorIcon on={true} text={'Engine On'} img={false} />
+              <IndicatorIcon on={false} text={'Engine On'} />
             </Widget>
           </Box>
           <Box display='flex' flexDirection={'row'}>
