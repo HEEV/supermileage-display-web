@@ -160,14 +160,18 @@ export default class App extends Component<Record<string, string>, AppState> {
             />
           </Widget>
           <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
-            <Widget size={[4, 1]}>
+            <Widget size={[1, 0.5]}>
               <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
             </Widget>
-            <Widget size={[4, 1]}>
+            <Widget size={[2, 1]}>
               <IndicatorIcon on={true} text={'Armed'} />
-            </Widget>
-            <Widget size={[4, 1]}>
               <IndicatorIcon on={false} text={'Engine On'} />
+            </Widget>
+            <Widget size={[2, 0.5]}>
+              <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
+            </Widget>
+            <Widget size={[1, 0.5]}>
+              <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
             </Widget>
           </Box>
           <Box display='flex' flexDirection={'row'}>
