@@ -31,6 +31,11 @@ import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
+import IndicatorIcon from './components/iconWidget';
+// downloaded from https://fontawesome.com/icons
+import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
+import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
+
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -135,6 +140,7 @@ export default class App extends Component<Record<string, string>, AppState> {
     return (
       <>
         <Box id="main-box">
+          
           <Widget size={[15, 8]}>
             <BasicGauge
               title="Speed"
@@ -153,6 +159,21 @@ export default class App extends Component<Record<string, string>, AppState> {
               unit="MPH"
             />
           </Widget>
+          <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
+            <Widget size={[1, 0.5]}>
+              <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
+            </Widget>
+            <Widget size={[2, 1]}>
+              <IndicatorIcon on={true} text={'Armed'} />
+              <IndicatorIcon on={false} text={'Engine On'} />
+            </Widget>
+            <Widget size={[2, 0.5]}>
+              <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
+            </Widget>
+            <Widget size={[1, 0.5]}>
+              <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
+            </Widget>
+          </Box>
           <Box display='flex' flexDirection={'row'}>
             <Widget size={[6, 5]}>This is a mostly empty widget wrapper</Widget>
             <Widget size={[5, 5]}>
