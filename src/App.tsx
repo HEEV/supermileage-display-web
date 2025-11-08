@@ -27,10 +27,11 @@ import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import BasicGauge from './components/basicGauge';
 import Widget from './components/widget';
-import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
+import { ArrowDownToLine, PanelTopBottomDashed, Settings, Wind } from 'lucide-react';
 import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
+import WindSpeedometer from './components/windSpeedometer';
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -58,7 +59,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           radTemp: 0,
           timerResetButton: 0,
           toggleTimeButton: 0,
-          wind: 4,
+          wind: 4.1, //was just 4
           tilt: 3,
           latency: 0,
         },
@@ -144,15 +145,30 @@ export default class App extends Component<Record<string, string>, AppState> {
               unit="MPH"
             />
           </Widget>
-          <Widget size={[15, 8]}>
-            <BasicGauge
-              title="Wind"
-              value={this.state.history[0].wind}
-              min={0}
-              max={40}
-              unit="MPH"
-            />
-          </Widget>
+          <Box display='flex' flexDirection={'row'}>
+            <Widget size={[6, 4]}>
+              <BasicGauge
+                title="Wind"
+                value={this.state.history[0].wind}
+                min={0}
+                max={40}
+                unit="MPH"
+              />
+            </Widget>
+            <Widget size={[6, 4]}>
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                mph={true}
+              />
+            </Widget>
+            <Widget size={[6, 4]}>
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+              />
+            </Widget>
+          </Box>
           <Box display='flex' flexDirection={'row'}>
             <Widget size={[6, 5]}>This is a mostly empty widget wrapper</Widget>
             <Widget size={[5, 5]}>
