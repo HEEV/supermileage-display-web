@@ -98,6 +98,7 @@ body {
     border-radius: 4px;
     padding: 4px 6px;
 }
-.indicator-icon-span {
+.indicator-icon span {
     white-space: nowrap;
+    font-weight: bold;
 }
