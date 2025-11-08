@@ -7,6 +7,8 @@ export default function IndicatorIcon(props: {
   iconWidth?: number;
 }) {
   const { on, text, Icon, iconWidth } = props;
+  const bgColor = Icon ? 'transparent' : (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)');
+  const imgColor = Icon ? (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)') : 'var(--color-icon-text)';
 
   return (
     <div
@@ -17,12 +19,12 @@ export default function IndicatorIcon(props: {
         borderRadius: '4px',
         padding: '4px 6px',
         width: iconWidth, 
-        backgroundColor: Icon ? 'transparent' : (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)'),
+        backgroundColor: bgColor,
       }}
     >
       <span
         style={{
-          color: Icon ? (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)') : 'var(--color-icon-text)',
+          color: imgColor,
           whiteSpace: 'nowrap',
         }}
       >

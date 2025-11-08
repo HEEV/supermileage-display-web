@@ -7,7 +7,6 @@
   --color-bg:  #000000;
   --color-text: #ffffff;
   --color-text-secondary: #61CBF4;
-  --color-icon-on-text: ;
   --color-faded-text: #3a3a3a;
   --color-tech: #00A8FF;
   --color-tech-secondary: #007BFF;
@@ -19,8 +18,6 @@
   --color-gray: #808080;
   --color-icon-green: #00a338;
   --color-icon-red: #C00000;
-  --color-icon-green-old: #00B050;
-   --color-icon-red-old: #CC0000;/*#C00000 */
   --color-icon-yellow: #FFC000;
   /* Use color variables for colors w/ multiple use cases*/
   --color-position-sim: var(--color-tech-secondary);
