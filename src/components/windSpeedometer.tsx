@@ -1,13 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { useStopwatch } from 'react-timer-hook';
+import { ArrowUp} from 'lucide-react';
 
-function formatNumber(num: number) {
-  return (num < 10) ? `0${num}` : num;
-}
-
-export default function WindSpeedometer(props: { windSpeed: number, relativeSpeed: number, mph?: boolean}) {
-  const { windSpeed, relativeSpeed, mph } = props;
-
+export default function WindSpeedometer(props: { windSpeed: number, relativeSpeed: number, mph?: boolean, windDir?: number }) {
+  const { windSpeed, relativeSpeed, mph, windDir } = props;
+  const arrowDeg = ((windDir ?? 0) + 180) % 360;
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -15,10 +10,12 @@ export default function WindSpeedometer(props: { windSpeed: number, relativeSpee
         <div className={'wind-speed'}><span style={{ marginLeft: 8 }}>Wind Speed</span>{windSpeed}</div>
         <div className={'wind-speed'}><span style={{ marginLeft: 8 }}>Relative Speed</span>{relativeSpeed}</div>
       </div>
+      {windDir != null ? <ArrowUp
+        width={32}
+        height={36}
+        style={{ transform: `rotate(${arrowDeg}deg)` }}
+      /> : null}
       {mph ? <span className={'wind-mph'}>MPH</span> : null}
     </div>
   );
 }
-
-//style={{['--scale' as any]: 3.2}
-//style={{['--scale' as any]: 3.2}

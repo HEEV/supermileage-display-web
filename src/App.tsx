@@ -27,7 +27,7 @@ import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import BasicGauge from './components/basicGauge';
 import Widget from './components/widget';
-import { ArrowDownToLine, PanelTopBottomDashed, Settings, Wind } from 'lucide-react';
+import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
@@ -166,6 +166,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                windDir={110}
               />
             </Widget>
           </Box>
