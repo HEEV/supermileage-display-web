@@ -18,7 +18,7 @@
   --color-warning:  #FFD500;
   --color-orange: #FF8C00;
   --color-gray: #808080;
-  --color-icon-green: #00B050;
+  --color-icon-green: #00a338;
   --color-icon-red: #C00000;
   --color-icon-yellow: #FFC000;
   /* Use color variables for colors w/ multiple use cases*/
@@ -30,7 +30,9 @@
   --color-engine-off: var(--color-alert);
   --color-blue-pattern-fg: var(--color-tech-secondary);
   --color-blue-pattern-bg: #7FC8F9;
-
+  --color-icon-text: var(--color-text);
+  --color-icon-on: var(--color-icon-green);
+  --color-icon-off: var(--color-icon-red);
 }
 
 /* Max values for contrast */
