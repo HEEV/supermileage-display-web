@@ -1,5 +1,5 @@
 :root {
-    --scale: 1.0; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
+    --scale: 0.7; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
 
   /* derived sizes for wind box */
   --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
@@ -122,10 +122,16 @@ body {
     box-sizing: border-box;
 }
 
+.transparent {
+    border: none;
+    background-color: transparent;
+}
+
 .wind-speed span {
     color: var(--color-text-secondary);
     font-size: var(--wind-label-size);
     text-decoration: underline;
+    margin-left: 8
 }
 
 .wind-mph {

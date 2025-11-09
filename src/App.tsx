@@ -146,27 +146,33 @@ export default class App extends Component<Record<string, string>, AppState> {
             />
           </Widget>
           <Box display='flex' flexDirection={'row'}>
-            <Widget size={[6, 4]}>
-              <BasicGauge
-                title="Wind"
-                value={this.state.history[0].wind}
-                min={0}
-                max={40}
-                unit="MPH"
-              />
-            </Widget>
-            <Widget size={[6, 4]}>
+            <Widget size={[8, 8]}>
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
                 mph={true}
               />
             </Widget>
-            <Widget size={[6, 4]}>
+            <Widget size={[8, 8]}> 
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                windDir={110}
+                windDir={65}
+              />
+            </Widget>
+            <Widget size={[8, 8]}> 
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                noBackground={true}
+              />
+            </Widget>
+            <Widget size={[8, 8]}> 
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                speedType={'real'}
+                windDir={342}
               />
             </Widget>
           </Box>
