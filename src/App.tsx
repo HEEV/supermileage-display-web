@@ -141,7 +141,6 @@ export default class App extends Component<Record<string, string>, AppState> {
     return (
       <>
         <Box id="main-box">
-          
           <Widget size={[15, 8]}>
             <BasicGauge
               title="Speed"
@@ -152,34 +151,49 @@ export default class App extends Component<Record<string, string>, AppState> {
             />
           </Widget>
           <Box display='flex' flexDirection={'row'}>
-            <Widget size={[8, 8]}>
+            <Widget size={[8, 6]}>
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
                 mph={true}
               />
             </Widget>
-            <Widget size={[8, 8]}> 
+            <Widget size={[8, 6]}> 
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
                 windDir={65}
               />
             </Widget>
-            <Widget size={[8, 8]}> 
+            <Widget size={[8, 6]}> 
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
                 noBackground={true}
               />
             </Widget>
-            <Widget size={[8, 8]}> 
+            <Widget size={[8, 6]}> 
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
                 speedType={'real'}
                 windDir={342}
               />
+            </Widget>
+          </Box>
+          <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
+            <Widget size={[2, 1]}>
+              <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
+            </Widget>
+            <Widget size={[4, 2]}>
+              <IndicatorIcon on={true} text={'Armed'} />
+              <IndicatorIcon on={false} text={'Engine On'} />
+            </Widget>
+            <Widget size={[4, 1]}>
+              <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
+            </Widget>
+            <Widget size={[2, 1]}>
+              <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
             </Widget>
           </Box>
           <Box display='flex' flexDirection={'row'}>
