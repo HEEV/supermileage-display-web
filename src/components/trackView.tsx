@@ -129,21 +129,20 @@ export default function TrackView(props: {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignItems: 'center',
-          left: '10em',
-          bottom: '0em',
           position: 'absolute',
+          // left: '10em',
+          // bottom: '0em',
         }}
       >
-        <Typography sx={{margin: 0, marginTop: '-0.5em', fontSize: '2em', color: 'var(--color-text)' }}>
-          Lap
+        <Typography sx={{marginTop: '-0.5em', fontSize: '1.5em', color: 'var(--color-text)' }}>
+          Lap &nbsp;
         </Typography>
         <Typography
           sx={{
-            margin: 0,
             marginTop: '-0.5em',
-            fontSize: '2em',
+            fontSize: '1.5em',
             fontWeight: 'bold',
             color: 'var(--color-text)',
           }}
