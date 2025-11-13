@@ -194,13 +194,11 @@ export default class App extends Component<Record<string, string>, AppState> {
           </div>
           <div className="left-panel">
             <div className="panel-section">
-              {/* <Widget size={[6, 6]}> */}
               <TrackView
                 trackName='ShellTrackFixed'
                 distanceTraveled={this.state.history[0].distanceTraveled}
                 scale={100}
               />
-              {/* </Widget> */}
             </div>
           </div>
           <div className="center-panel">
@@ -216,7 +214,6 @@ export default class App extends Component<Record<string, string>, AppState> {
           </div>
           <div className="right-panel">
             <div className="panel-section">
-              {/* <Widget size={[7, 5]}> */}
               <BasicGauge
                 title="Wind"
                 value={this.state.history[0].wind}
@@ -224,19 +221,14 @@ export default class App extends Component<Record<string, string>, AppState> {
                 max={40}
                 unit="MPH"
               />
-              {/* </Widget> */}
             </div>
             <div className="panel-section">
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
                 {/* <Widget size={[1, 0.5]}>
                   <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
                 </Widget> */}
-                {/* <Widget size={[2, 1]}> */}
                 <IndicatorIcon on={true} text={'Armed'} />
-                {/* </Widget> */}
-                {/* <Widget size={[2,1]}> */}
                 <IndicatorIcon on={false} text={'Engine On'} />
-                {/* </Widget> */}
                 {/* <Widget size={[2, 0.5]}>
                   <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
                 </Widget> */}

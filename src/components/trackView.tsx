@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
+import { AlignCenter } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
 export default function TrackView(props: {
@@ -135,7 +136,7 @@ export default function TrackView(props: {
           position: 'absolute',
         }}
       >
-        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
+        <Typography sx={{margin: 0, marginTop: '-0.5em', fontSize: '2em', color: 'var(--color-text)' }}>
           Lap
         </Typography>
         <Typography
@@ -144,6 +145,7 @@ export default function TrackView(props: {
             marginTop: '-0.5em',
             fontSize: '2em',
             fontWeight: 'bold',
+            color: 'var(--color-text)',
           }}
         >
           {Math.max(0, props.distanceTraveled - distOffset) < trackLength
