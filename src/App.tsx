@@ -17,6 +17,7 @@ export type HistoryData = DataEntry & { latency: number };
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
+  burnState: boolean | undefined;
 };
 
 import './styles/style.css';
@@ -28,6 +29,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import BasicGauge from './components/basicGauge';
 import Widget from './components/widget';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
+import Speedometer from './components/speedometer';
 import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
@@ -48,6 +50,7 @@ const menuActions = [
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
+  private _burnInterval?: NodeJS.Timeout;
 
   constructor(props: Record<string, string>) {
     super(props);
@@ -69,6 +72,7 @@ export default class App extends Component<Record<string, string>, AppState> {
         },
       ],
       currentRaceName: '<no race>',
+      burnState: undefined,
     };
 
     this.newRace = this.newRace.bind(this);
@@ -120,11 +124,23 @@ export default class App extends Component<Record<string, string>, AppState> {
       // TODO: implement fetch from remote data server, requires separate api backend
       console.log('setting up setInterval for data fetch.');
     }
+
+    // simulate burn state changes
+    const burnStates: (boolean | undefined)[] = [true, false, undefined];
+    let currentIndex = 0;
+    
+    this._burnInterval = setInterval(() => {
+      this.setState({ burnState: burnStates[currentIndex] });
+      currentIndex = (currentIndex + 1) % burnStates.length;
+    }, 5000);
   }
 
   // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
+    if (this._burnInterval) {
+      clearInterval(this._burnInterval);
+    }
   }
 
   render() {
@@ -136,46 +152,101 @@ export default class App extends Component<Record<string, string>, AppState> {
         </Box>
       );
     }
-
     return (
       <>
         <Box id="main-box">
-          
-          <Widget size={[15, 8]}>
-            <BasicGauge
-              title="Speed"
-              value={this.state.history[0].velocity}
-              min={0}
-              max={80}
-              unit="MPH"
-            />
-          </Widget>
-          <Widget size={[15, 8]}>
-            <BasicGauge
-              title="Wind"
-              value={this.state.history[0].wind}
-              min={0}
-              max={40}
-              unit="MPH"
-            />
-          </Widget>
-          <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
-            <Widget size={[1, 0.5]}>
-              <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
+          <div className="top-panel">
+            <Widget size={[6, 2]}>
+              <StopwatchTimer withButtons />
             </Widget>
-            <Widget size={[2, 1]}>
-              <IndicatorIcon on={true} text={'Armed'} />
-              <IndicatorIcon on={false} text={'Engine On'} />
+            <Box>
+              <SpeedDial
+                ariaLabel='Settings'
+                sx={{ 
+                  position: 'absolute', 
+                  top: 8, 
+                  right: 8,
+                  '& .MuiFab-primary': {
+                    backgroundColor: 'var(--color-tech)',
+                    '&:hover': {
+                      backgroundColor: 'var(--color-tech-secondary)',
+                    }
+                  }
+                }}
+                icon={<Settings />}
+                direction='down'
+              >
+                {menuActions.map((action) => (
+                  <SpeedDialAction
+                    sx={{
+                      '& .MuiFab-primary': {
+                        backgroundColor: 'var(--color-tech)',
+                      }
+                    }}
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                    tooltipOpen={true}
+                  />
+                ))}
+              </SpeedDial>
+            </Box> 
+          </div>
+          <div className="left-panel">
+            <div className="panel-section">
+              {/* <Widget size={[6, 6]}> */}
+              <TrackView
+                trackName='ShellTrackFixed'
+                distanceTraveled={this.state.history[0].distanceTraveled}
+                scale={100}
+              />
+              {/* </Widget> */}
+            </div>
+          </div>
+          <div className="center-panel">
+            <Widget size={[16,9]}>
+              <Speedometer 
+                value={this.state.history[0].velocity}
+                min={0}
+                max={80}
+                unit="MPH"
+                burn={this.state.burnState}
+              />
             </Widget>
-            <Widget size={[2, 0.5]}>
-              <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
-            </Widget>
-            <Widget size={[1, 0.5]}>
-              <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
-            </Widget>
-          </Box>
-          <Box display='flex' flexDirection={'row'}>
-            <Widget size={[6, 5]}>This is a mostly empty widget wrapper</Widget>
+          </div>
+          <div className="right-panel">
+            <div className="panel-section">
+              {/* <Widget size={[7, 5]}> */}
+              <BasicGauge
+                title="Wind"
+                value={this.state.history[0].wind}
+                min={0}
+                max={40}
+                unit="MPH"
+              />
+              {/* </Widget> */}
+            </div>
+            <div className="panel-section">
+              <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
+                {/* <Widget size={[1, 0.5]}>
+                  <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
+                </Widget> */}
+                {/* <Widget size={[2, 1]}> */}
+                <IndicatorIcon on={true} text={'Armed'} />
+                {/* </Widget> */}
+                {/* <Widget size={[2,1]}> */}
+                <IndicatorIcon on={false} text={'Engine On'} />
+                {/* </Widget> */}
+                {/* <Widget size={[2, 0.5]}>
+                  <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
+                </Widget> */}
+                {/* <Widget size={[1, 0.5]}>
+                  <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
+                </Widget> */}
+              </Box>
+            </div>
+          </div>
+          {/* <Box display='flex' flexDirection={'row'}>
             <Widget size={[5, 5]}>
               <LinearGauge
                 length={200}
@@ -195,43 +266,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 scale={100}
               />
             </Widget>
-            <Widget size={[10, 5]}>
-              <StopwatchTimer withButtons />
-            </Widget>
-          </Box>
-          
-        </Box>
-        <Box>
-          <SpeedDial
-            ariaLabel='Settings'
-            sx={{ 
-              position: 'absolute', 
-              top: 8, 
-              right: 8,
-              '& .MuiFab-primary': {
-                backgroundColor: 'var(--color-tech)',
-                '&:hover': {
-                  backgroundColor: 'var(--color-tech-secondary)',
-                }
-              }
-            }}
-            icon={<Settings />}
-            direction='down'
-          >
-            {menuActions.map((action) => (
-              <SpeedDialAction
-                sx={{
-                  '& .MuiFab-primary': {
-                    backgroundColor: 'var(--color-tech)',
-                  }
-                }}
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                tooltipOpen={true}
-              />
-            ))}
-          </SpeedDial>
+          </Box> */}
         </Box>
       </>
     );
