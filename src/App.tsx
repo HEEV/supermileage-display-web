@@ -32,6 +32,7 @@ import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
+import WindSpeedometer from './components/windSpeedometer';
 // downloaded from https://fontawesome.com/icons
 import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
 import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
@@ -63,7 +64,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           radTemp: 0,
           timerResetButton: 0,
           toggleTimeButton: 0,
-          wind: 4,
+          wind: 4.1, //was just 4
           tilt: 3,
           latency: 0,
         },
@@ -140,7 +141,6 @@ export default class App extends Component<Record<string, string>, AppState> {
     return (
       <>
         <Box id="main-box">
-          
           <Widget size={[15, 8]}>
             <BasicGauge
               title="Speed"
@@ -150,27 +150,49 @@ export default class App extends Component<Record<string, string>, AppState> {
               unit="MPH"
             />
           </Widget>
-          <Widget size={[15, 8]}>
-            <BasicGauge
-              title="Wind"
-              value={this.state.history[0].wind}
-              min={0}
-              max={40}
-              unit="MPH"
-            />
-          </Widget>
+          <Box display='flex' flexDirection={'row'}>
+            <Widget size={[8, 6]}>
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                displayUnits
+              />
+            </Widget>
+            <Widget size={[8, 6]}> 
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                windDir={65}
+              />
+            </Widget>
+            <Widget size={[8, 6]}> 
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                noBackground
+              />
+            </Widget>
+            <Widget size={[8, 6]}> 
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
+                speedType={'real'}
+                windDir={342}
+              />
+            </Widget>
+          </Box>
           <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
-            <Widget size={[1, 0.5]}>
+            <Widget size={[2, 1]}>
               <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
             </Widget>
-            <Widget size={[2, 1]}>
+            <Widget size={[4, 2]}>
               <IndicatorIcon on={true} text={'Armed'} />
               <IndicatorIcon on={false} text={'Engine On'} />
             </Widget>
-            <Widget size={[2, 0.5]}>
+            <Widget size={[4, 1]}>
               <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
             </Widget>
-            <Widget size={[1, 0.5]}>
+            <Widget size={[2, 1]}>
               <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
             </Widget>
           </Box>

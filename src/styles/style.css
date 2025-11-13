@@ -1,3 +1,14 @@
+:root {
+    --scale: 0.7; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
+
+  /* derived sizes for wind box */
+  --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
+  --wind-label-size: calc(1.25rem * var(--scale));   /* label / span size */
+  --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
+  --wind-padding-vertical: calc(0.25rem * var(--scale));
+  --wind-padding-horizontal: calc(0.75rem * var(--scale));
+}
+
 html {
     height: 100vh;
     width: 100%;
@@ -98,7 +109,45 @@ body {
     border-radius: 4px;
     padding: 4px 6px;
 }
+
 .indicator-icon span {
     white-space: nowrap;
     font-weight: bold;
+}
+
+.wind-speedometer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+     --scale: 1.8;
+}
+
+.wind-speed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--wind-padding-vertical) var(--wind-padding-horizontal);
+    border: 2px solid var(--color-border-gray);
+    border-radius: 10px;
+    background-color: var(--color-bg-secondary);
+    font-size: var(--wind-font-size);
+    box-sizing: border-box;
+}
+
+.transparent {
+    border: none;
+    background-color: transparent;
+}
+
+.wind-speed span {
+    color: var(--color-text-secondary);
+    font-size: var(--wind-label-size);
+    text-decoration: underline;
+    margin-left: 8
+}
+
+.wind-mph {
+    font-size: var(--wind-label-mph-size);
+    margin-left: calc(0.2rem * var(--scale));
 }
