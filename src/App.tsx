@@ -224,41 +224,11 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
             <div className="panel-section">
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
-                {/* <Widget size={[1, 0.5]}>
-                  <IndicatorIcon on={true} text={''} Icon={CarIcon}/>
-                </Widget> */}
                 <IndicatorIcon on={true} text={'Armed'} />
                 <IndicatorIcon on={false} text={'Engine On'} />
-                {/* <Widget size={[2, 0.5]}>
-                  <IndicatorIcon on={false} text={'Kill Switch'} iconWidth={100}/>
-                </Widget> */}
-                {/* <Widget size={[1, 0.5]}>
-                  <IndicatorIcon on={false} text={''} Icon={FlagIcon}/>
-                </Widget> */}
               </Box>
             </div>
           </div>
-          {/* <Box display='flex' flexDirection={'row'}>
-            <Widget size={[5, 5]}>
-              <LinearGauge
-                length={200}
-                value={this.state.history[0].batteryVoltage}
-                max={10}
-                backgroundColor='var(--color-bg)'
-                barColor='var(--color-green-dull)'
-                units="V"
-                precision={2}
-                warnValue={6}
-              />
-            </Widget>
-            <Widget size={[7, 5]}>
-              <TrackView
-                trackName='ShellTrackFixed'
-                distanceTraveled={this.state.history[0].distanceTraveled}
-                scale={100}
-              />
-            </Widget>
-          </Box> */}
         </Box>
       </>
     );

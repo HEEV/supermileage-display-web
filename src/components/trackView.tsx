@@ -132,8 +132,6 @@ export default function TrackView(props: {
           flexDirection: 'row',
           alignItems: 'center',
           position: 'absolute',
-          // left: '10em',
-          // bottom: '0em',
         }}
       >
         <Typography sx={{marginTop: '-0.5em', fontSize: '1.5em', color: 'var(--color-text)' }}>
