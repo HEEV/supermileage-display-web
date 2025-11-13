@@ -155,7 +155,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                mph={true}
+                displayUnits
               />
             </Widget>
             <Widget size={[8, 6]}> 
@@ -169,7 +169,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                noBackground={true}
+                noBackground
               />
             </Widget>
             <Widget size={[8, 6]}> 

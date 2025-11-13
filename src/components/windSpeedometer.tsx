@@ -4,11 +4,11 @@ export default function WindSpeedometer(props: {
   windSpeed: number, 
   relativeSpeed: number, 
   speedType?: 'real' | 'relative' | 'both',
-  mph?: boolean, 
+  displayUnits?: boolean, 
   windDir?: number,
   noBackground?: boolean 
 }) {
-  const { windSpeed, relativeSpeed, speedType='both', mph, windDir, noBackground } = props;
+  const { windSpeed, relativeSpeed, speedType='both', displayUnits, windDir, noBackground } = props;
   const windClass = noBackground ? 'wind-speed transparent' : 'wind-speed';
   const arrowDeg = ((windDir ?? 0) + 180) % 360;
   const realWindSpeed = speedType == 'real' || speedType == 'both';
@@ -23,9 +23,10 @@ export default function WindSpeedometer(props: {
       {windDir != null ? <ArrowUp
         width={32}
         height={36}
+        strokeWidth={3.25}
         style={{ transform: `rotate(${arrowDeg}deg)` }}
       /> : null}
-      {mph ? <span className={'wind-mph'}>MPH</span> : null}
+      {displayUnits ? <span className={'wind-mph'}>MPH</span> : null}
     </div>
   );
 }
