@@ -2,13 +2,14 @@
     --scale: 0.7; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
 
   /* derived sizes for wind box */
-  --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
-  --wind-label-size: calc(1.25rem * var(--scale));   /* label / span size */
-  --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
-  --wind-padding-vertical: calc(0.25rem * var(--scale));
-  --wind-padding-horizontal: calc(0.75rem * var(--scale));
+    --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
+    --wind-label-size: calc(1.25rem * var(--scale));   /* label / span size */
+    --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
+    --wind-padding-vertical: calc(0.25rem * var(--scale));
+    --wind-padding-horizontal: calc(0.75rem * var(--scale));
 
-  --accelerometer-size: calc(2.6rem * var(--scale));
+    --accelerometer-size: calc(2.6rem * var(--scale));
+    --accel-bar-end-width: 24%; 
 }
 
 html {
@@ -167,12 +168,21 @@ body {
     font-size: var(--accelerometer-size);
 }
 
-.accelerometer-bar{
-    background-color: var(--color-accel-good);
+.accelerometer-bar {
+    display: flex;
+    /* background-color: var(--color-accel-good); */
+    background:
+        linear-gradient(to right,
+            var(--color-accel-bad) 0%,
+            var(--color-accel-bad) var(--accel-bar-end-width),
+            var(--color-accel-good) var(--accel-bar-end-width),
+            var(--color-accel-good) calc(100% - var(--accel-bar-end-width)),
+            var(--color-accel-bad) calc(100% - var(--accel-bar-end-width)),
+            var(--color-accel-bad) 100%);
     border-radius: 5px;
     align-items: center;
-    /* justify-content: center; */
-    width: 150px;
-    height: 16px;
-    padding: 10px;
+    color: var(--color-bg);
+    width: 200px;
+    height: 36px;
+    box-sizing: border-box;
 }
