@@ -17,7 +17,6 @@ export default function IndicatorIcon(props: {
       style={{
         width: iconWidth, 
         backgroundColor: bgColor,
-        padding: '5px',
       }}
     >
       <span
