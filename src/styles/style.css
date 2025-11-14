@@ -62,8 +62,8 @@ body {
   }
 
 .ring {
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
     border-radius: 50%;
     position: relative;
     background: repeating-conic-gradient(
@@ -90,8 +90,8 @@ body {
 }
 
 .burn-ring {
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
     border-radius: 50%;
     position: relative;
     background: var(--color-green-highlight);
@@ -114,8 +114,8 @@ body {
 }
 
 .coast-ring {
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
     border-radius: 50%;
     position: relative;
     background: var(--color-alert);
