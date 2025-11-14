@@ -7,6 +7,8 @@
   --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
   --wind-padding-vertical: calc(0.25rem * var(--scale));
   --wind-padding-horizontal: calc(0.75rem * var(--scale));
+
+  --accelerometer-size: calc(2.6rem * var(--scale));
 }
 
 html {
@@ -150,4 +152,27 @@ body {
 .wind-mph {
     font-size: var(--wind-label-mph-size);
     margin-left: calc(0.2rem * var(--scale));
+}
+
+.accelerometer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 3px solid;
+    padding: 4px 6px;
+}
+
+.accelerometer span {
+    font-size: var(--accelerometer-size);
+}
+
+.accelerometer-bar{
+    background-color: var(--color-accel-good);
+    border-radius: 5px;
+    align-items: center;
+    /* justify-content: center; */
+    width: 150px;
+    height: 16px;
+    padding: 10px;
 }

@@ -33,6 +33,9 @@
   --color-icon-text: var(--color-text);
   --color-icon-on: var(--color-icon-green);
   --color-icon-off: var(--color-icon-red);
+  --color-accel-good: var(--color-green-highlight);
+  --color-accel-caut: var(--color-warning);
+  --color-accel-bad: #FF2626;
 }
 
 /* Max values for contrast */

@@ -33,6 +33,7 @@ import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
+import Accelerometer from './components/accelerometer';
 // downloaded from https://fontawesome.com/icons
 import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
 import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
@@ -49,6 +50,7 @@ const menuActions = [
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
+  private _accelTimer?: number;
 
   constructor(props: Record<string, string>) {
     super(props);
@@ -121,11 +123,16 @@ export default class App extends Component<Record<string, string>, AppState> {
       // TODO: implement fetch from remote data server, requires separate api backend
       console.log('setting up setInterval for data fetch.');
     }
+    // force periodic re-renders so time-based UI updates
+    this._accelTimer = window.setInterval(() => this.forceUpdate(), 1000); // 1s tick
   }
 
   // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
+    if (this._accelTimer !== undefined) {
+      clearInterval(this._accelTimer);
+    }
   }
 
   render() {
@@ -137,6 +144,10 @@ export default class App extends Component<Record<string, string>, AppState> {
         </Box>
       );
     }
+
+    const accelStates = ['good', 'warn', 'bad'] as const;
+    const tick = Math.floor(Date.now() / 2000) % accelStates.length; // change divisor for speed
+    const accelStateNow = accelStates[tick];
 
     return (
       <>
@@ -151,34 +162,19 @@ export default class App extends Component<Record<string, string>, AppState> {
             />
           </Widget>
           <Box display='flex' flexDirection={'row'}>
-            <Widget size={[8, 6]}>
-              <WindSpeedometer
-                windSpeed={this.state.history[0].wind}
-                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                displayUnits
-              />
-            </Widget>
             <Widget size={[8, 6]}> 
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                windDir={65}
-              />
-            </Widget>
-            <Widget size={[8, 6]}> 
-              <WindSpeedometer
-                windSpeed={this.state.history[0].wind}
-                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                noBackground
-              />
-            </Widget>
-            <Widget size={[8, 6]}> 
-              <WindSpeedometer
-                windSpeed={this.state.history[0].wind}
-                relativeSpeed={this.state.history[0].wind - this.state.history[0].velocity}
-                speedType={'real'}
+                speedType={'both'}
                 windDir={342}
               />
+            </Widget>
+            <Widget size={[3, 2]}>
+              <Accelerometer state={accelStateNow} />
+            </Widget>
+            <Widget size={[7, 2]}>
+              <Accelerometer state={accelStateNow} display={'bar'} />
             </Widget>
           </Box>
           <Box display="flex" flexDirection="row" alignItems="center" gap={1} flexWrap="nowrap">
