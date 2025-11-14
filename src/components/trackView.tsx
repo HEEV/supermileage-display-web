@@ -76,6 +76,15 @@ export default function TrackView(props: {
         position: 'relative',
       }}
     >
+      <Typography sx={{marginTop: '-0.5em', fontSize: '1em', color: 'var(--color-text)', lineHeight: '1', fontWeight: 'bold'}}>
+          Current Lap: &nbsp;
+        {Math.max(0, props.distanceTraveled - distOffset) < trackLength
+          ? 1
+          : Math.trunc(
+            Math.max(0, props.distanceTraveled - distOffset) / trackLength +
+                1
+          )}
+      </Typography>
       <div
         style={{
           display: 'flex',
@@ -134,24 +143,6 @@ export default function TrackView(props: {
           position: 'absolute',
         }}
       >
-        <Typography sx={{marginTop: '-0.5em', fontSize: '1.5em', color: 'var(--color-text)' }}>
-          Lap &nbsp;
-        </Typography>
-        <Typography
-          sx={{
-            marginTop: '-0.5em',
-            fontSize: '1.5em',
-            fontWeight: 'bold',
-            color: 'var(--color-text)',
-          }}
-        >
-          {Math.max(0, props.distanceTraveled - distOffset) < trackLength
-            ? 1
-            : Math.trunc(
-              Math.max(0, props.distanceTraveled - distOffset) / trackLength +
-                  1
-            )}
-        </Typography>
       </div>
     </div>
   );

@@ -219,7 +219,8 @@ export default class App extends Component<Record<string, string>, AppState> {
                 windSpeed={this.state.history[0].wind}
                 relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
                 speedType={'real'}
-                displayUnits
+                noBackground
+                windDir={3}
               />
             </div>
             <div className="panel-section">

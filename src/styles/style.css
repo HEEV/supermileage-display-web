@@ -3,7 +3,7 @@
 
   /* derived sizes for wind box */
   --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
-  --wind-label-size: calc(1.25rem * var(--scale));   /* label / span size */
+  --wind-label-size: calc(1.5rem * var(--scale));   /* label / span size */
   --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
   --wind-padding-vertical: calc(0.25rem * var(--scale));
   --wind-padding-horizontal: calc(0.75rem * var(--scale));
@@ -32,9 +32,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-panel-background);
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color-border-gray);
 }
 
 .center-panel {
@@ -242,7 +242,7 @@ body {
     border-radius: 15px;
     padding: 20px;
     margin: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color-border-gray);
 }
 
 .stopwatch-button {
@@ -292,6 +292,8 @@ body {
     border-radius: 10px;
     background-color: var(--color-bg-secondary);
     font-size: var(--wind-font-size);
+    font-weight: bold;
+    color: var(--color-text);
     box-sizing: border-box;
 }
 
@@ -303,11 +305,12 @@ body {
 .wind-speed span {
     color: var(--color-text-secondary);
     font-size: var(--wind-label-size);
-    text-decoration: underline;
+    margin-bottom: 1em;
     margin-left: 8
 }
 
 .wind-mph {
     font-size: var(--wind-label-mph-size);
     margin-left: calc(0.2rem * var(--scale));
+    color: var(--color-text);
 }
