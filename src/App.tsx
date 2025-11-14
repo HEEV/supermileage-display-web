@@ -34,6 +34,7 @@ import LinearGauge from './components/linearGauge';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
+import WindSpeedometer from './components/windSpeedometer';
 // downloaded from https://fontawesome.com/icons
 import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
 import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
@@ -66,7 +67,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           radTemp: 0,
           timerResetButton: 0,
           toggleTimeButton: 0,
-          wind: 4,
+          wind: 4.1, //was just 4
           tilt: 3,
           latency: 0,
         },
@@ -214,12 +215,11 @@ export default class App extends Component<Record<string, string>, AppState> {
           </div>
           <div className="right-panel">
             <div className="panel-section">
-              <BasicGauge
-                title="Wind"
-                value={this.state.history[0].wind}
-                min={0}
-                max={40}
-                unit="MPH"
+              <WindSpeedometer
+                windSpeed={this.state.history[0].wind}
+                relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
+                speedType={'real'}
+                displayUnits
               />
             </div>
             <div className="panel-section">
