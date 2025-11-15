@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
+import { AlignCenter } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
 export default function TrackView(props: {
@@ -75,6 +76,15 @@ export default function TrackView(props: {
         position: 'relative',
       }}
     >
+      <Typography sx={{marginTop: '-0.5em', fontSize: '1em', color: 'var(--color-text)', lineHeight: '1', fontWeight: 'bold'}}>
+          Current Lap: &nbsp;
+        {Math.max(0, props.distanceTraveled - distOffset) < trackLength
+          ? 1
+          : Math.trunc(
+            Math.max(0, props.distanceTraveled - distOffset) / trackLength +
+                1
+          )}
+      </Typography>
       <div
         style={{
           display: 'flex',
@@ -128,31 +138,11 @@ export default function TrackView(props: {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignItems: 'center',
-          left: '10em',
-          bottom: '0em',
           position: 'absolute',
         }}
       >
-        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
-          Lap
-        </Typography>
-        <Typography
-          sx={{
-            margin: 0,
-            marginTop: '-0.5em',
-            fontSize: '2em',
-            fontWeight: 'bold',
-          }}
-        >
-          {Math.max(0, props.distanceTraveled - distOffset) < trackLength
-            ? 1
-            : Math.trunc(
-              Math.max(0, props.distanceTraveled - distOffset) / trackLength +
-                  1
-            )}
-        </Typography>
       </div>
     </div>
   );

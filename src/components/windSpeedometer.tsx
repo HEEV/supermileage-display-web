@@ -15,7 +15,7 @@ export default function WindSpeedometer(props: {
   const relativeWindSpeed = speedType == 'relative' || speedType == 'both';
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
       <div className={'wind-speedometer-container'}>
         {realWindSpeed ? <div className={windClass}><span>Wind Speed</span>{windSpeed}</div> : null}
         {relativeWindSpeed ? <div className={windClass}><span>Relative Speed</span>{relativeSpeed}</div> : null}
@@ -24,6 +24,7 @@ export default function WindSpeedometer(props: {
         width={32}
         height={36}
         strokeWidth={3.25}
+        color={'var(--color-text)'}
         style={{ transform: `rotate(${arrowDeg}deg)` }}
       /> : null}
       {displayUnits ? <span className={'wind-mph'}>MPH</span> : null}
