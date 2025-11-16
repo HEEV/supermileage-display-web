@@ -164,7 +164,7 @@ body {
 
 .engine-on { 
     color: var(--color-green-highlight);
-    font-size: 3em;
+    font-size: 3.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
@@ -172,7 +172,7 @@ body {
 
 .engine-off {
     color: var(--color-alert);
-    font-size: 3em;
+    font-size: 3.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
