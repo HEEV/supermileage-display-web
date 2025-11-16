@@ -89,7 +89,7 @@ export default function TrackView(props: {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '24vh',
+          height: '20vh',
           width: '16vw',
         }}
       >
