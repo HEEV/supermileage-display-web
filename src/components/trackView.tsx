@@ -89,8 +89,8 @@ export default function TrackView(props: {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '25vh',
-          width: '15vw',
+          height: '24vh',
+          width: '16vw',
         }}
       >
         <svg
