@@ -3,7 +3,7 @@
 
   /* derived sizes for wind box */
   --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
-  --wind-label-size: calc(1.5rem * var(--scale));   /* label / span size */
+  --wind-label-size: calc(1.3rem * var(--scale));   /* label / span size */
   --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
   --wind-padding-vertical: calc(0.25rem * var(--scale));
   --wind-padding-horizontal: calc(0.75rem * var(--scale));
@@ -20,6 +20,12 @@ body {
     position: fixed;
 }
 
+.heading {
+    font-size: 3em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
 .wait-screen {
     display: flex;
     flex-direction: column;
@@ -27,12 +33,24 @@ body {
 }
 
 .top-panel {
-    grid-column: 1 / -1;
+    grid-column: 1 / 4;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
     background: var(--color-panel-background);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 2px solid var(--color-border-gray);
+}
+
+.bottom-panel {
+    grid-column: 1 / 4;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    background: var(--color-panel-background);
+    backdrop-filter: blur(10px);
     border-radius: 15px;
     border: 2px solid var(--color-border-gray);
 }
@@ -66,11 +84,7 @@ body {
     height: 85%;
     border-radius: 50%;
     position: relative;
-    background: repeating-conic-gradient(
-        from 0deg,
-        var(--color-gray) 0 5deg,
-        var(--color-bg) 5deg calc(5deg + 4deg)
-    );
+    background: var(--color-tech);
     -webkit-mask: 
         /* makes the donut hole */
         radial-gradient(
@@ -87,6 +101,29 @@ body {
             transparent 315deg
         );
     -webkit-mask-composite: source-in;
+    /* width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    position: relative;
+    background: repeating-conic-gradient(
+        from 0deg,
+        var(--color-gray) 0 5deg,
+        var(--color-bg) 5deg calc(5deg + 4deg)
+    );
+    -webkit-mask: 
+        radial-gradient(
+            circle,
+            transparent calc(450px / 2 - 60px),
+            black calc(450px / 2 - 60px)
+        ),
+        conic-gradient(
+            transparent 0deg 45deg,
+            black 45deg 135deg,
+            transparent 135deg 225deg,
+            black 225deg 315deg,
+            transparent 315deg
+        );
+    -webkit-mask-composite: source-in; */
 }
 
 .burn-ring {
@@ -167,15 +204,6 @@ body {
     grid-area: 1 / 1;
 }
 
-.speed-value-faded {
-    font-size: clamp(48px, 14vw, 150px);
-    font-weight: 700;
-    line-height: 1;
-    opacity: 0.3;
-    position: absolute;
-    grid-area: 1 / 1;
-}
-
 .widget {
     display: flex;
     align-items: center;
@@ -230,20 +258,57 @@ body {
     display: grid;
     flex-direction: column;
     justify-content: space-between;
-    grid-template-columns: 300px auto 300px;
+    grid-template-columns: 1 fr, 2 fr, 1 fr;
     grid-template-rows: auto 1fr auto;
-    height: 100vh;
+    height: 99vh;
     width: 99vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .panel-section {
     align-items: center;
     background: var(--color-panel-background);
     border-radius: 15px;
-    padding: 20px;
+    padding: 15px;
     margin: 10px;
     border: 2px solid var(--color-border-gray);
 }
+
+.panel-label {
+    font-size: var(--wind-label-size);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.lap {
+    display: flex;
+    flex-direction: row;
+    height: 1em;
+    border-color: var(--color-faded-text);
+    background: var(--color-faded-text);
+    margin: 1px;
+    width: 25%;
+}
+
+.simulated-done {
+    background: var(--color-icon-green);
+}
+
+.simulated-burn {
+    background: var(--color-orange);
+}
+
+.actual-done {
+    background: var(--color-green-highlight);
+}
+
+.actual-burn {
+    background: var(--color-warning);
+}
+
 
 .stopwatch-button {
     width: 100px;
@@ -268,6 +333,7 @@ body {
     justify-content: center;
     border-radius: 4px;
     padding: 6px;
+    width: 65%;
 }
 
 .indicator-icon span {
@@ -290,7 +356,7 @@ body {
     padding: var(--wind-padding-vertical) var(--wind-padding-horizontal);
     border: 2px solid var(--color-border-gray);
     border-radius: 10px;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-panel-background);
     font-size: var(--wind-font-size);
     font-weight: bold;
     color: var(--color-text);
@@ -302,11 +368,12 @@ body {
     background-color: transparent;
 }
 
-.wind-speed span {
+.wind-speedometer-container span {
     color: var(--color-text-secondary);
     font-size: var(--wind-label-size);
-    margin-bottom: 1em;
-    margin-left: 8
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+    /* margin-left: 8 */
 }
 
 .wind-mph {

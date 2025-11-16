@@ -31,6 +31,7 @@ import Widget from './components/widget';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
 import LinearGauge from './components/linearGauge';
+import BurnCoast from './components/burnCoast';
 import TrackView from './components/trackView';
 import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
@@ -157,9 +158,7 @@ export default class App extends Component<Record<string, string>, AppState> {
       <>
         <Box id="main-box">
           <div className="top-panel">
-            <Widget size={[6, 2]}>
-              <StopwatchTimer withButtons />
-            </Widget>
+            <div className="heading">Driver Display</div>
             <Box>
               <SpeedDial
                 ariaLabel='Settings'
@@ -220,15 +219,21 @@ export default class App extends Component<Record<string, string>, AppState> {
                 relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
                 speedType={'real'}
                 noBackground
-                windDir={3}
+                windDir={180}
+                displayUnits={true}
               />
             </div>
             <div className="panel-section">
+              <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
                 <IndicatorIcon on={true} text={'Armed'} />
                 <IndicatorIcon on={false} text={'Engine On'} />
               </Box>
             </div>
+          </div>
+          <div className="bottom-panel">
+            <div className="panel-label">Simulation</div>
+            <BurnCoast/>
           </div>
         </Box>
       </>

@@ -4,9 +4,8 @@ export default function IndicatorIcon(props: {
   on?: boolean;
   text?: string;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  iconWidth?: number;
 }) {
-  const { on, text, Icon, iconWidth } = props;
+  const { on, text, Icon } = props;
   const bgColor = Icon ? 'transparent' : (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)');
   const imgColor = Icon ? (on ? 'var(--color-icon-on)' : 'var(--color-icon-off)') : 'var(--color-icon-text)';
   const spanContent = text || (Icon && <Icon width={30} height={30} fill="currentColor" />);
@@ -15,9 +14,7 @@ export default function IndicatorIcon(props: {
     <div
       className={'indicator-icon'}
       style={{
-        width: iconWidth, 
         backgroundColor: bgColor,
-        padding: '5px',
       }}
     >
       <span
