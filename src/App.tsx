@@ -26,20 +26,12 @@ import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 import { Component } from 'react';
 import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
-import BasicGauge from './components/basicGauge';
-import Widget from './components/widget';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
-import LinearGauge from './components/linearGauge';
 import BurnCoast from './components/burnCoast';
 import TrackView from './components/trackView';
-import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
-// downloaded from https://fontawesome.com/icons
-import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
-import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
-
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =

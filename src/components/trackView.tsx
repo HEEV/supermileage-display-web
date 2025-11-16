@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { AlignCenter } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
 export default function TrackView(props: {

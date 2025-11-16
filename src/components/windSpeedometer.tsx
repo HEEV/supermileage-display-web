@@ -1,5 +1,4 @@
 import { ArrowUp} from 'lucide-react';
-import { relative } from 'path';
 
 export default function WindSpeedometer(props: { 
   windSpeed: number, 
