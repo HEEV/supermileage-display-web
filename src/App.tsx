@@ -158,16 +158,17 @@ export default class App extends Component<Record<string, string>, AppState> {
       <>
         <Box id="main-box">
           <div className="top-panel">
-            <div className="heading">Driver Display</div>
             <Box>
               <SpeedDial
                 ariaLabel='Settings'
                 sx={{ 
                   position: 'absolute', 
-                  top: 8, 
-                  right: 8,
+                  top: 6, 
+                  right: 0,
                   '& .MuiFab-primary': {
                     backgroundColor: 'var(--color-tech)',
+                    width: 45,
+                    height: 45,
                     '&:hover': {
                       backgroundColor: 'var(--color-tech-secondary)',
                     }
@@ -202,15 +203,13 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
           </div>
           <div className="center-panel">
-            <Widget size={[16,9]}>
-              <Speedometer 
-                value={this.state.history[0].velocity}
-                min={0}
-                max={80}
-                unit="MPH"
-                burn={this.state.burnState}
-              />
-            </Widget>
+            <Speedometer 
+              value={this.state.history[0].velocity}
+              min={0}
+              max={80}
+              unit="MPH"
+              burn={this.state.burnState}
+            />
           </div>
           <div className="right-panel">
             <div className="panel-section">

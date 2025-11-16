@@ -1,9 +1,9 @@
 :root {
-    --scale: 0.7; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
+    --scale: 0.8; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
 
   /* derived sizes for wind box */
-  --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
-  --wind-label-size: calc(1.3rem * var(--scale));   /* label / span size */
+  --wind-font-size: calc(5rem * var(--scale));       /* numeric value size */
+  --wind-label-size: calc(1.2rem * var(--scale));   /* label / span size */
   --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
   --wind-padding-vertical: calc(0.25rem * var(--scale));
   --wind-padding-horizontal: calc(0.75rem * var(--scale));
@@ -20,12 +20,6 @@ body {
     position: fixed;
 }
 
-.heading {
-    font-size: 3em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-}
-
 .wait-screen {
     display: flex;
     flex-direction: column;
@@ -38,10 +32,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: var(--color-panel-background);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    border: 2px solid var(--color-border-gray);
 }
 
 .bottom-panel {
@@ -59,9 +49,7 @@ body {
     display: flex;
     grid-row: 2;
     grid-column: 2;
-    flex-direction: column;
     align-items: center;
-    position: relative;
 }
 
 .left-panel, .right-panel {
@@ -80,8 +68,8 @@ body {
   }
 
 .ring {
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     position: relative;
     background: var(--color-tech);
@@ -89,8 +77,8 @@ body {
         /* makes the donut hole */
         radial-gradient(
             circle,
-            transparent calc(450px / 2 - 60px),
-            black calc(450px / 2 - 60px)
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
         ),
         /* blocks the top and bottom segments */
         conic-gradient(
@@ -127,8 +115,8 @@ body {
 }
 
 .burn-ring {
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     position: relative;
     background: var(--color-green-highlight);
@@ -136,8 +124,8 @@ body {
         /* makes the donut hole */
         radial-gradient(
             circle,
-            transparent calc(450px / 2 - 60px),
-            black calc(450px / 2 - 60px)
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
         ),
         /* blocks the top and bottom segments */
         conic-gradient(
@@ -151,8 +139,8 @@ body {
 }
 
 .coast-ring {
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     position: relative;
     background: var(--color-alert);
@@ -160,8 +148,8 @@ body {
         /* makes the donut hole */
         radial-gradient(
             circle,
-            transparent calc(450px / 2 - 60px),
-            black calc(450px / 2 - 60px)
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
         ),
         /* blocks the top and bottom segments */
         conic-gradient(
@@ -198,7 +186,8 @@ body {
 }
 
 .speed-value {
-    font-size: clamp(48px, 14vw, 150px);
+    color: var(--color-text);
+    font-size: 14em;
     font-weight: 700;
     line-height: 1;
     grid-area: 1 / 1;
@@ -231,7 +220,7 @@ body {
 }
 
 .gauge-value {
-    font-size: 12em !important;
+    font-size: 10em !important;
     line-height: 0.9 !important;
     margin: 0;
     padding: 0;
@@ -240,7 +229,7 @@ body {
 
 .gauge-unit {
     margin-top: -0.5em !important;
-    font-size: 1em !important;
+    font-size: 2em !important;
     text-align: center;
     color: var(--color-text);
     letter-spacing: 2px;
@@ -258,8 +247,6 @@ body {
     display: grid;
     flex-direction: column;
     justify-content: space-between;
-    grid-template-columns: 1 fr, 2 fr, 1 fr;
-    grid-template-rows: auto 1fr auto;
     height: 99vh;
     width: 99vw;
     overflow-x: hidden;
@@ -270,7 +257,7 @@ body {
     align-items: center;
     background: var(--color-panel-background);
     border-radius: 15px;
-    padding: 15px;
+    padding: 20px;
     margin: 10px;
     border: 2px solid var(--color-border-gray);
 }
@@ -333,19 +320,20 @@ body {
     justify-content: center;
     border-radius: 4px;
     padding: 6px;
-    width: 65%;
+    width: 90%;
 }
 
 .indicator-icon span {
     white-space: nowrap;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 .wind-speedometer-container {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-     --scale: 1.8;
+    --scale: 1.8;
 }
 
 .wind-speed {
