@@ -26,19 +26,12 @@ import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 import { Component } from 'react';
 import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
-import BasicGauge from './components/basicGauge';
-import Widget from './components/widget';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
-import LinearGauge from './components/linearGauge';
+import BurnCoast from './components/burnCoast';
 import TrackView from './components/trackView';
-import StopwatchTimer from './components/stopwatchTimer';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
-// downloaded from https://fontawesome.com/icons
-import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
-import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
-
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -157,18 +150,17 @@ export default class App extends Component<Record<string, string>, AppState> {
       <>
         <Box id="main-box">
           <div className="top-panel">
-            <Widget size={[6, 2]}>
-              <StopwatchTimer withButtons />
-            </Widget>
             <Box>
               <SpeedDial
                 ariaLabel='Settings'
                 sx={{ 
                   position: 'absolute', 
-                  top: 8, 
-                  right: 8,
+                  top: 6, 
+                  right: 0,
                   '& .MuiFab-primary': {
                     backgroundColor: 'var(--color-tech)',
+                    width: 45,
+                    height: 45,
                     '&:hover': {
                       backgroundColor: 'var(--color-tech-secondary)',
                     }
@@ -203,15 +195,13 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
           </div>
           <div className="center-panel">
-            <Widget size={[16,9]}>
-              <Speedometer 
-                value={this.state.history[0].velocity}
-                min={0}
-                max={80}
-                unit="MPH"
-                burn={this.state.burnState}
-              />
-            </Widget>
+            <Speedometer 
+              value={this.state.history[0].velocity}
+              min={0}
+              max={80}
+              unit="MPH"
+              burn={this.state.burnState}
+            />
           </div>
           <div className="right-panel">
             <div className="panel-section">
@@ -220,15 +210,21 @@ export default class App extends Component<Record<string, string>, AppState> {
                 relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
                 speedType={'real'}
                 noBackground
-                windDir={3}
+                windDir={180}
+                displayUnits={true}
               />
             </div>
             <div className="panel-section">
+              <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
                 <IndicatorIcon on={true} text={'Armed'} />
                 <IndicatorIcon on={false} text={'Engine On'} />
               </Box>
             </div>
+          </div>
+          <div className="bottom-panel">
+            <div className="panel-label">Simulation</div>
+            <BurnCoast/>
           </div>
         </Box>
       </>

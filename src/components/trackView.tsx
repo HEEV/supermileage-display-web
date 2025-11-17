@@ -1,6 +1,4 @@
-import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import { AlignCenter } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
 export default function TrackView(props: {
@@ -76,7 +74,7 @@ export default function TrackView(props: {
         position: 'relative',
       }}
     >
-      <Typography sx={{marginTop: '-0.5em', fontSize: '1em', color: 'var(--color-text)', lineHeight: '1', fontWeight: 'bold'}}>
+      <div className="panel-label">
           Current Lap: &nbsp;
         {Math.max(0, props.distanceTraveled - distOffset) < trackLength
           ? 1
@@ -84,12 +82,14 @@ export default function TrackView(props: {
             Math.max(0, props.distanceTraveled - distOffset) / trackLength +
                 1
           )}
-      </Typography>
+      </div>
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          height: '20vh',
+          width: '18vw',
         }}
       >
         <svg
@@ -119,30 +119,20 @@ export default function TrackView(props: {
               d={tracks[props.trackName as keyof typeof tracks].shape}
               fill="var(--color-faded-text)"
               strokeWidth="12"
-              stroke="var(--color-tech-secondary)"
+              stroke="var(--color-green-highlight)"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: progress }}
               transition={trackTransition}
             />
-
             {/* Arrow marker */}
             <polygon
               points="-22,-15 22,0 -22,15"
-              fill="red"
+              fill="var(--color-tech)"
               transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle})`}
             />
           </g>
         </svg>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          position: 'absolute',
-        }}
-      >
       </div>
     </div>
   );
