@@ -164,7 +164,7 @@ body {
 
 .engine-on { 
     color: var(--color-green-highlight);
-    font-size: 3.5em;
+    font-size: 2.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
@@ -172,7 +172,7 @@ body {
 
 .engine-off {
     color: var(--color-alert);
-    font-size: 3.5em;
+    font-size: 2.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
@@ -181,7 +181,7 @@ body {
 .speed-center {
     position: absolute;
     display: grid;
-    place-items: center;
+    place-items: top;
     text-align: center;
 }
 
@@ -270,30 +270,40 @@ body {
     margin-bottom: 1em;
 }
 
-.lap {
+.lap-single {
     display: flex;
     flex-direction: row;
-    height: 1em;
+    height: 2em;
     border-color: var(--color-faded-text);
     background: var(--color-faded-text);
     margin: 1px;
     width: 25%;
 }
 
+.lap-double {
+    display: flex;
+    flex-direction: row;
+    height: 1em;
+    border-color: var(--color-faded-text);
+    background: var(--color-faded-text);
+    margin: 1px;
+    width: 100%;
+}
+
 .simulated-done {
-    background: var(--color-icon-green);
+    background: var(--color-position-sim);
 }
 
 .simulated-burn {
-    background: var(--color-orange);
+    background: var(--color-gas-sim);
 }
 
 .actual-done {
-    background: var(--color-green-highlight);
+    background: var(--color-position-real);
 }
 
 .actual-burn {
-    background: var(--color-warning);
+    background: var(--color-gas-real);
 }
 
 

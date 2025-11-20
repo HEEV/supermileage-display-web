@@ -16,7 +16,7 @@ export default function WindSpeedometer(props: {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {realWindSpeed ? <div className="panel-label">Wind Speed</div> : null}
+      {realWindSpeed ? <div className="panel-label">Headwind Speed</div> : null}
       {relativeWindSpeed ? <div className="panel-label">Relative Speed</div> : null}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
         {realWindSpeed ? <div className={windClass}>{windSpeed}</div> : null}
