@@ -218,7 +218,7 @@ export default class App extends Component<Record<string, string>, AppState> {
               <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
                 <IndicatorIcon on={true} text={'Armed'} />
-                <IndicatorIcon on={false} text={'Engine On'} />
+                <IndicatorIcon on={false} text={'Running'} />
               </Box>
             </div>
           </div>
