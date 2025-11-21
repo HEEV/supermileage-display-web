@@ -223,7 +223,6 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
           </div>
           <div className="bottom-panel">
-            <div className="panel-label">Simulation</div>
             <BurnCoast/>
           </div>
         </Box>

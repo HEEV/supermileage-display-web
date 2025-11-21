@@ -31,14 +31,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
+    padding: 10px;
 }
 
 .bottom-panel {
     grid-column: 1 / 4;
     display: flex;
     flex-direction: column;
-    padding: 15px 25px;
+    padding: 15px;
     background: var(--color-panel-background);
     backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -168,6 +168,7 @@ body {
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
+    transform: translateY(-35px); /* Adjust this value */
 }
 
 .engine-off {
@@ -176,6 +177,7 @@ body {
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
+    transform: translateY(-35px); /* Adjust this value */
 }
 
 .speed-center {
@@ -277,7 +279,7 @@ body {
     border-color: var(--color-faded-text);
     background: var(--color-faded-text);
     margin: 1px;
-    width: 25%;
+    width: 100%;
 }
 
 .lap-double {
@@ -287,7 +289,7 @@ body {
     border-color: var(--color-faded-text);
     background: var(--color-faded-text);
     margin: 1px;
-    width: 100%;
+    width: 25%;
 }
 
 .simulated-done {

@@ -1,4 +1,4 @@
-import { ArrowUp} from 'lucide-react';
+import { ArrowUp, Minus} from 'lucide-react';
 
 export default function WindSpeedometer(props: { 
   windSpeed: number, 
@@ -21,13 +21,21 @@ export default function WindSpeedometer(props: {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
         {realWindSpeed ? <div className={windClass}>{windSpeed}</div> : null}
         {relativeWindSpeed ? <div className={windClass}>{relativeSpeed}</div> : null}
-        {windDir != null ? <ArrowUp
-          width={32}
-          height={36}
-          strokeWidth={3.25}
-          color={'var(--color-text)'}
-          style={{ transform: `rotate(${arrowDeg}deg)` }}
-        /> : null}
+        {windDir != null ? 
+          windSpeed != 0.0 ? 
+            <ArrowUp
+              width={32}
+              height={36}
+              strokeWidth={3.25}
+              color={'var(--color-text)'}
+              style={{ transform: `rotate(${arrowDeg}deg)` }}
+            />
+            : 
+            <Minus 
+              color={'var(--color-text)'}
+              strokeWidth={3.25}
+            />
+          : null}
       </div>
       {displayUnits ? <span className={'wind-mph'}>MPH</span> : null}
     </div>
