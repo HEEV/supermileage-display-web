@@ -33,10 +33,6 @@ import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
 import Accelerometer from './components/accelerometer';
-// downloaded from https://fontawesome.com/icons
-import { ReactComponent as CarIcon } from './styles/icons/car-solid-full.svg';
-import { ReactComponent as FlagIcon } from './styles/icons/flag-solid-full.svg';
-
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -202,9 +198,6 @@ export default class App extends Component<Record<string, string>, AppState> {
                 distanceTraveled={this.state.history[0].distanceTraveled}
                 scale={100}
               />
-            </div>
-            <div className="panel-section">
-              <Accelerometer state={accelStateNow} />
             </div>
             <div className="panel-section">
               <Accelerometer state={accelStateNow} display={'bar'} />
