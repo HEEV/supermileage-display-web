@@ -193,8 +193,6 @@ export default class App extends Component<Record<string, string>, AppState> {
                   />
                 ))}
               </SpeedDial>
-              <Accelerometer state={accelStateNow} />
-              <Accelerometer state={accelStateNow} display={'bar'} />
             </Box> 
           </div>
           <div className="left-panel">
@@ -204,6 +202,12 @@ export default class App extends Component<Record<string, string>, AppState> {
                 distanceTraveled={this.state.history[0].distanceTraveled}
                 scale={100}
               />
+            </div>
+            <div className="panel-section">
+              <Accelerometer state={accelStateNow} />
+            </div>
+            <div className="panel-section">
+              <Accelerometer state={accelStateNow} display={'bar'} />
             </div>
           </div>
           <div className="center-panel">
