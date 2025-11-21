@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 
@@ -75,11 +74,22 @@ export default function TrackView(props: {
         position: 'relative',
       }}
     >
+      <div className="panel-label">
+          Current Lap: &nbsp;
+        {Math.max(0, props.distanceTraveled - distOffset) < trackLength
+          ? 1
+          : Math.trunc(
+            Math.max(0, props.distanceTraveled - distOffset) / trackLength +
+                1
+          )}
+      </div>
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          height: '20vh',
+          width: '18vw',
         }}
       >
         <svg
@@ -109,50 +119,20 @@ export default function TrackView(props: {
               d={tracks[props.trackName as keyof typeof tracks].shape}
               fill="var(--color-faded-text)"
               strokeWidth="12"
-              stroke="var(--color-tech-secondary)"
+              stroke="var(--color-green-highlight)"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: progress }}
               transition={trackTransition}
             />
-
             {/* Arrow marker */}
             <polygon
               points="-22,-15 22,0 -22,15"
-              fill="red"
+              fill="var(--color-tech)"
               transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle})`}
             />
           </g>
         </svg>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          left: '10em',
-          bottom: '0em',
-          position: 'absolute',
-        }}
-      >
-        <Typography sx={{ margin: 0, marginTop: '-0.5em', fontSize: '2em' }}>
-          Lap
-        </Typography>
-        <Typography
-          sx={{
-            margin: 0,
-            marginTop: '-0.5em',
-            fontSize: '2em',
-            fontWeight: 'bold',
-          }}
-        >
-          {Math.max(0, props.distanceTraveled - distOffset) < trackLength
-            ? 1
-            : Math.trunc(
-              Math.max(0, props.distanceTraveled - distOffset) / trackLength +
-                  1
-            )}
-        </Typography>
       </div>
     </div>
   );

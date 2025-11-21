@@ -1,9 +1,9 @@
 :root {
-    --scale: 0.7; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
+    --scale: 0.8; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
 
   /* derived sizes for wind box */
-    --wind-font-size: calc(4rem * var(--scale));       /* numeric value size */
-    --wind-label-size: calc(1.25rem * var(--scale));   /* label / span size */
+    --wind-font-size: calc(5rem * var(--scale));       /* numeric value size */
+    --wind-label-size: calc(1.2rem * var(--scale));   /* label / span size */
     --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
     --wind-padding-vertical: calc(0.25rem * var(--scale));
     --wind-padding-horizontal: calc(0.75rem * var(--scale));
@@ -20,12 +20,180 @@ html {
 
 body {
     font-family: sans-serif;
+    position: fixed;
 }
 
 .wait-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.top-panel {
+    grid-column: 1 / 4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+}
+
+.bottom-panel {
+    grid-column: 1 / 4;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    background: var(--color-panel-background);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 2px solid var(--color-border-gray);
+}
+
+.center-panel {
+    display: flex;
+    grid-row: 2;
+    grid-column: 2;
+    align-items: center;
+}
+
+.left-panel, .right-panel {
+    display: flex;
+    grid-row: 2;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.wrap {
+    width: 450px;
+    height: 450px;
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+.ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    background: var(--color-tech);
+    -webkit-mask: 
+        /* makes the donut hole */
+        radial-gradient(
+            circle,
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
+        ),
+        /* blocks the top and bottom segments */
+        conic-gradient(
+            transparent 0deg 45deg,
+            black 45deg 135deg,
+            transparent 135deg 225deg,
+            black 225deg 315deg,
+            transparent 315deg
+        );
+    -webkit-mask-composite: source-in;
+    /* width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    position: relative;
+    background: repeating-conic-gradient(
+        from 0deg,
+        var(--color-gray) 0 5deg,
+        var(--color-bg) 5deg calc(5deg + 4deg)
+    );
+    -webkit-mask: 
+        radial-gradient(
+            circle,
+            transparent calc(450px / 2 - 60px),
+            black calc(450px / 2 - 60px)
+        ),
+        conic-gradient(
+            transparent 0deg 45deg,
+            black 45deg 135deg,
+            transparent 135deg 225deg,
+            black 225deg 315deg,
+            transparent 315deg
+        );
+    -webkit-mask-composite: source-in; */
+}
+
+.burn-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    background: var(--color-green-highlight);
+    -webkit-mask: 
+        /* makes the donut hole */
+        radial-gradient(
+            circle,
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
+        ),
+        /* blocks the top and bottom segments */
+        conic-gradient(
+            transparent 0deg 45deg,
+            black 45deg 135deg,
+            transparent 135deg 225deg,
+            black 225deg 315deg,
+            transparent 315deg
+        );
+    -webkit-mask-composite: source-in;
+}
+
+.coast-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    background: var(--color-alert);
+    -webkit-mask: 
+        /* makes the donut hole */
+        radial-gradient(
+            circle,
+            transparent calc(450px / 2 - 30px),
+            black calc(450px / 2 - 30px)
+        ),
+        /* blocks the top and bottom segments */
+        conic-gradient(
+            transparent 0deg 45deg,
+            black 45deg 135deg,
+            transparent 135deg 225deg,
+            black 225deg 315deg,
+            transparent 315deg
+        );
+    -webkit-mask-composite: source-in;
+}
+
+.engine-on { 
+    color: var(--color-green-highlight);
+    font-size: 3.5em;
+    grid-area: 1 / 1;
+    text-align: center;
+    z-index: 2;
+}
+
+.engine-off {
+    color: var(--color-alert);
+    font-size: 3.5em;
+    grid-area: 1 / 1;
+    text-align: center;
+    z-index: 2;
+}
+
+.speed-center {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.speed-value {
+    color: var(--color-text);
+    font-size: 14em;
+    font-weight: 700;
+    line-height: 1;
+    grid-area: 1 / 1;
 }
 
 .widget {
@@ -44,6 +212,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: var(--color-text);
 }
 
 .gauge-title {
@@ -54,19 +223,19 @@ body {
 }
 
 .gauge-value {
-    font-size: 12em !important;
+    font-size: 10em !important;
     line-height: 0.9 !important;
     margin: 0;
     padding: 0;
-    display: block;
     color: var(--color-text-secondary);
 }
 
 .gauge-unit {
-    margin: 0;
     margin-top: -0.5em !important;
     font-size: 2em !important;
     text-align: center;
+    color: var(--color-text);
+    letter-spacing: 2px;
 }
 
 .header {
@@ -78,21 +247,64 @@ body {
 }
 
 #main-box {
-    display: flex;
+    display: grid;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
     height: 99vh;
-    /* Add dot grid background */
-    background-image: radial-gradient(circle, var(--color-faded-text) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: 0 0;
+    width: 99vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
-.stopwatch-button {
-    width: 150px;
-    height: 35px;
+.panel-section {
+    align-items: center;
+    background: var(--color-panel-background);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    border: 2px solid var(--color-border-gray);
+}
+
+.panel-label {
+    font-size: var(--wind-label-size);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.lap {
+    display: flex;
+    flex-direction: row;
+    height: 1em;
+    border-color: var(--color-faded-text);
+    background: var(--color-faded-text);
     margin: 1px;
-    border: none;
+    width: 25%;
+}
+
+.simulated-done {
+    background: var(--color-icon-green);
+}
+
+.simulated-burn {
+    background: var(--color-orange);
+}
+
+.actual-done {
+    background: var(--color-green-highlight);
+}
+
+.actual-burn {
+    background: var(--color-warning);
+}
+
+
+.stopwatch-button {
+    width: 100px;
+    height: 20px;
+    margin: 2px;
+    border-radius: 4px;
     color: var(--color-text);
     background-color: var(--color-faded-text);
 }
@@ -110,19 +322,21 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    padding: 4px 6px;
+    padding: 6px;
+    width: 90%;
 }
 
 .indicator-icon span {
     white-space: nowrap;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 .wind-speedometer-container {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-     --scale: 1.8;
+    --scale: 1.8;
 }
 
 .wind-speed {
@@ -133,8 +347,10 @@ body {
     padding: var(--wind-padding-vertical) var(--wind-padding-horizontal);
     border: 2px solid var(--color-border-gray);
     border-radius: 10px;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-panel-background);
     font-size: var(--wind-font-size);
+    font-weight: bold;
+    color: var(--color-text);
     box-sizing: border-box;
 }
 
@@ -143,16 +359,50 @@ body {
     background-color: transparent;
 }
 
-.wind-speed span {
+.wind-speedometer-container span {
     color: var(--color-text-secondary);
     font-size: var(--wind-label-size);
-    text-decoration: underline;
-    margin-left: 8
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+    /* margin-left: 8 */
 }
 
 .wind-mph {
     font-size: var(--wind-label-mph-size);
     margin-left: calc(0.2rem * var(--scale));
+    color: var(--color-text);
+}
+
+.accelerometer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 3px solid;
+    padding: 4px 6px;
+}
+
+.accelerometer span {
+    font-size: var(--accelerometer-size);
+}
+
+.accelerometer-bar {
+    display: flex;
+    /* background-color: var(--color-accel-good); */
+    background:
+        linear-gradient(to right,
+            var(--color-accel-bad) 0%,
+            var(--color-accel-bad) var(--accel-bar-end-width),
+            var(--color-accel-good) var(--accel-bar-end-width),
+            var(--color-accel-good) calc(100% - var(--accel-bar-end-width)),
+            var(--color-accel-bad) calc(100% - var(--accel-bar-end-width)),
+            var(--color-accel-bad) 100%);
+    border-radius: 5px;
+    align-items: center;
+    color: var(--color-bg);
+    width: 200px;
+    height: 36px;
+    box-sizing: border-box;
 }
 
 .accelerometer {

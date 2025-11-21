@@ -6,10 +6,11 @@
   /* Clarity is Key */
   --color-bg:  #000000;
   --color-bg-secondary:  #121212;
-  --color-border-gray: #555555;
+  --color-border-gray: rgba(255, 255, 255, 0.1);
   --color-text: #ffffff;
   --color-text-secondary: #61CBF4;
   --color-faded-text: #3a3a3a;
+  --color-panel-background: rgba(255, 255, 255, 0.08);
   --color-tech: #00A8FF;
   --color-tech-secondary: #007BFF;
   --color-green-highlight:  #00FF88;
