@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as CarIcon } from '../styles/icons/car-solid-full.svg';
 
-function renderCarIcon(angle = 45, size = 30) {
+function renderCarIcon(angle = 45, size = 60) { // --accelerometer-size rem to size ratio is 1.3:15 ; 6.5:75 also follows this ratio
   return <CarIcon width={size} height={size} fill="currentColor" style={{ transform: `rotate(${angle}deg)`, transformOrigin: 'center' }} />;
 }
 

@@ -200,7 +200,9 @@ export default class App extends Component<Record<string, string>, AppState> {
               />
             </div>
             <div className="panel-section">
-              <Accelerometer state={accelStateNow} display={'bar'} />
+              <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
+                <Accelerometer state={accelStateNow} display={'icon'} />
+              </Box>
             </div>
           </div>
           <div className="center-panel">

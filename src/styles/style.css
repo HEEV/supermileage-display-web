@@ -8,7 +8,7 @@
     --wind-padding-vertical: calc(0.25rem * var(--scale));
     --wind-padding-horizontal: calc(0.75rem * var(--scale));
 
-    --accelerometer-size: calc(2.6rem * var(--scale));
+    --accelerometer-size: calc(5.2rem * var(--scale)); /* was 2.6rem for nice small square icon */
     --accel-bar-end-width: 24%; 
 }
 
