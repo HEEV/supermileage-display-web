@@ -33,7 +33,7 @@ export default function Accelerometer(props: {
       <div
         className={'accelerometer-bar'}
       >
-        {renderCarIcon(0)}
+        {renderCarIcon(0, 40)}
       </div>
     )
   );
