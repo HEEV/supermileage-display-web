@@ -277,7 +277,7 @@ body {
     flex-direction: row;
     height: 2em;
     border-color: var(--color-faded-text);
-    background: var(--color-faded-text);
+    background: var(--color-bg-secondary);
     margin: 1px;
     width: 100%;
 }
@@ -287,7 +287,7 @@ body {
     flex-direction: row;
     height: 1em;
     border-color: var(--color-faded-text);
-    background: var(--color-faded-text);
+    background: var(--color-bg-secondary);
     margin: 1px;
     width: 25%;
 }

@@ -11,7 +11,7 @@ export default function BurnCoast(): JSX.Element {
             <div className="actual-burn" style={{width: '7%'}}></div>
             <div className="actual-done" style={{width: '24%'}}></div>
           </div>
-          <div></div>
+          <div style={{backgroundColor: 'white'}}></div>
         </div>
         <div style={{display: 'flex', flexDirection: 'row'}}> {/* second row */ }
           <div className="lap-single">
