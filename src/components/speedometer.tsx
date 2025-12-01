@@ -32,21 +32,21 @@ export default function Speedometer(props: {
     for (let i = 9; i >= 0; i--) {
       setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-green-highlight' }));
       setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-green-highlight' }));
-      await sleep(500);
+      await sleep(700);
     }
     //burn now
     setBurn(true);
-    await sleep(5000);
+    await sleep(8000);
     setBurn(undefined);
 
     //coast countdown
     for (let i = 0; i <= 9; i++) {
       setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-alert' }));
       setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-alert' }));
-      await sleep(500);
+      await sleep(700);
     }
     setBurn(false);
-    await sleep(5000);
+    await sleep(4000);
     setLSegments({
       l0: '--color-gray', l1: '--color-gray', l2: '--color-gray', l3: '--color-gray', l4: '--color-gray',
       l5: '--color-gray', l6: '--color-gray', l7: '--color-gray', l8: '--color-gray', l9: '--color-gray'
