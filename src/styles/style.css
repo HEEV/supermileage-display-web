@@ -94,7 +94,7 @@ body {
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
-    transform: translate(-35px);
+    transform: translateY(-120px);
 }
 
 .engine-off {
@@ -103,7 +103,7 @@ body {
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
-        transform: translate(-35px);
+    transform: translateY(-120px);
 }
 
 .speed-center {

@@ -63,8 +63,8 @@ export default function Speedometer(props: {
   };
 
   const ringStyle = {
-    width: '85%',
-    height: '85%',
+    width: '100%',
+    height: '100%',
     borderRadius: '50%',
     position: 'relative',
     background: `conic-gradient(
@@ -114,8 +114,8 @@ export default function Speedometer(props: {
     WebkitMaskImage: 
     `radial-gradient(
           circle,
-          transparent calc(450px / 2 - 60px),
-          black calc(450px / 2 - 60px)
+          transparent calc(450px / 2 - 30px),
+          black calc(450px / 2 - 30px)
       ),
       conic-gradient(
           transparent 0deg 45deg,
@@ -178,13 +178,11 @@ export default function Speedometer(props: {
       <div className="speed-center" onClick={animateSegments}>
         <div 
           className="speed-value" 
-          style={{ opacity: burn !== undefined ? 0.3 : 1 }}
         >
           {Math.round(props.value)}
         </div>
         <div 
           className="gauge-unit" 
-          style={{ opacity: burn !== undefined ? 0.3 : 1 }}
         >
           {props.unit}
         </div>
