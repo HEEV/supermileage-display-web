@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { JSX } from 'react';
 
 export default function Speedometer(props: {
