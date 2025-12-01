@@ -117,7 +117,7 @@ export default function TrackView(props: {
             <motion.path
               id="svg_3"
               d={tracks[props.trackName as keyof typeof tracks].shape}
-              fill="var(--color-faded-text)"
+              fill="var(--color-gray)"
               strokeWidth="12"
               stroke="var(--color-green-highlight)"
               strokeLinecap="round"

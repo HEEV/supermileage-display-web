@@ -10,7 +10,7 @@
   --color-text: #ffffff;
   --color-text-secondary: #61CBF4;
   --color-faded-text: #3a3a3a;
-  --color-panel-background: rgba(255, 255, 255, 0.08);
+  --color-panel-background: rgba(255, 255, 255, 0.3);
   --color-tech: #00A8FF;
   --color-tech-secondary: #007BFF;
   --color-green-highlight:  #00FF88;
@@ -18,7 +18,7 @@
   --color-alert: #FF0000;
   --color-warning:  #FFD500;
   --color-orange: #FF8C00;
-  --color-gray: #808080;
+  --color-gray: #B4B4B4;
   --color-icon-green: #00a338;
   --color-icon-red: #C00000;
   --color-icon-yellow: #FFC000;

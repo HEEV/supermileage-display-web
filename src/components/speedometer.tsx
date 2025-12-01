@@ -8,9 +8,6 @@ export default function Speedometer(props: {
   max: number;
   unit: string;
   animate?: boolean;
-//no burn value means no burn or coast indicator
-//burn true means burn indicator; burn false means coast indicator
-  // burn?: boolean; 
 }): JSX.Element {
   const [lSegments , setLSegments] = useState({
     l0: '--color-gray', l1: '--color-gray', l2: '--color-gray', l3: '--color-gray', l4: '--color-gray',
