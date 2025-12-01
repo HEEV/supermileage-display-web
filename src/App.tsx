@@ -17,8 +17,6 @@ export type HistoryData = DataEntry & { latency: number };
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
-  animate: boolean | undefined;
-  burnState: boolean | undefined;
 };
 
 import './styles/style.css';
@@ -67,8 +65,6 @@ export default class App extends Component<Record<string, string>, AppState> {
         },
       ],
       currentRaceName: '<no race>',
-      animate: undefined,
-      burnState: undefined,
     };
 
     this.newRace = this.newRace.bind(this);
@@ -120,21 +116,6 @@ export default class App extends Component<Record<string, string>, AppState> {
       // TODO: implement fetch from remote data server, requires separate api backend
       console.log('setting up setInterval for data fetch.');
     }
-
-    // toggle animate state
-    // const animateStates: (boolean)[] = [true, false];
-    // let index = 0;
-    // this._animateInterval = setInterval(() => {
-    //   this.setState({animate: animateStates[index]});
-    //   index = (index + 1) % animateStates.length;
-    // }, 10000);
-    // const burnStates: (boolean | undefined)[] = [true, false, undefined];
-    // let currentIndex = 0;
-    
-    // this._burnInterval = setInterval(() => {
-    //   this.setState({ burnState: burnStates[currentIndex] });
-    //   currentIndex = (currentIndex + 1) % burnStates.length;
-    // }, 5000);
   }
 
   // handle disconnection from local data server, when components are removed from DOM
@@ -208,7 +189,6 @@ export default class App extends Component<Record<string, string>, AppState> {
               min={0}
               max={80}
               unit="MPH"
-              animate={this.state.animate}
             />
           </div>
           <div className="right-panel">
