@@ -30,8 +30,8 @@ export default function Speedometer(props: {
     setIsAnimating(true);
     //burn countdown
     for (let i = 9; i >= 0; i--) {
-      setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-green-highlight' }));
-      setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-green-highlight' }));
+      setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-icon-green' }));
+      setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-icon-green' }));
       await sleep(700);
     }
     //burn now
