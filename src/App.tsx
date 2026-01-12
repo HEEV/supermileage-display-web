@@ -53,7 +53,7 @@ export default class App extends Component<Record<string, string>, AppState> {
         {
           velocity: 23,
           time: new Date(),
-          distanceTraveled: 15500,
+          distanceTraveled: 1500,
           batteryVoltage: 4,
           engineTemp: 0,
           radTemp: 0,
@@ -206,12 +206,11 @@ export default class App extends Component<Record<string, string>, AppState> {
               <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
                 <IndicatorIcon on={true} text={'Armed'} />
-                <IndicatorIcon on={false} text={'Engine On'} />
+                <IndicatorIcon on={false} text={'Running'} />
               </Box>
             </div>
           </div>
           <div className="bottom-panel">
-            <div className="panel-label">Simulation</div>
             <BurnCoast/>
           </div>
         </Box>
