@@ -31,14 +31,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
+    padding: 10px;
 }
 
 .bottom-panel {
     grid-column: 1 / 4;
     display: flex;
     flex-direction: column;
-    padding: 15px 25px;
+    padding: 15px;
     background: var(--color-panel-background);
     backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -164,24 +164,26 @@ body {
 
 .engine-on { 
     color: var(--color-green-highlight);
-    font-size: 3.5em;
+    font-size: 2.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
+    transform: translateY(-35px); /* Adjust this value */
 }
 
 .engine-off {
     color: var(--color-alert);
-    font-size: 3.5em;
+    font-size: 2.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
+    transform: translateY(-35px); /* Adjust this value */
 }
 
 .speed-center {
     position: absolute;
     display: grid;
-    place-items: center;
+    place-items: top;
     text-align: center;
 }
 
@@ -270,30 +272,40 @@ body {
     margin-bottom: 1em;
 }
 
-.lap {
+.lap-single {
+    display: flex;
+    flex-direction: row;
+    height: 2em;
+    border-color: var(--color-faded-text);
+    background: var(--color-bg-secondary);
+    margin: 1px;
+    width: 100%;
+}
+
+.lap-double {
     display: flex;
     flex-direction: row;
     height: 1em;
     border-color: var(--color-faded-text);
-    background: var(--color-faded-text);
+    background: var(--color-bg-secondary);
     margin: 1px;
     width: 25%;
 }
 
 .simulated-done {
-    background: var(--color-icon-green);
+    background: var(--color-position-sim);
 }
 
 .simulated-burn {
-    background: var(--color-orange);
+    background: var(--color-gas-sim);
 }
 
 .actual-done {
-    background: var(--color-green-highlight);
+    background: var(--color-position-real);
 }
 
 .actual-burn {
-    background: var(--color-warning);
+    background: var(--color-gas-real);
 }
 
 
