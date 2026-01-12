@@ -17,7 +17,6 @@ export type HistoryData = DataEntry & { latency: number };
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
-  burnState: boolean | undefined;
 };
 
 import './styles/style.css';
@@ -44,7 +43,7 @@ const menuActions = [
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
-  private _burnInterval?: NodeJS.Timeout;
+  private _animateInterval?: NodeJS.Timeout;
 
   constructor(props: Record<string, string>) {
     super(props);
@@ -66,7 +65,6 @@ export default class App extends Component<Record<string, string>, AppState> {
         },
       ],
       currentRaceName: '<no race>',
-      burnState: undefined,
     };
 
     this.newRace = this.newRace.bind(this);
@@ -118,22 +116,13 @@ export default class App extends Component<Record<string, string>, AppState> {
       // TODO: implement fetch from remote data server, requires separate api backend
       console.log('setting up setInterval for data fetch.');
     }
-
-    // simulate burn state changes
-    const burnStates: (boolean | undefined)[] = [true, false, undefined];
-    let currentIndex = 0;
-    
-    this._burnInterval = setInterval(() => {
-      this.setState({ burnState: burnStates[currentIndex] });
-      currentIndex = (currentIndex + 1) % burnStates.length;
-    }, 5000);
   }
 
   // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
-    if (this._burnInterval) {
-      clearInterval(this._burnInterval);
+    if (this._animateInterval) {
+      clearInterval(this._animateInterval);
     }
   }
 
@@ -200,7 +189,6 @@ export default class App extends Component<Record<string, string>, AppState> {
               min={0}
               max={80}
               unit="MPH"
-              burn={this.state.burnState}
             />
           </div>
           <div className="right-panel">

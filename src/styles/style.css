@@ -1,5 +1,5 @@
 :root {
-    --scale: 0.8; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
+  --scale: 0.8; /* change this to scale all wind sizes (e.g. 0.9, 1.25) */
 
   /* derived sizes for wind box */
   --wind-font-size: calc(5rem * var(--scale));       /* numeric value size */
@@ -7,6 +7,27 @@
   --wind-label-mph-size: calc(1.1rem * var(--scale)); /* "MPH" size */
   --wind-padding-vertical: calc(0.25rem * var(--scale));
   --wind-padding-horizontal: calc(0.75rem * var(--scale));
+
+  --color-r0: var(--color-gray);
+  --color-r1: var(--color-gray);
+  --color-r2: var(--color-gray);
+  --color-r3: var(--color-gray);
+  --color-r4: var(--color-gray);
+  --color-r5: var(--color-gray);
+  --color-r6: var(--color-gray);
+  --color-r7: var(--color-gray);
+  --color-r8: var(--color-gray);
+  --color-r9: var(--color-gray);
+  --color-l9: var(--color-gray);
+  --color-l8: var(--color-gray);
+  --color-l7: var(--color-gray);
+  --color-l6: var(--color-gray);
+  --color-l5: var(--color-gray);
+  --color-l4: var(--color-gray);
+  --color-l3: var(--color-gray);
+  --color-l2: var(--color-gray);
+  --color-l1: var(--color-gray);
+  --color-l0: var(--color-gray);
 }
 
 html {
@@ -67,108 +88,13 @@ body {
     place-items: center;
   }
 
-.ring {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    position: relative;
-    background: var(--color-tech);
-    -webkit-mask: 
-        /* makes the donut hole */
-        radial-gradient(
-            circle,
-            transparent calc(450px / 2 - 30px),
-            black calc(450px / 2 - 30px)
-        ),
-        /* blocks the top and bottom segments */
-        conic-gradient(
-            transparent 0deg 45deg,
-            black 45deg 135deg,
-            transparent 135deg 225deg,
-            black 225deg 315deg,
-            transparent 315deg
-        );
-    -webkit-mask-composite: source-in;
-    /* width: 85%;
-    height: 85%;
-    border-radius: 50%;
-    position: relative;
-    background: repeating-conic-gradient(
-        from 0deg,
-        var(--color-gray) 0 5deg,
-        var(--color-bg) 5deg calc(5deg + 4deg)
-    );
-    -webkit-mask: 
-        radial-gradient(
-            circle,
-            transparent calc(450px / 2 - 60px),
-            black calc(450px / 2 - 60px)
-        ),
-        conic-gradient(
-            transparent 0deg 45deg,
-            black 45deg 135deg,
-            transparent 135deg 225deg,
-            black 225deg 315deg,
-            transparent 315deg
-        );
-    -webkit-mask-composite: source-in; */
-}
-
-.burn-ring {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    position: relative;
-    background: var(--color-green-highlight);
-    -webkit-mask: 
-        /* makes the donut hole */
-        radial-gradient(
-            circle,
-            transparent calc(450px / 2 - 30px),
-            black calc(450px / 2 - 30px)
-        ),
-        /* blocks the top and bottom segments */
-        conic-gradient(
-            transparent 0deg 45deg,
-            black 45deg 135deg,
-            transparent 135deg 225deg,
-            black 225deg 315deg,
-            transparent 315deg
-        );
-    -webkit-mask-composite: source-in;
-}
-
-.coast-ring {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    position: relative;
-    background: var(--color-alert);
-    -webkit-mask: 
-        /* makes the donut hole */
-        radial-gradient(
-            circle,
-            transparent calc(450px / 2 - 30px),
-            black calc(450px / 2 - 30px)
-        ),
-        /* blocks the top and bottom segments */
-        conic-gradient(
-            transparent 0deg 45deg,
-            black 45deg 135deg,
-            transparent 135deg 225deg,
-            black 225deg 315deg,
-            transparent 315deg
-        );
-    -webkit-mask-composite: source-in;
-}
-
 .engine-on { 
     color: var(--color-green-highlight);
     font-size: 2.5em;
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
-    transform: translateY(-35px); /* Adjust this value */
+    transform: translateY(-120px);
 }
 
 .engine-off {
@@ -177,7 +103,7 @@ body {
     grid-area: 1 / 1;
     text-align: center;
     z-index: 2;
-    transform: translateY(-35px); /* Adjust this value */
+    transform: translateY(-120px);
 }
 
 .speed-center {
