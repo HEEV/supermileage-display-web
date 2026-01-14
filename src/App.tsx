@@ -54,7 +54,7 @@ export default class App extends Component<Record<string, string>, AppState> {
         {
           velocity: 23,
           time: new Date(),
-          distanceTraveled: 2400,
+          distanceTraveled: 12100,
           batteryVoltage: 4,
           engineTemp: 0,
           radTemp: 0,

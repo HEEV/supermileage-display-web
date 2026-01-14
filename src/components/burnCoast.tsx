@@ -32,7 +32,8 @@ export default function BurnCoast(props: {
   // State variables to keep track of the live race segments
   const [prevDist, setPrevDist] = useState<number>(0);
   const prevStatusRef = useRef<SegmentType>(currStatus);
-  const [liveProgress, setLiveProgress] = useState<Array<Segment>>([{progress_percent: 0, status: currStatus}]);
+  // Array of laps, each lap is an array of segments
+  const [liveProgress, setLiveProgress] = useState<Array<Array<Segment>>>([[{progress_percent: 0, status: currStatus}]]);
   const [currentSegment, setCurrentSegment] = useState<number>(0);
   // TODO: Set up lap counting to handle bottom bar
   const [currentLap, setCurrentLap] = useState<number>(1);
@@ -43,19 +44,31 @@ export default function BurnCoast(props: {
     const progressMade = (distDelta / TRACKS[CURRENT_TRACK].length) * 100; // in percent
     const segments = [...liveProgress];
 
+    const newLap = Math.trunc(Math.max(0, currDistance / TRACKS[CURRENT_TRACK].length)) + 1;
+
+    let segmentIndex = currentSegment;
+
+    // If we have moved into a new lap, create a new lap array
+    if (segments.length < newLap) {
+      segments.push([{progress_percent: 0, status: currStatus}]);
+      segmentIndex = 0;
+      setCurrentSegment(0);
+    }
+
     // If a new state occurred, create a new segment and point to it
     if (prevStatusRef.current !== currStatus) {
-      segments.push({progress_percent: 0, status: currStatus});
+      segments[newLap - 1].push({progress_percent: 0, status: currStatus});
       prevStatusRef.current = currStatus;
-      setCurrentSegment(currentSegment + 1);
+      segmentIndex = segmentIndex + 1;
     }
 
     // Modify the current segment with the new progress
-    segments[currentSegment].progress_percent += progressMade;
+    segments[newLap - 1][segmentIndex].progress_percent += progressMade;
 
     setLiveProgress(segments);
+    setCurrentSegment(segmentIndex);
     setPrevDist(currDistance);
-
+    setCurrentLap(newLap);
   }, [props.currentDistance, props.currentStatus]);
 
   return (
@@ -63,7 +76,7 @@ export default function BurnCoast(props: {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{display: 'flex', flexDirection: 'row'}}> {/* first row, current lap actual */ }
           <div className="lap-single">
-            {liveProgress.map((val, key) => {
+            {liveProgress[currentLap - 1]?.map((val, key) => {
               return (<div key={key} className={`${val.status === SegmentType.COAST ? 'actual-done' : 'actual-burn'}`} style={{width: `${val.progress_percent}%`}}></div>);
             })}
           </div>
@@ -77,21 +90,15 @@ export default function BurnCoast(props: {
           </div>
           <div></div>
         </div>
+        {}
         <div style={{display: 'flex', flexDirection: 'row', marginTop: '0.5em'}}> {/* third row, full race actual */ }
-          <div className="lap-double">
-            <div className="actual-done" style={{width: '90%'}}></div>
-            <div className="actual-burn" style={{width: '10%'}}></div>
-          </div>
-          <div className="lap-double">
-            <div className="actual-burn" style={{width: '7%'}}></div>
-            <div className="actual-done" style={{width: '93%'}}></div>
-          </div>
-          <div className="lap-double">
-            {liveProgress.map((val, key) => { // TODO: update this logic when lap counting is implemented
-              return (<div key={key} className={`${val.status === SegmentType.COAST ? 'actual-done' : 'actual-burn'}`} style={{width: `${val.progress_percent}%`}}></div>);
-            })}
-          </div>
-          <div className="lap-double"></div>
+          {Array.from({ length: TRACKS[CURRENT_TRACK].laps }, (_, lapIndex) => (
+            <div key={lapIndex} className="lap-double">
+              {liveProgress[lapIndex]?.map((val, key) => (
+                <div key={key} className={`${val.status === SegmentType.COAST ? 'actual-done' : 'actual-burn'}`} style={{width: `${val.progress_percent}%`}}></div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
       
