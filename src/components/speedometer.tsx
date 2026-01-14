@@ -177,14 +177,12 @@ export default function Speedometer(props: {
       < div style = {burn === undefined ? ringStyle : burn ? burnRingStyle : coastRingStyle}></div>
       <div className="speed-center" onClick={animateSegments}>
         <div 
-          className="speed-value" 
-          style={{ opacity: props.burn !== undefined ? 0.7 : 1 }}
+          className="speed-value"
         >
           {Math.round(props.value)}
         </div>
         <div 
           className="gauge-unit" 
-          style={{ opacity: props.burn !== undefined ? 0.7 : 1 }}
         >
           {props.unit}
         </div>

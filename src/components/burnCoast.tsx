@@ -1,19 +1,75 @@
 /* eslint-disable linebreak-style */
-import { JSX } from 'react';
+import { JSX, useEffect, useRef, useState } from 'react';
+import { CURRENT_TRACK, TRACKS } from '../constants';
 
-export default function BurnCoast(): JSX.Element {
+// Defined types to support simulation input
+export enum SegmentType {
+  BURN,
+  COAST
+}
+
+export type RaceStrategy = Array<{
+  timestamp: number;
+  distance: number;
+  segmentType: SegmentType;
+}>;
+
+type Segment = {
+  progress_percent: number;
+  status: SegmentType;
+}
+
+export default function BurnCoast(props: {
+  simulationOutput?: RaceStrategy;
+  currentDistance?: number;
+  currentStatus: SegmentType;
+}): JSX.Element {
+  const currDistance = props.currentDistance || 0;
+  const currStatus = props.currentStatus;
+  // TODO: integrate race strategy into the second bar
+  const raceStrat = props.simulationOutput;
+
+  // State variables to keep track of the live race segments
+  const [prevDist, setPrevDist] = useState<number>(0);
+  const prevStatusRef = useRef<SegmentType>(currStatus);
+  const [liveProgress, setLiveProgress] = useState<Array<Segment>>([{progress_percent: 0, status: currStatus}]);
+  const [currentSegment, setCurrentSegment] = useState<number>(0);
+  // TODO: Set up lap counting to handle bottom bar
+  const [currentLap, setCurrentLap] = useState<number>(1);
+
+  // When the current distance traveled changes, calculate the additional progress that was made.
+  useEffect(() => {
+    const distDelta = currDistance - prevDist;
+    const progressMade = (distDelta / TRACKS[CURRENT_TRACK].length) * 100; // in percent
+    const segments = [...liveProgress];
+
+    // If a new state occurred, create a new segment and point to it
+    if (prevStatusRef.current !== currStatus) {
+      segments.push({progress_percent: 0, status: currStatus});
+      prevStatusRef.current = currStatus;
+      setCurrentSegment(currentSegment + 1);
+    }
+
+    // Modify the current segment with the new progress
+    segments[currentSegment].progress_percent += progressMade;
+
+    setLiveProgress(segments);
+    setPrevDist(currDistance);
+
+  }, [props.currentDistance, props.currentStatus]);
+
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{display: 'flex', flexDirection: 'row'}}> {/* first row */ }
+        <div style={{display: 'flex', flexDirection: 'row'}}> {/* first row, current lap actual */ }
           <div className="lap-single">
-            <div className="actual-done" style={{width: '28%'}}></div>
-            <div className="actual-burn" style={{width: '7%'}}></div>
-            <div className="actual-done" style={{width: '24%'}}></div>
+            {liveProgress.map((val, key) => {
+              return (<div key={key} className={`${val.status === SegmentType.COAST ? 'actual-done' : 'actual-burn'}`} style={{width: `${val.progress_percent}%`}}></div>);
+            })}
           </div>
           <div style={{backgroundColor: 'white'}}></div>
         </div>
-        <div style={{display: 'flex', flexDirection: 'row'}}> {/* second row */ }
+        <div style={{display: 'flex', flexDirection: 'row'}}> {/* second row, current lap simulated */ }
           <div className="lap-single">
             <div className="simulated-done" style={{width: '30%'}}></div>
             <div className="simulated-burn" style={{width: '5%'}}></div>
@@ -31,9 +87,9 @@ export default function BurnCoast(): JSX.Element {
             <div className="actual-done" style={{width: '93%'}}></div>
           </div>
           <div className="lap-double">
-            <div className="actual-done" style={{width: '20%'}}></div>
-            <div className="actual-burn" style={{width: '10%'}}></div>
-            <div className="actual-done" style={{width: '40%'}}></div>
+            {liveProgress.map((val, key) => { // TODO: update this logic when lap counting is implemented
+              return (<div key={key} className={`${val.status === SegmentType.COAST ? 'actual-done' : 'actual-burn'}`} style={{width: `${val.progress_percent}%`}}></div>);
+            })}
           </div>
           <div className="lap-double"></div>
         </div>

@@ -17,6 +17,7 @@ export type HistoryData = DataEntry & { latency: number };
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
+  engineStatus: SegmentType;
 };
 
 import './styles/style.css';
@@ -27,7 +28,7 @@ import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
-import BurnCoast from './components/burnCoast';
+import BurnCoast, { SegmentType } from './components/burnCoast';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
@@ -53,7 +54,7 @@ export default class App extends Component<Record<string, string>, AppState> {
         {
           velocity: 23,
           time: new Date(),
-          distanceTraveled: 1500,
+          distanceTraveled: 2400,
           batteryVoltage: 4,
           engineTemp: 0,
           radTemp: 0,
@@ -65,9 +66,32 @@ export default class App extends Component<Record<string, string>, AppState> {
         },
       ],
       currentRaceName: '<no race>',
+      engineStatus: SegmentType.COAST,
     };
 
     this.newRace = this.newRace.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
+    this.addDistance = this.addDistance.bind(this);
+  }
+
+  toggleStatus(): void {
+    this.setState({
+      engineStatus:
+        this.state.engineStatus === SegmentType.BURN
+          ? SegmentType.COAST
+          : SegmentType.BURN,
+    });
+  }
+
+  addDistance(): void {
+    const updatedHistory = [...this.state.history];
+    updatedHistory[0] = {
+      ...updatedHistory[0],
+      distanceTraveled: updatedHistory[0].distanceTraveled + 100,
+    };
+    this.setState({
+      history: updatedHistory,
+    });
   }
 
   // request a new race on the db, may not be needed anymore
@@ -141,10 +165,10 @@ export default class App extends Component<Record<string, string>, AppState> {
           <div className="top-panel">
             <Box>
               <SpeedDial
-                ariaLabel='Settings'
-                sx={{ 
-                  position: 'absolute', 
-                  top: 6, 
+                ariaLabel="Settings"
+                sx={{
+                  position: 'absolute',
+                  top: 6,
                   right: 0,
                   '& .MuiFab-primary': {
                     backgroundColor: 'var(--color-tech)',
@@ -152,18 +176,18 @@ export default class App extends Component<Record<string, string>, AppState> {
                     height: 45,
                     '&:hover': {
                       backgroundColor: 'var(--color-tech-secondary)',
-                    }
-                  }
+                    },
+                  },
                 }}
                 icon={<Settings />}
-                direction='down'
+                direction="down"
               >
                 {menuActions.map((action) => (
                   <SpeedDialAction
                     sx={{
                       '& .MuiFab-primary': {
                         backgroundColor: 'var(--color-tech)',
-                      }
+                      },
                     }}
                     key={action.name}
                     icon={action.icon}
@@ -172,19 +196,19 @@ export default class App extends Component<Record<string, string>, AppState> {
                   />
                 ))}
               </SpeedDial>
-            </Box> 
+            </Box>
           </div>
           <div className="left-panel">
             <div className="panel-section">
               <TrackView
-                trackName='ShellTrackFixed'
+                trackName="ShellTrackFixed"
                 distanceTraveled={this.state.history[0].distanceTraveled}
                 scale={100}
               />
             </div>
           </div>
           <div className="center-panel">
-            <Speedometer 
+            <Speedometer
               value={this.state.history[0].velocity}
               min={0}
               max={80}
@@ -195,7 +219,9 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <WindSpeedometer
                 windSpeed={this.state.history[0].wind}
-                relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
+                relativeSpeed={
+                  this.state.history[0].velocity - this.state.history[0].wind
+                }
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -204,14 +230,28 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
             <div className="panel-section">
               <div className="panel-label">Engine Status</div>
-              <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={1}
+                flexWrap="nowrap"
+              >
                 <IndicatorIcon on={true} text={'Armed'} />
                 <IndicatorIcon on={false} text={'Running'} />
               </Box>
             </div>
           </div>
           <div className="bottom-panel">
-            <BurnCoast/>
+            <div style={{ display: 'flex', flexDirection: 'row'}}> {/* TODO: remove these buttons when burn-coast widget is finished */}
+              <button onClick={this.toggleStatus}>Toggle Status (Test)</button>
+              <button onClick={this.addDistance}>Add 100ft (Test)</button>
+            </div>
+            
+            <BurnCoast
+              currentDistance={this.state.history[0].distanceTraveled}
+              currentStatus={this.state.engineStatus}
+            />
           </div>
         </Box>
       </>
