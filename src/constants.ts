@@ -1,3 +1,5 @@
+import { RaceStrategy, SegmentType } from './types/simulationTypes';
+
 export const TRACKS = {
   ShellTrackFixed: {
     shape:
@@ -14,3 +16,18 @@ export const TRACKS = {
 };
 
 export const CURRENT_TRACK = 'ShellTrackFixed';
+
+// Sample simulation data for testing. Temporary until we have real data.
+// TODO: Remove once simulation is integrated into system.
+export const SAMPLE_SIMULATION: RaceStrategy = [
+  { timestamp: 0, distance: 0, segmentType: SegmentType.COAST },
+  { timestamp: 20, distance: 1500, segmentType: SegmentType.COAST },
+  { timestamp: 40, distance: 3000, segmentType: SegmentType.BURN },
+  { timestamp: 50, distance: 3800, segmentType: SegmentType.BURN },
+  { timestamp: 70, distance: 5500, segmentType: SegmentType.COAST },
+  { timestamp: 90, distance: 7200, segmentType: SegmentType.COAST },
+  { timestamp: 110, distance: 8500, segmentType: SegmentType.BURN },
+  { timestamp: 120, distance: 9300, segmentType: SegmentType.BURN },
+  { timestamp: 140, distance: 10800, segmentType: SegmentType.COAST },
+  { timestamp: 160, distance: 12621, segmentType: SegmentType.COAST },
+];

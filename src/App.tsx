@@ -28,7 +28,9 @@ import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
-import BurnCoast, { SegmentType } from './components/burnCoast';
+import BurnCoast from './components/burnCoast';
+import { SegmentType } from './types/simulationTypes';
+import { SAMPLE_SIMULATION } from './constants';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
@@ -251,6 +253,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <BurnCoast
               currentDistance={this.state.history[0].distanceTraveled}
               currentStatus={this.state.engineStatus}
+              simulationOutput={SAMPLE_SIMULATION}
             />
           </div>
         </Box>
