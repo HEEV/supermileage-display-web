@@ -1,18 +1,19 @@
 export type DataEntry = {
   time: Date;
-  velocity: number;
-  distanceTraveled: number;
-  batteryVoltage: number;
-  engineTemp: number;
-  radTemp: number;
-  timerResetButton: number;
-  toggleTimeButton: number;
-  wind: number;
-  tilt: number;
+  speed: number;
+  distance_traveled: number;
+  voltage: number;
+  engine_temp: number;
+  rad_temp: number;
+  timer_reset_button: number;
+  toggle_time_button: number;
+  airspeed: number;
+  engine_on: number;
+  engine_armed: number;
 };
 
 // latency is in ms
-export type HistoryData = DataEntry & { latency: number };
+export type HistoryData = DataEntry;
 
 export type AppState = {
   history: HistoryData[];
@@ -51,17 +52,17 @@ export default class App extends Component<Record<string, string>, AppState> {
     this.state = {
       history: [
         {
-          velocity: 23,
+          speed: 23,
+          airspeed: 4.1, //was just 4
+          engine_temp: 0,
+          rad_temp: 0,
+          voltage: 4,
+          timer_reset_button: 0,
+          toggle_time_button: 0,
+          engine_on: 1,
+          engine_armed: 0,
           time: new Date(),
-          distanceTraveled: 1500,
-          batteryVoltage: 4,
-          engineTemp: 0,
-          radTemp: 0,
-          timerResetButton: 0,
-          toggleTimeButton: 0,
-          wind: 4.1, //was just 4
-          tilt: 3,
-          latency: 0,
+          distance_traveled: 1500,
         },
       ],
       currentRaceName: '<no race>',
@@ -178,24 +179,27 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <TrackView
                 trackName='ShellTrackFixed'
-                distanceTraveled={this.state.history[0].distanceTraveled}
+                distanceTraveled={this.state.history[0].distance_traveled}
                 scale={100}
               />
             </div>
           </div>
           <div className="center-panel">
             <Speedometer 
-              value={this.state.history[0].velocity}
+              value={this.state.history[0].speed}
               min={0}
               max={80}
               unit="MPH"
+              burnCountdownTime={10000}
+              coastCountdownTime={5000}
+              animate={true}
             />
           </div>
           <div className="right-panel">
             <div className="panel-section">
               <WindSpeedometer
-                windSpeed={this.state.history[0].wind}
-                relativeSpeed={this.state.history[0].velocity - this.state.history[0].wind}
+                windSpeed={this.state.history[0].airspeed}
+                relativeSpeed={this.state.history[0].speed - this.state.history[0].airspeed}
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -205,8 +209,8 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
-                <IndicatorIcon on={true} text={'Armed'} />
-                <IndicatorIcon on={false} text={'Running'} />
+                <IndicatorIcon on={Boolean(this.state.history[0].engine_armed)} text={'Armed'} />
+                <IndicatorIcon on={Boolean(this.state.history[0].engine_on)} text={'Running'} />
               </Box>
             </div>
           </div>

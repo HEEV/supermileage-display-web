@@ -1,5 +1,5 @@
 
-import { JSX } from 'react';
+import { JSX, useEffect } from 'react';
 import { useState } from 'react';
 
 export default function Speedometer(props: {
@@ -8,18 +8,19 @@ export default function Speedometer(props: {
   max: number;
   unit: string;
   animate?: boolean;
-//no burn value means no burn or coast indicator
-//burn true means burn indicator; burn false means coast indicator
-  // burn?: boolean; 
+  coastCountdownTime?: number;
+  burnCountdownTime?: number;
 }): JSX.Element {
-  const [lSegments , setLSegments] = useState({
+  const defaultSegmentsL = {
     l0: '--color-gray', l1: '--color-gray', l2: '--color-gray', l3: '--color-gray', l4: '--color-gray',
     l5: '--color-gray', l6: '--color-gray', l7: '--color-gray', l8: '--color-gray', l9: '--color-gray',
-  });
-  const [rSegments , setRSegments] = useState({
+  };
+  const defaultSegmentsR = {
     r0: '--color-gray', r1: '--color-gray', r2: '--color-gray', r3: '--color-gray', r4: '--color-gray',
     r5: '--color-gray', r6: '--color-gray', r7: '--color-gray', r8: '--color-gray', r9: '--color-gray',
-  });
+  };
+  const [lSegments , setLSegments] = useState(defaultSegmentsL);
+  const [rSegments , setRSegments] = useState(defaultSegmentsR);
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [burn, setBurn] = useState<boolean | undefined>(undefined);
@@ -27,15 +28,24 @@ export default function Speedometer(props: {
 
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  //animation for demo purposes
+  // sets off the animation when the animate prop changes to true
+  useEffect(() => {
+    if (props.animate) {
+      animateSegments();
+    }
+  }, [props.animate]);
+
+  // Animation function for the countdown wings
   const animateSegments = async () => {
     if (isAnimating) return;
     setIsAnimating(true);
+    const burnSegmentTime = (props.burnCountdownTime || 4500) / 9;
+    const coastSegmentTime = (props.coastCountdownTime || 4500) / 9;
     //burn countdown
     for (let i = 9; i >= 0; i--) {
       setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-green-highlight' }));
       setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-green-highlight' }));
-      await sleep(500);
+      await sleep(burnSegmentTime);
     }
     //burn now
     setBurn(true);
@@ -46,22 +56,17 @@ export default function Speedometer(props: {
     for (let i = 0; i <= 9; i++) {
       setLSegments(prev => ({ ...prev, [`l${i}`]: '--color-alert' }));
       setRSegments(prev => ({ ...prev, [`r${i}`]: '--color-alert' }));
-      await sleep(500);
+      await sleep(coastSegmentTime);
     }
     setBurn(false);
     await sleep(5000);
-    setLSegments({
-      l0: '--color-gray', l1: '--color-gray', l2: '--color-gray', l3: '--color-gray', l4: '--color-gray',
-      l5: '--color-gray', l6: '--color-gray', l7: '--color-gray', l8: '--color-gray', l9: '--color-gray'
-    });
-    setRSegments({
-      r0: '--color-gray', r1: '--color-gray', r2: '--color-gray', r3: '--color-gray', r4: '--color-gray',
-      r5: '--color-gray', r6: '--color-gray', r7: '--color-gray', r8: '--color-gray', r9: '--color-gray'
-    });
+    setLSegments(defaultSegmentsL);
+    setRSegments(defaultSegmentsR);
     setBurn(undefined);
     setIsAnimating(false);
   };
 
+  // gradient styling to create the segmented wings around the speedometer
   const ringStyle = {
     width: '100%',
     height: '100%',
@@ -128,6 +133,7 @@ export default function Speedometer(props: {
     maskComposite: 'intersect',
   } as React.CSSProperties;
 
+  // Gradient stylings to create the filled wings for engine on and off indicators
   const burnRingStyle = {
     width: '100%',
     height: '100%',
@@ -175,16 +181,14 @@ export default function Speedometer(props: {
   return (
     <div className="wrap">
       < div style = {burn === undefined ? ringStyle : burn ? burnRingStyle : coastRingStyle}></div>
-      <div className="speed-center" onClick={animateSegments}>
+      <div className="speed-center">
         <div 
-          className="speed-value" 
-          style={{ opacity: props.burn !== undefined ? 0.7 : 1 }}
+          className="speed-value"
         >
           {Math.round(props.value)}
         </div>
         <div 
-          className="gauge-unit" 
-          style={{ opacity: props.burn !== undefined ? 0.7 : 1 }}
+          className="gauge-unit"
         >
           {props.unit}
         </div>
