@@ -36,66 +36,79 @@ export default function BurnCoast(props: {
   simulationOutput?: RaceStrategy;
   currentDistance: number;
   currentStatus: SegmentType;
-  startNewRace?: boolean;
+  resetTriggered?: boolean;
 }): JSX.Element {
-  const currDistance = props.currentDistance || 0;
-  const currStatus = props.currentStatus;
-  // TODO: integrate race strategy into the second bar
-  const raceStrat = props.simulationOutput;
+  const { simulationOutput, currentDistance, currentStatus, resetTriggered } = props;
 
   // State variables to keep track of the live race segments
   const [prevDist, setPrevDist] = useState<number>(0);
-  const prevStatusRef = useRef<SegmentType>(currStatus);
-  const [liveProgress, setLiveProgress] = useState<Array<Array<Segment>>>([[{progress_percent: 0, status: currStatus}]]);
+  const [newRaceOffset, setNewRaceOffset] = useState<number>(0);
+  const prevStatusRef = useRef<SegmentType>(currentStatus);
+  const [liveProgress, setLiveProgress] = useState<Array<Array<Segment>>>([[{progress_percent: 0, status: currentStatus}]]);
   const [simulatedProgress, setSimulatedProgress] = useState<Array<Segment>>([]);
   const [currentSegment, setCurrentSegment] = useState<number>(0);
   const [currentLap, setCurrentLap] = useState<number>(1);
 
   // Convert simulation output when it changes
   useEffect(() => {
-    if (raceStrat && raceStrat.length > 0) {
-      const simProgress = convertSimulationToProgress(raceStrat, TRACKS[CURRENT_TRACK].length);
+    if (simulationOutput && simulationOutput.length > 0) {
+      const simProgress = convertSimulationToProgress(simulationOutput, TRACKS[CURRENT_TRACK].length);
       setSimulatedProgress(simProgress);
     }
-  }, [raceStrat]);
+  }, [simulationOutput]);
 
+  // Reset key state values when a new race is started
   useEffect(() => {
-    if (props.startNewRace) {
+    if (resetTriggered) {
       console.log('New race started');
+      setNewRaceOffset(currentDistance);
+      setPrevDist(currentDistance); // Set to current distance, not 0
+      setLiveProgress([[{progress_percent: 0, status: currentStatus}]]);
+      setCurrentSegment(0);
+      setCurrentLap(1);
+      prevStatusRef.current = currentStatus;
     }
-  }, [props.startNewRace]);
+  }, [resetTriggered, currentDistance, currentStatus]);
 
   // When the current distance traveled changes, calculate the additional progress that was made.
+  // Do not update any longer once a race has been complete.
   useEffect(() => {
-    const distDelta = currDistance - prevDist;
-    const progressMade = (distDelta / TRACKS[CURRENT_TRACK].length) * 100; // in percent
-    const segments = [...liveProgress];
+    if (currentLap < TRACKS[CURRENT_TRACK].laps + 1) {
+      const adjustedCurrentDist = currentDistance - newRaceOffset;
+      const adjustedPrevDist = prevDist - newRaceOffset;
+      const distDelta = adjustedCurrentDist - adjustedPrevDist;
+      const progressMade = (distDelta / TRACKS[CURRENT_TRACK].length) * 100; // in percent
+      const segments = [...liveProgress];
 
-    const newLap = Math.trunc(Math.max(0, currDistance / TRACKS[CURRENT_TRACK].length)) + 1;
+      const newLap = Math.trunc(Math.max(0, adjustedCurrentDist / TRACKS[CURRENT_TRACK].length)) + 1;
 
-    let segmentIndex = currentSegment;
+      let segmentIndex = currentSegment;
 
-    // If we have moved into a new lap, create a new lap array
-    if (segments.length < newLap) {
-      segments.push([{progress_percent: 0, status: currStatus}]);
-      segmentIndex = 0;
-      setCurrentSegment(0);
+      // If we have moved into a new lap, create a new lap array
+      if (segments.length < newLap) {
+        segments.push([{progress_percent: 0, status: currentStatus}]);
+        segmentIndex = 0;
+        setCurrentSegment(0);
+      }
+
+      // If a new state occurred, create a new segment and point to it
+      if (prevStatusRef.current !== currentStatus) {
+        segments[newLap - 1].push({progress_percent: 0, status: currentStatus});
+        prevStatusRef.current = currentStatus;
+        segmentIndex = segmentIndex + 1;
+      }
+
+      // Safety check: ensure the lap and segment exist
+      if (segments[newLap - 1] && segments[newLap - 1][segmentIndex]) {
+        // Modify the current segment with the new progress
+        segments[newLap - 1][segmentIndex].progress_percent += progressMade;
+      }
+
+      setLiveProgress(segments);
+      setCurrentSegment(segmentIndex);
+      setPrevDist(currentDistance); // Store actual distance, not adjusted
+      setCurrentLap(newLap);
     }
-
-    // If a new state occurred, create a new segment and point to it
-    if (prevStatusRef.current !== currStatus) {
-      segments[newLap - 1].push({progress_percent: 0, status: currStatus});
-      prevStatusRef.current = currStatus;
-      segmentIndex = segmentIndex + 1;
-    }
-
-    // Modify the current segment with the new progress
-    segments[newLap - 1][segmentIndex].progress_percent += progressMade;
-
-    setLiveProgress(segments);
-    setCurrentSegment(segmentIndex);
-    setPrevDist(currDistance);
-    setCurrentLap(newLap);
   }, [props.currentDistance, props.currentStatus]);
 
   return (

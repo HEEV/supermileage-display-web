@@ -19,6 +19,7 @@ export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
   engineStatus: SegmentType;
+  startNewRace: boolean;
 };
 
 import './styles/style.css';
@@ -62,19 +63,21 @@ export default class App extends Component<Record<string, string>, AppState> {
           voltage: 4,
           timer_reset_button: 0,
           toggle_time_button: 0,
-          engine_on: 1,
-          engine_armed: 0,
+          engine_on: 0,
+          engine_armed: 1,
           time: new Date(),
           distance_traveled: 12100,
         },
       ],
       currentRaceName: '<no race>',
       engineStatus: SegmentType.COAST,
+      startNewRace: false,
     };
 
     this.newRace = this.newRace.bind(this);
     this.toggleStatus = this.toggleStatus.bind(this);
     this.addDistance = this.addDistance.bind(this);
+    this.toggleNewRace = this.toggleNewRace.bind(this);
   }
 
   toggleStatus(): void {
@@ -94,6 +97,12 @@ export default class App extends Component<Record<string, string>, AppState> {
     };
     this.setState({
       history: updatedHistory,
+    });
+  }
+
+  toggleNewRace(): void {
+    this.setState({
+      startNewRace: !this.state.startNewRace,
     });
   }
 
@@ -207,6 +216,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 trackName='ShellTrackFixed'
                 distanceTraveled={this.state.history[0].distance_traveled}
                 scale={100}
+                resetTriggered={this.state.startNewRace}
               />
             </div>
           </div>
@@ -224,8 +234,8 @@ export default class App extends Component<Record<string, string>, AppState> {
           <div className="right-panel">
             <div className="panel-section">
               <WindSpeedometer
-                windSpeed={this.state.history[0].airspeed}
-                relativeSpeed={this.state.history[0].speed - this.state.history[0].airspeed}
+                windSpeed={Math.trunc(this.state.history[0].airspeed * (10**1)) / (10**1)}
+                relativeSpeed={Math.trunc(this.state.history[0].speed - this.state.history[0].airspeed * (10**1)) / (10**1)}
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -244,12 +254,14 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div style={{ display: 'flex', flexDirection: 'row'}}> {/* TODO: remove these buttons when burn-coast widget is finished */}
               <button onClick={this.toggleStatus}>Toggle Status (Test)</button>
               <button onClick={this.addDistance}>Add 100ft (Test)</button>
+              <button onClick={this.toggleNewRace}>Toggle New Race (Test)</button>
             </div>
             
             <BurnCoast
               currentDistance={this.state.history[0].distance_traveled}
               currentStatus={this.state.engineStatus}
               simulationOutput={SAMPLE_SIMULATION}
+              resetTriggered={this.state.startNewRace}
             />
           </div>
         </Box>
