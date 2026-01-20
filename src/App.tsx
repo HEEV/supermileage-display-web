@@ -18,7 +18,6 @@ export type HistoryData = DataEntry;
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
-  engineStatus: SegmentType;
   startNewRace: boolean;
 };
 
@@ -54,56 +53,12 @@ export default class App extends Component<Record<string, string>, AppState> {
     super(props);
 
     this.state = {
-      history: [
-        {
-          speed: 23,
-          airspeed: 4.1, //was just 4
-          engine_temp: 0,
-          rad_temp: 0,
-          voltage: 4,
-          timer_reset_button: 0,
-          toggle_time_button: 0,
-          engine_on: 0,
-          engine_armed: 1,
-          time: new Date(),
-          distance_traveled: 12100,
-        },
-      ],
+      history: [],
       currentRaceName: '<no race>',
-      engineStatus: SegmentType.COAST,
       startNewRace: false,
     };
 
     this.newRace = this.newRace.bind(this);
-    this.toggleStatus = this.toggleStatus.bind(this);
-    this.addDistance = this.addDistance.bind(this);
-    this.toggleNewRace = this.toggleNewRace.bind(this);
-  }
-
-  toggleStatus(): void {
-    this.setState({
-      engineStatus:
-        this.state.engineStatus === SegmentType.BURN
-          ? SegmentType.COAST
-          : SegmentType.BURN,
-    });
-  }
-
-  addDistance(): void {
-    const updatedHistory = [...this.state.history];
-    updatedHistory[0] = {
-      ...updatedHistory[0],
-      distance_traveled: updatedHistory[0].distance_traveled + 100,
-    };
-    this.setState({
-      history: updatedHistory,
-    });
-  }
-
-  toggleNewRace(): void {
-    this.setState({
-      startNewRace: !this.state.startNewRace,
-    });
   }
 
   // request a new race on the db, may not be needed anymore
@@ -251,17 +206,11 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
           </div>
           <div className="bottom-panel">
-            <div style={{ display: 'flex', flexDirection: 'row'}}> {/* TODO: remove these buttons when burn-coast widget is finished */}
-              <button onClick={this.toggleStatus}>Toggle Status (Test)</button>
-              <button onClick={this.addDistance}>Add 100ft (Test)</button>
-              <button onClick={this.toggleNewRace}>Toggle New Race (Test)</button>
-            </div>
-            
             <BurnCoast
               currentDistance={this.state.history[0].distance_traveled}
-              currentStatus={this.state.engineStatus}
+              currentStatus={this.state.history[0].engine_on ? SegmentType.BURN : SegmentType.COAST}
               simulationOutput={SAMPLE_SIMULATION}
-              resetTriggered={this.state.startNewRace}
+              resetTriggered={this.state.history[0].timer_reset_button === 1}
             />
           </div>
         </Box>
