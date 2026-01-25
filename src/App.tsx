@@ -18,6 +18,7 @@ export type HistoryData = DataEntry;
 export type AppState = {
   history: HistoryData[];
   currentRaceName: string;
+  startNewRace: boolean;
 };
 
 import './styles/style.css';
@@ -29,6 +30,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
 import BurnCoast from './components/burnCoast';
+import { SegmentType } from './types/simulationTypes';
+import { SAMPLE_SIMULATION } from './constants';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
@@ -50,22 +53,9 @@ export default class App extends Component<Record<string, string>, AppState> {
     super(props);
 
     this.state = {
-      history: [
-        {
-          speed: 23,
-          airspeed: 4.1, //was just 4
-          engine_temp: 0,
-          rad_temp: 0,
-          voltage: 4,
-          timer_reset_button: 0,
-          toggle_time_button: 0,
-          engine_on: 1,
-          engine_armed: 0,
-          time: new Date(),
-          distance_traveled: 1500,
-        },
-      ],
+      history: [],
       currentRaceName: '<no race>',
+      startNewRace: false,
     };
 
     this.newRace = this.newRace.bind(this);
@@ -142,10 +132,10 @@ export default class App extends Component<Record<string, string>, AppState> {
           <div className="top-panel">
             <Box>
               <SpeedDial
-                ariaLabel='Settings'
-                sx={{ 
-                  position: 'absolute', 
-                  top: 6, 
+                ariaLabel="Settings"
+                sx={{
+                  position: 'absolute',
+                  top: 6,
                   right: 0,
                   '& .MuiFab-primary': {
                     backgroundColor: 'var(--color-tech)',
@@ -153,18 +143,18 @@ export default class App extends Component<Record<string, string>, AppState> {
                     height: 45,
                     '&:hover': {
                       backgroundColor: 'var(--color-tech-secondary)',
-                    }
-                  }
+                    },
+                  },
                 }}
                 icon={<Settings />}
-                direction='down'
+                direction="down"
               >
                 {menuActions.map((action) => (
                   <SpeedDialAction
                     sx={{
                       '& .MuiFab-primary': {
                         backgroundColor: 'var(--color-tech)',
-                      }
+                      },
                     }}
                     key={action.name}
                     icon={action.icon}
@@ -173,7 +163,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                   />
                 ))}
               </SpeedDial>
-            </Box> 
+            </Box>
           </div>
           <div className="left-panel">
             <div className="panel-section">
@@ -181,6 +171,7 @@ export default class App extends Component<Record<string, string>, AppState> {
                 trackName='ShellTrackFixed'
                 distanceTraveled={this.state.history[0].distance_traveled}
                 scale={100}
+                resetTriggered={this.state.startNewRace}
               />
             </div>
           </div>
@@ -198,8 +189,8 @@ export default class App extends Component<Record<string, string>, AppState> {
           <div className="right-panel">
             <div className="panel-section">
               <WindSpeedometer
-                windSpeed={this.state.history[0].airspeed}
-                relativeSpeed={this.state.history[0].speed - this.state.history[0].airspeed}
+                windSpeed={Math.trunc(this.state.history[0].airspeed * (10**1)) / (10**1)}
+                relativeSpeed={Math.trunc(this.state.history[0].speed - this.state.history[0].airspeed * (10**1)) / (10**1)}
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -215,7 +206,12 @@ export default class App extends Component<Record<string, string>, AppState> {
             </div>
           </div>
           <div className="bottom-panel">
-            <BurnCoast/>
+            <BurnCoast
+              currentDistance={this.state.history[0].distance_traveled}
+              currentStatus={this.state.history[0].engine_on ? SegmentType.BURN : SegmentType.COAST}
+              simulationOutput={SAMPLE_SIMULATION}
+              resetTriggered={this.state.history[0].timer_reset_button === 1}
+            />
           </div>
         </Box>
       </>

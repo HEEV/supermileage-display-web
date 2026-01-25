@@ -188,7 +188,7 @@ export default function Speedometer(props: {
           {Math.round(props.value)}
         </div>
         <div 
-          className="gauge-unit"
+          className="gauge-unit" 
         >
           {props.unit}
         </div>
