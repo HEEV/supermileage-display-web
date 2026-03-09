@@ -53,7 +53,19 @@ export default class App extends Component<Record<string, string>, AppState> {
     super(props);
 
     this.state = {
-      history: [],
+      history: [{
+        speed: 23,
+        time: new Date(),
+        distance_traveled: 15500,
+        voltage: 4,
+        engine_temp: 0,
+        rad_temp: 0,
+        timer_reset_button: 0,
+        toggle_time_button: 0,
+        airspeed: 4.1,
+        engine_on: 0,
+        engine_armed: 0
+      },],
       currentRaceName: '<no race>',
       startNewRace: false,
     };
