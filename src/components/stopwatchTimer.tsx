@@ -55,8 +55,8 @@ export default function StopwatchTimer(props: {resetTime?: boolean, toggleRun?: 
       </div>
       {props.withButtons ? 
         <>
-          <button className='stopwatch-button' onClick={() => { !isRunning ? start() : pause(); }}>{isRunning ? 'Stop' : 'Start'}</button>
-          <button className='stopwatch-button' onClick={() => { reset(undefined, false); }}>Reset</button>
+          <button className='stopwatch-button' onClick={() => isRunning ? pause() : start()}>{isRunning ? 'Stop' : 'Start'}</button>
+          <button className='stopwatch-button' onClick={() => reset(undefined, false)}>Reset</button>
         </>
         : null}
     </div>

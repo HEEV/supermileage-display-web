@@ -1,4 +1,4 @@
-/* eslint-disable linebreak-style */
+ 
 import { Typography } from '@mui/material';
 import { JSX } from 'react';
 
