@@ -1,26 +1,3 @@
-export type DataEntry = {
-  time: Date;
-  speed: number;
-  distance_traveled: number;
-  voltage: number;
-  engine_temp: number;
-  rad_temp: number;
-  timer_reset_button: number;
-  toggle_time_button: number;
-  airspeed: number;
-  engine_on: number;
-  engine_armed: number;
-};
-
-// latency is in ms
-export type HistoryData = DataEntry;
-
-export type AppState = {
-  history: HistoryData[];
-  currentRaceName: string;
-  startNewRace: boolean;
-};
-
 import './styles/style.css';
 import './styles/colors.css'; // unused import right now
 import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
@@ -35,6 +12,20 @@ import { SAMPLE_SIMULATION } from './constants';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
+import {
+  buildHistoryPacket,
+  getNumberValue,
+  initializePacketFields,
+  isTruthyStatus,
+  type HistoryPacket,
+  type IncomingPacket,
+} from './services/dynamicTelemetry';
+
+export type AppState = {
+  history: HistoryPacket[];
+  currentRaceName: string;
+  startNewRace: boolean;
+};
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
@@ -57,56 +48,31 @@ export default class App extends Component<Record<string, string>, AppState> {
       currentRaceName: '<no race>',
       startNewRace: false,
     };
-
-    this.newRace = this.newRace.bind(this);
-  }
-
-  // request a new race on the db, may not be needed anymore
-  newRace(): void {
-    this._socket?.emit('request_new_race');
   }
 
   // handle connection to local data server, when components initially mount to DOM
   componentDidMount(): void {
-    // If we are running on the car, we don't need remote data server connection
-    if (DATA_SOURCE === 'http://localhost:8080') {
-      this._socket = io(DATA_SOURCE, {
-        autoConnect: false,
-      });
-
-      // data receipt event handler
-      this._socket.on(
-        'new_data',
-        (data: (DataEntry | { time: string }) | HistoryData) => {
-          data.time = new Date(data.time);
-          (data as HistoryData & { latency?: number }).latency =
-            Date.now() - data.time.valueOf();
-          this.setState({
-            history: [data as HistoryData, ...this.state.history],
-          });
-        }
-      );
-
-      // race creation event handler, may not be needed
-      this._socket.on('new_race_created', (name: string) => {
-        this.setState({
-          history: [],
-          currentRaceName: name,
+    // Load config first, then connect socket
+    initializePacketFields().then(() => {
+      if (DATA_SOURCE === 'http://localhost:8080') {
+        this._socket = io(DATA_SOURCE, {
+          autoConnect: false,
         });
-      });
 
-      // current race event handler, not sure what this does
-      this._socket.on('current_race', (name: string) => {
-        this.setState({
-          currentRaceName: name,
-        });
-      });
-      this._socket.connect();
-    } else {
-      // fetch data from postgres db
-      // TODO: implement fetch from remote data server, requires separate api backend
-      console.log('setting up setInterval for data fetch.');
-    }
+        // data receipt event handler
+        this._socket.on(
+          'new_data',
+          (data: IncomingPacket) => {
+            const packet = buildHistoryPacket(data);
+            this.setState((prevState) => ({
+              history: [packet, ...prevState.history],
+            }));
+            console.log(data);
+          }
+        );
+        this._socket.connect();
+      }
+    });
   }
 
   // handle disconnection from local data server, when components are removed from DOM
@@ -118,7 +84,9 @@ export default class App extends Component<Record<string, string>, AppState> {
   }
 
   render() {
-    if (this.state.history.length === 0) {
+    const latest = this.state.history[0];
+
+    if (!latest) {
       return (
         <Box className="wait-screen">
           <h1>Waiting for data...</h1>
@@ -169,7 +137,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <TrackView
                 trackName='ShellTrackFixed'
-                distanceTraveled={this.state.history[0].distance_traveled}
+                distanceTraveled={getNumberValue(latest.distance_traveled)}
                 scale={100}
                 resetTriggered={this.state.startNewRace}
               />
@@ -177,7 +145,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           </div>
           <div className="center-panel">
             <Speedometer 
-              value={this.state.history[0].speed}
+              value={getNumberValue(latest.speed)}
               min={0}
               max={80}
               unit="MPH"
@@ -189,8 +157,8 @@ export default class App extends Component<Record<string, string>, AppState> {
           <div className="right-panel">
             <div className="panel-section">
               <WindSpeedometer
-                windSpeed={Math.trunc(this.state.history[0].airspeed * (10**1)) / (10**1)}
-                relativeSpeed={Math.trunc(this.state.history[0].speed - this.state.history[0].airspeed * (10**1)) / (10**1)}
+                windSpeed={Math.trunc(getNumberValue(latest.airspeed) * 10) / 10}
+                relativeSpeed={Math.trunc((getNumberValue(latest.speed) - getNumberValue(latest.airspeed)) * 10) / 10}
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -200,17 +168,17 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <div className="panel-label">Engine Status</div>
               <Box display="flex" flexDirection="column" alignItems="center" gap={1} flexWrap="nowrap">
-                <IndicatorIcon on={Boolean(this.state.history[0].engine_armed)} text={'Armed'} />
-                <IndicatorIcon on={Boolean(this.state.history[0].engine_on)} text={'Running'} />
+                <IndicatorIcon on={isTruthyStatus(latest.engine_armed)} text={'Armed'} />
+                <IndicatorIcon on={isTruthyStatus(latest.engine_on)} text={'Running'} />
               </Box>
             </div>
           </div>
           <div className="bottom-panel">
             <BurnCoast
-              currentDistance={this.state.history[0].distance_traveled}
-              currentStatus={this.state.history[0].engine_on ? SegmentType.BURN : SegmentType.COAST}
+              currentDistance={getNumberValue(latest.distance_traveled)}
+              currentStatus={isTruthyStatus(latest.engine_on) ? SegmentType.BURN : SegmentType.COAST}
               simulationOutput={SAMPLE_SIMULATION}
-              resetTriggered={this.state.history[0].timer_reset_button === 1}
+              resetTriggered={isTruthyStatus(latest.timer_reset_button)}
             />
           </div>
         </Box>
