@@ -20,6 +20,7 @@ import {
   type HistoryPacket,
   type IncomingPacket,
 } from './services/dynamicTelemetry';
+import BasicGauge from './components/basicGauge';
 
 export type AppState = {
   history: HistoryPacket[];
@@ -141,6 +142,9 @@ export default class App extends Component<Record<string, string>, AppState> {
                 scale={100}
                 resetTriggered={this.state.startNewRace}
               />
+            </div>
+            <div className="panel-section">
+              <BasicGauge title="voltage" value={getNumberValue(latest.voltage)} min={0} max={36} unit="V" />
             </div>
           </div>
           <div className="center-panel">

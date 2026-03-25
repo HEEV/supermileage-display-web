@@ -40,7 +40,6 @@ export const STATIC_HISTORY_FIELDS = new Set<string>([
 ]);
 
 let allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-let hasConfigDynamicFields = false;
 
 /**
  * Returns a finite numeric value, or a fallback when the input is not a valid number.
@@ -67,7 +66,6 @@ export async function initializePacketFields(): Promise<void> {
 
     if (!response.ok) {
       allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-      hasConfigDynamicFields = false;
       return;
     }
 
@@ -85,7 +83,6 @@ export async function initializePacketFields(): Promise<void> {
         }
       });
     });
-    hasConfigDynamicFields = dynamicFields.size > 0;
 
     allowedPacketFields = new Set<string>([
       ...Array.from(STATIC_HISTORY_FIELDS),
@@ -93,9 +90,8 @@ export async function initializePacketFields(): Promise<void> {
     ]);
   } catch (error) {
     // Keep static fields only if config is unavailable.
-    console.warn('Config load failed; dynamic fields will be discovered from incoming packets.', error);
+    console.warn('Config load failed; using static telemetry fields only.', error);
     allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-    hasConfigDynamicFields = false;
   }
 }
 
@@ -112,13 +108,6 @@ export function buildHistoryPacket(data: IncomingPacket): HistoryPacket {
     }
 
     if (allowedPacketFields.has(key)) {
-      packet[key] = value;
-      return;
-    }
-
-    // If config did not provide dynamic fields, treat incoming keys as valid telemetry.
-    if (!hasConfigDynamicFields) {
-      allowedPacketFields.add(key);
       packet[key] = value;
     }
   });
