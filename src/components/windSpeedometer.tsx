@@ -37,7 +37,7 @@ export default function WindSpeedometer(props: {
             />
           : null}
       </div>
-      {displayUnits ? <span className={'wind-mph'}>MPH</span> : null}
+      {displayUnits ? <span className={'gauge-unit'}>MPH</span> : null}
     </div>
   );
 }

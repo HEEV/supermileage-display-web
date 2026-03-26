@@ -14,8 +14,7 @@ import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
 import {
   buildHistoryPacket,
-  getNumberValue,
-  initializePacketFields,
+  getOptionalNumberValue,
   isTruthyStatus,
   type HistoryPacket,
   type IncomingPacket,
@@ -53,27 +52,23 @@ export default class App extends Component<Record<string, string>, AppState> {
 
   // handle connection to local data server, when components initially mount to DOM
   componentDidMount(): void {
-    // Load config first, then connect socket
-    initializePacketFields().then(() => {
-      if (DATA_SOURCE === 'http://localhost:8080') {
-        this._socket = io(DATA_SOURCE, {
-          autoConnect: false,
-        });
+    if (DATA_SOURCE === 'http://localhost:8080') {
+      this._socket = io(DATA_SOURCE, {
+        autoConnect: false,
+      });
 
-        // data receipt event handler
-        this._socket.on(
-          'new_data',
-          (data: IncomingPacket) => {
-            const packet = buildHistoryPacket(data);
-            this.setState((prevState) => ({
-              history: [packet, ...prevState.history],
-            }));
-            console.log(data);
-          }
-        );
-        this._socket.connect();
-      }
-    });
+      // data receipt event handler
+      this._socket.on(
+        'new_data',
+        (data: IncomingPacket) => {
+          const packet = buildHistoryPacket(data);
+          this.setState((prevState) => ({
+            history: [packet, ...prevState.history],
+          }));
+        }
+      );
+      this._socket.connect();
+    }
   }
 
   // handle disconnection from local data server, when components are removed from DOM
@@ -138,31 +133,31 @@ export default class App extends Component<Record<string, string>, AppState> {
             <div className="panel-section">
               <TrackView
                 trackName='ShellTrackFixed'
-                distanceTraveled={getNumberValue(latest.distance_traveled)}
+                distanceTraveled={latest.distance_traveled}
                 scale={100}
                 resetTriggered={this.state.startNewRace}
               />
             </div>
             <div className="panel-section">
-              <BasicGauge title="voltage" value={getNumberValue(latest.voltage)} min={0} max={36} unit="V" />
+              <BasicGauge title="voltage" value={getOptionalNumberValue(latest.voltage)} min={0} max={36} unit="V" />
             </div>
           </div>
           <div className="center-panel">
             <Speedometer 
-              value={getNumberValue(latest.speed)}
+              value={latest.speed}
               min={0}
               max={80}
               unit="MPH"
               burnCountdownTime={10000}
               coastCountdownTime={5000}
-              animate={true}
+              animate={false}
             />
           </div>
           <div className="right-panel">
             <div className="panel-section">
               <WindSpeedometer
-                windSpeed={Math.trunc(getNumberValue(latest.airspeed) * 10) / 10}
-                relativeSpeed={Math.trunc((getNumberValue(latest.speed) - getNumberValue(latest.airspeed)) * 10) / 10}
+                windSpeed={Math.trunc(latest.airspeed * 10) / 10}
+                relativeSpeed={Math.trunc((latest.speed - latest.airspeed) * 10) / 10}
                 speedType={'real'}
                 noBackground
                 windDir={180}
@@ -179,10 +174,10 @@ export default class App extends Component<Record<string, string>, AppState> {
           </div>
           <div className="bottom-panel">
             <BurnCoast
-              currentDistance={getNumberValue(latest.distance_traveled)}
-              currentStatus={isTruthyStatus(latest.engine_on) ? SegmentType.BURN : SegmentType.COAST}
+              currentDistance={latest.distance_traveled}
+              currentStatus={isTruthyStatus(latest.engine_on) === true ? SegmentType.BURN : SegmentType.COAST}
               simulationOutput={SAMPLE_SIMULATION}
-              resetTriggered={isTruthyStatus(latest.timer_reset_button)}
+              resetTriggered={isTruthyStatus(latest.timer_reset_button) ?? false}
             />
           </div>
         </Box>

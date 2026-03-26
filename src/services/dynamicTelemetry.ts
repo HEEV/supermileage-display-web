@@ -1,10 +1,15 @@
+/**
+ * This file contains the helper functions required to parse the incoming data packets from the python server. We are assuming here that the data in the packet already has the proper labels applied and have been modified according to the config.
+ * We do not handle config on this side of things, and the packet content is considered authoritative.
+ */
+
 export type HistoryData = {
   time?: Date;
-  speed?: number;
-  airspeed?: number;
-  distance_traveled?: number;
-  engine_temp?: number;
-  rad_temp?: number;
+  speed: number;
+  airspeed: number;
+  distance_traveled: number;
+  engine_temp: number;
+  rad_temp: number;
   [key: string]: unknown;
 };
 
@@ -15,23 +20,7 @@ export type IncomingPacket = {
   [key: string]: unknown;
 };
 
-type CarConfig = {
-  cars?: Record<
-    string,
-    {
-      active?: boolean;
-      sensors?: Record<
-        string,
-        {
-          name?: string;
-        }
-      >;
-    }
-  >;
-};
-
-export const STATIC_HISTORY_FIELDS = new Set<string>([
-  'time',
+const REQUIRED_NUMERIC_FIELDS = new Set<string>([
   'speed',
   'airspeed',
   'distance_traveled',
@@ -39,77 +28,52 @@ export const STATIC_HISTORY_FIELDS = new Set<string>([
   'rad_temp',
 ]);
 
-let allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-
 /**
  * Returns a finite numeric value, or a fallback when the input is not a valid number.
  */
-export function getNumberValue(value: unknown, fallback = 0): number {
+function getNumberValue(value: unknown, fallback = 0): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
 /**
+ * Returns a finite numeric value, or undefined when the input is not a valid number.
+ */
+export function getOptionalNumberValue(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+/**
  * Normalizes telemetry status values into a boolean on/off state.
+ * Returns undefined when the value is missing.
  * Treats numeric 1 and boolean true as truthy.
  */
-export function isTruthyStatus(value: unknown): boolean {
+export function isTruthyStatus(value: unknown): boolean | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
   return value === 1 || value === true;
 }
 
 /**
- * Loads active car sensor field names from config and merges them with static fields.
- * Falls back to static fields when config cannot be loaded.
- */
-export async function initializePacketFields(): Promise<void> {
-  try {
-    const response = await fetch('/config/car_config.json');
-
-    if (!response.ok) {
-      allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-      return;
-    }
-
-    const config = (await response.json()) as CarConfig;
-    const dynamicFields = new Set<string>();
-
-    Object.values(config.cars ?? {}).forEach((car) => {
-      if (!car.active) {
-        return;
-      }
-
-      Object.values(car.sensors ?? {}).forEach((sensor) => {
-        if (sensor.name) {
-          dynamicFields.add(sensor.name);
-        }
-      });
-    });
-
-    allowedPacketFields = new Set<string>([
-      ...Array.from(STATIC_HISTORY_FIELDS),
-      ...Array.from(dynamicFields),
-    ]);
-  } catch (error) {
-    // Keep static fields only if config is unavailable.
-    console.warn('Config load failed; using static telemetry fields only.', error);
-    allowedPacketFields = new Set<string>(STATIC_HISTORY_FIELDS);
-  }
-}
-
-/**
- * Builds a normalized history packet using currently configured allowed fields.
+ * Builds a normalized history packet from incoming data.
  * Parses time when present.
  */
 export function buildHistoryPacket(data: IncomingPacket): HistoryPacket {
-  const packet: HistoryPacket = {};
+  const packet: HistoryPacket = {
+    speed: getNumberValue(data.speed),
+    airspeed: getNumberValue(data.airspeed),
+    distance_traveled: getNumberValue(data.distance_traveled),
+    engine_temp: getNumberValue(data.engine_temp),
+    rad_temp: getNumberValue(data.rad_temp),
+  };
 
   Object.entries(data).forEach(([key, value]) => {
-    if (key === 'time') {
+    if (key === 'time' || REQUIRED_NUMERIC_FIELDS.has(key)) {
       return;
     }
 
-    if (allowedPacketFields.has(key)) {
-      packet[key] = value;
-    }
+    packet[key] = value;
   });
 
   if (data.time !== undefined) {
