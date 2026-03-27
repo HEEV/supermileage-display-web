@@ -7,13 +7,13 @@
 /.pnp
 .pnp.js
 yarn.lock
-package-lock.json
 bun.lock
 .yarnrc.yml
 .yarn
 
 # testing
 /coverage
+eslint-results.sarif
 
 # production
 /build
