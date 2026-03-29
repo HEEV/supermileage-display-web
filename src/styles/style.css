@@ -43,8 +43,10 @@ body {
 
 .wait-screen {
     display: flex;
+    width: 100vw;
     flex-direction: column;
     align-items: center;
+    color: white;
 }
 
 .top-panel {
@@ -148,16 +150,24 @@ body {
 }
 
 .gauge-value {
-    font-size: 10em !important;
+    font-weight: bold;
+    color: var(--color-text);
+    font-size: 4em !important;
     line-height: 0.9 !important;
     margin: 0;
-    padding: 0;
-    color: var(--color-text-secondary);
+    padding-bottom: 10px;
 }
 
 .gauge-unit {
+    font-size: var(--wind-label-mph-size);
+    margin-left: calc(0.2rem * var(--scale));
+    color: var(--color-text);
+    text-align: center;
+}
+
+.speedo-unit {
     margin-top: -0.5em !important;
-    font-size: 2em !important;
+    font-size: 1.5em !important;
     text-align: center;
     color: var(--color-text);
     letter-spacing: 2px;
@@ -302,10 +312,4 @@ body {
     text-transform: uppercase;
     margin-bottom: 0.5em;
     /* margin-left: 8 */
-}
-
-.wind-mph {
-    font-size: var(--wind-label-mph-size);
-    margin-left: calc(0.2rem * var(--scale));
-    color: var(--color-text);
 }
