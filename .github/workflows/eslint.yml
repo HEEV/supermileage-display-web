@@ -7,21 +7,17 @@
 # More details at https://github.com/eslint/eslint
 # and https://eslint.org
 
-name: Testing
+name: Code Quality Check
 
 on:
   push:
     branches:
       - "**"
       - "!main"
-  pull_request:
-    branches:
-      - main
 
 jobs:
   eslint:
     name: Run eslint scanning
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -52,14 +48,3 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
-  dependency-review:
-    name: Run Dependency Review
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: high

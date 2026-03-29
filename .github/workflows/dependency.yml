@@ -1,0 +1,25 @@
+# Dependency Review is a tool for identifying and reporting
+# vulnerabilities in dependencies of a project.
+# This workflow could have stages added to it later to do 
+# code scanning and other security checks. Currently it is
+# running the bare minimum.
+
+
+name: Security Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dependency-review:
+    name: Run Dependency Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
