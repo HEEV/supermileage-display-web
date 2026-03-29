@@ -1,5 +1,4 @@
 
-import { Typography } from '@mui/material';
 import { JSX } from 'react';
 
 export default function BasicGauge(props: {
