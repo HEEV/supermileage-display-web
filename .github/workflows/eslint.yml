@@ -21,6 +21,7 @@ on:
 jobs:
   eslint:
     name: Run eslint scanning
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
