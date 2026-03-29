@@ -1,28 +1,29 @@
 /* eslint-disable linebreak-style */
-import { Typography } from '@mui/material';
 import { JSX } from 'react';
 
 export default function BasicGauge(props: {
   title: string;
-  value: number;
+  value?: number;
   min: number;
   max: number;
   unit: string;
 }): JSX.Element {
+  const displayValue = props.value === undefined ? '--' : Math.round(props.value);
+
   return (
     <div className="basic-gauge">
-      <Typography variant="h6" className="gauge-title">
+      <div className="panel-label">
         {props.title}
-      </Typography>
+      </div>
       <div>
-        <Typography 
+        <div
           className="gauge-value"
         >
-          {Math.round(props.value)}
-        </Typography>
-        <Typography className="gauge-unit">
+          {displayValue}
+        </div>
+        <div className="gauge-unit">
           {props.unit}
-        </Typography>
+        </div>
       </div>
     </div>
   );

@@ -34,6 +34,7 @@
   --color-icon-text: var(--color-text);
   --color-icon-on: var(--color-icon-green);
   --color-icon-off: var(--color-icon-red);
+  --color-icon-disabled: var(--color-gray);
 }
 
 /* Max values for contrast */
