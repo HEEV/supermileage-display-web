@@ -1,19 +1,20 @@
 import './styles/style.css';
 import './styles/colors.css'; // unused import right now
 import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
-import { Component } from 'react';
+import { Component, useState } from 'react';
 import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
 import BurnCoast from './components/burnCoast';
-import { SegmentType } from './types/simulationTypes';
+import { RaceStrategy, SegmentType } from './types/simulationTypes';
 import { SAMPLE_SIMULATION } from './constants';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
 import {
   buildHistoryPacket,
+  buildSimRaceStrat,
   getOptionalNumberValue,
   isTruthyStatus,
   type HistoryPacket,
@@ -36,8 +37,11 @@ const menuActions = [
   { icon: <PanelTopBottomDashed />, name: 'Select Layout' },
 ];
 
+const [simData, setSimData] = useState<RaceStrategy>(SAMPLE_SIMULATION);
+
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
+  private _sim_socket?: ReturnType<typeof io>;
   private _animateInterval?: NodeJS.Timeout;
 
   constructor(props: Record<string, string>) {
@@ -68,12 +72,27 @@ export default class App extends Component<Record<string, string>, AppState> {
         }
       );
       this._socket.connect();
+
+      this._sim_socket = io(DATA_SOURCE, {
+        autoConnect: false,
+      });
+
+      // simulation data receipt event handler
+      this._sim_socket.on(
+        'new_sim_data',
+        (data: IncomingPacket) => {
+          const packet = buildSimRaceStrat(data);
+          setSimData(packet);
+        }
+      );
+      this._sim_socket.connect();
     }
   }
 
   // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
+    this._sim_socket?.disconnect();
     if (this._animateInterval) {
       clearInterval(this._animateInterval);
     }
@@ -176,7 +195,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <BurnCoast
               currentDistance={latest.distance_traveled}
               currentStatus={isTruthyStatus(latest.engine_on) === true ? SegmentType.BURN : SegmentType.COAST}
-              simulationOutput={SAMPLE_SIMULATION}
+              simulationOutput={simData}
               resetTriggered={isTruthyStatus(latest.timer_reset_button) ?? false}
             />
           </div>
@@ -185,3 +204,4 @@ export default class App extends Component<Record<string, string>, AppState> {
     );
   }
 }
+

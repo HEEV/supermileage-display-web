@@ -3,6 +3,8 @@
  * We do not handle config on this side of things, and the packet content is considered authoritative.
  */
 
+import { RaceStrategy, SegmentType } from './../types/simulationTypes';
+
 export type HistoryData = {
   time?: Date;
   speed: number;
@@ -84,4 +86,22 @@ export function buildHistoryPacket(data: IncomingPacket): HistoryPacket {
   }
 
   return packet;
+}
+
+export function buildSimRaceStrat(data: IncomingPacket): RaceStrategy {
+  const strategyData = data.raceStrategy;
+  if (!Array.isArray(strategyData)) {
+    return [];
+  }
+
+  return strategyData.map((item: any) => {
+    const rawType = getNumberValue(item.segmentType);
+    const segmentType = rawType === 0 ? SegmentType.COAST : SegmentType.BURN;
+    
+    return {
+      timestamp: getNumberValue(item.timestamp),
+      distance: getNumberValue(item.distance),
+      segmentType,
+    };
+  });
 }
