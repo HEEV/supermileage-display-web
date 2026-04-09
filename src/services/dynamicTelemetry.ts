@@ -3,7 +3,7 @@
  * We do not handle config on this side of things, and the packet content is considered authoritative.
  */
 
-import { RaceStrategy, SegmentType } from './../types/simulationTypes';
+import { RaceStrategy, SegmentType, SimDataItem } from './../types/simulationTypes';
 
 export type HistoryData = {
   time?: Date;
@@ -89,12 +89,13 @@ export function buildHistoryPacket(data: IncomingPacket): HistoryPacket {
 }
 
 export function buildSimRaceStrat(data: IncomingPacket): RaceStrategy {
-  const strategyData = data.raceStrategy;
+  const strategyData = data.current_lap;
   if (!Array.isArray(strategyData)) {
+    console.log('Simulation data does not fit race strategy data.');
     return [];
   }
 
-  return strategyData.map((item: any) => {
+  return strategyData.map((item: SimDataItem) => {
     const rawType = getNumberValue(item.segmentType);
     const segmentType = rawType === 0 ? SegmentType.COAST : SegmentType.BURN;
     
