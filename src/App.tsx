@@ -70,8 +70,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           }));
         }
       );
-      this._socket.connect();
-
+      
       // simulation data receipt event handler
       this._socket.on(
         'new_sim_data',
@@ -80,6 +79,7 @@ export default class App extends Component<Record<string, string>, AppState> {
           setSimData(packet);
         }
       );
+      this._socket.connect();
     }
   }
 
