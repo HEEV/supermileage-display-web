@@ -4,11 +4,13 @@ export enum SegmentType {
   COAST
 }
 
-export type RaceStrategy = Array<{
+export type RaceStrategy = Array<SimDataItem>;
+
+export type SimDataItem = {
   timestamp: number;
   distance: number;
   segmentType: SegmentType;
-}>;
+}
 
 export type Segment = {
   progress_percent: number;

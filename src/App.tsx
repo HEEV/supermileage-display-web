@@ -1,19 +1,20 @@
 import './styles/style.css';
 import './styles/colors.css'; // unused import right now
 import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
-import { Component } from 'react';
+import { Component, useState } from 'react';
 import io from 'socket.io-client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowDownToLine, PanelTopBottomDashed, Settings } from 'lucide-react';
 import Speedometer from './components/speedometer';
 import BurnCoast from './components/burnCoast';
-import { SegmentType } from './types/simulationTypes';
+import { RaceStrategy, SegmentType } from './types/simulationTypes';
 import { SAMPLE_SIMULATION } from './constants';
 import TrackView from './components/trackView';
 import IndicatorIcon from './components/iconWidget';
 import WindSpeedometer from './components/windSpeedometer';
 import {
   buildHistoryPacket,
+  buildSimRaceStrat,
   getOptionalNumberValue,
   isTruthyStatus,
   type HistoryPacket,
@@ -35,6 +36,8 @@ const menuActions = [
   { icon: <ArrowDownToLine />, name: 'Pull Settings' },
   { icon: <PanelTopBottomDashed />, name: 'Select Layout' },
 ];
+
+const [simData, setSimData] = useState<RaceStrategy>(SAMPLE_SIMULATION);
 
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
@@ -65,6 +68,15 @@ export default class App extends Component<Record<string, string>, AppState> {
           this.setState((prevState) => ({
             history: [packet, ...prevState.history],
           }));
+        }
+      );
+      
+      // simulation data receipt event handler
+      this._socket.on(
+        'new_sim_data',
+        (data: IncomingPacket) => {
+          const packet = buildSimRaceStrat(data);
+          setSimData(packet);
         }
       );
       this._socket.connect();
@@ -176,7 +188,7 @@ export default class App extends Component<Record<string, string>, AppState> {
             <BurnCoast
               currentDistance={latest.distance_traveled}
               currentStatus={isTruthyStatus(latest.engine_on) === true ? SegmentType.BURN : SegmentType.COAST}
-              simulationOutput={SAMPLE_SIMULATION}
+              simulationOutput={simData}
               resetTriggered={isTruthyStatus(latest.timer_reset_button) ?? false}
             />
           </div>
@@ -185,3 +197,4 @@ export default class App extends Component<Record<string, string>, AppState> {
     );
   }
 }
+
