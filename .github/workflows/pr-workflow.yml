@@ -10,9 +10,6 @@
 name: PR Checks
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - "**"
@@ -20,7 +17,6 @@ on:
 jobs:
   eslint:
     name: Run eslint scanning
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: read
