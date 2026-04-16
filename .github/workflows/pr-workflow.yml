@@ -10,13 +10,13 @@
 name: PR Checks
 
 on:
-  push:
+  pull_request:
     branches:
-      - "**"
+      - main
 
 jobs:
-  eslint:
-    name: Run eslint scanning
+  code-quality:
+    name: Code Quality
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -47,13 +47,16 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
-  dependency-review:
-    name: Run Dependency Review
-    if: github.event_name == 'pull_request'
+  security-checks:
+    name: Security Checks
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: code-quality
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Dependency Review
         uses: actions/dependency-review-action@v4
         with:
