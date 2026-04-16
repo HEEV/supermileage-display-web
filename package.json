@@ -1,6 +1,7 @@
 {
   "name": "supermileage-display-web",
   "version": "1.0.0",
+  "type": "module",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "dependencies": {
@@ -15,15 +16,15 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-konva": "^19.0.10",
-    "react-scripts": "^5.0.1",
     "react-timer-hook": "^3.0.7",
     "socket.io-client": "^4.8.1",
-    "typescript": "4.9.4"
+    "typescript": "^5.6.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "DO_NOT_USE_eject": "react-scripts eject",
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "lint": "npx eslint src/**/*.tsx --fix"
   },
   "repository": {
@@ -48,14 +49,18 @@
   },
   "homepage": "/",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.0.0",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.0",
     "@types/socket.io-client": "^1.4.36",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^6.1.1"
+    "globals": "^17.4.0",
+    "jiti": "^2.6.1",
+    "typescript-eslint": "^8.57.2",
+    "vite": "^8.0.3"
   },
   "packageManager": "yarn@4.10.3"
 }

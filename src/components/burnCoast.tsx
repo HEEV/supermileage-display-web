@@ -1,4 +1,4 @@
-/* eslint-disable linebreak-style */
+ 
 import { JSX, useEffect, useRef, useState } from 'react';
 import { CURRENT_TRACK, TRACKS } from '../constants';
 import { RaceStrategy, Segment, SegmentType } from '../types/simulationTypes';

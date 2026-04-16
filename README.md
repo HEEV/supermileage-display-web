@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Supermileage Display Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a React + TypeScript app built with [Vite](https://vite.dev/).
+
+## Requirements
+
+- Node.js 20+
+- Yarn 4 (Corepack is supported)
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+yarn install
+```
+
+Start the development server:
+
+```bash
+yarn dev
+```
+
+By default, Vite serves the app at [http://localhost:5173](http://localhost:5173).
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `yarn dev` (same as `yarn start`): Start the Vite dev server with hot reload.
+- `yarn build`: Type-check and create a production build.
+- `yarn preview`: Preview the production build locally.
+- `yarn lint`: Run ESLint and apply auto-fixes to TSX source files.
 
-### `npm start`
+## Build Output
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The production build is generated in the `dist` directory.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Deployment
 
-### `npm test`
+Deploy the contents of `dist` to any static hosting provider.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## CI
 
-### `npm run build`
+GitHub Actions includes a lint workflow in `.github/workflows/eslint.yml`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Trigger: push to all branches except `main`
+- Install: `npm ci` (plus temporary SARIF formatter install)
+- Check: ESLint using `eslint.config.mjs`
+- Output: SARIF upload for GitHub code scanning
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run the same eslint command locally, run the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+ npx eslint . --config eslint.config.mjs --ignore-pattern "node_modules/" --ignore-pattern "build/"
+```
 
-### `npm run eject`
+## Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Vite
+- React 19
+- TypeScript
+- ESLint
