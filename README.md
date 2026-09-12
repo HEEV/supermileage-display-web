@@ -2,6 +2,26 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Demo mode
+
+The display normally reads telemetry from the python data server over a socket
+on `localhost:8080`. Demo mode replaces that with a fake car generated in the
+browser, so the whole dashboard can be run with nothing else installed.
+
+```sh
+npm run start:demo     # runs at 8x speed
+```
+
+Or switch it on at any running display with a query parameter:
+
+- `http://localhost:3000/?demo` runs the fake car in real time
+- `http://localhost:3000/?demo=20` runs it twenty times faster
+
+The fake car follows the burn/coast plan in `src/constants.ts`, so the track
+map, the burn/coast bar and the gauges all agree. It laps the track four times,
+taps the reset button, then starts over. A yellow "demo data" badge sits in the
+top left whenever the numbers are made up.
+
 ## Available Scripts
 
 In the project directory, you can run:

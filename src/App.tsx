@@ -20,16 +20,21 @@ import {
   type IncomingPacket,
 } from './services/dynamicTelemetry';
 import BasicGauge from './components/basicGauge';
+import { getDemoTimeScale, startDemoTelemetry } from './services/demoTelemetry';
 
 export type AppState = {
   history: HistoryPacket[];
   currentRaceName: string;
   startNewRace: boolean;
+  demo: boolean;
 };
 
 //const DATA_SOURCE = 'https://judas.arkinsolomon.net';
 const DATA_SOURCE =
   window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'remote';
+
+// how many packets of history we keep around
+const MAX_HISTORY = 2000;
 
 const menuActions = [
   { icon: <ArrowDownToLine />, name: 'Pull Settings' },
@@ -39,6 +44,7 @@ const menuActions = [
 export default class App extends Component<Record<string, string>, AppState> {
   private _socket?: ReturnType<typeof io>;
   private _animateInterval?: NodeJS.Timeout;
+  private _stopDemo?: () => void;
 
   constructor(props: Record<string, string>) {
     super(props);
@@ -47,26 +53,39 @@ export default class App extends Component<Record<string, string>, AppState> {
       history: [],
       currentRaceName: '<no race>',
       startNewRace: false,
+      demo: false,
     };
+
+    this.handlePacket = this.handlePacket.bind(this);
+  }
+
+  // normalize an incoming packet and push it onto the history
+  private handlePacket(data: IncomingPacket): void {
+    const packet = buildHistoryPacket(data);
+    this.setState((prevState) => ({
+      history: [packet, ...prevState.history].slice(0, MAX_HISTORY),
+    }));
   }
 
   // handle connection to local data server, when components initially mount to DOM
   componentDidMount(): void {
+    // demo mode generates its own data, so no server is needed
+    const demoTimeScale = getDemoTimeScale();
+    if (demoTimeScale !== null) {
+      this.setState({ demo: true });
+      this._stopDemo = startDemoTelemetry(this.handlePacket, {
+        timeScale: demoTimeScale,
+      });
+      return;
+    }
+
     if (DATA_SOURCE === 'http://localhost:8080') {
       this._socket = io(DATA_SOURCE, {
         autoConnect: false,
       });
 
       // data receipt event handler
-      this._socket.on(
-        'new_data',
-        (data: IncomingPacket) => {
-          const packet = buildHistoryPacket(data);
-          this.setState((prevState) => ({
-            history: [packet, ...prevState.history],
-          }));
-        }
-      );
+      this._socket.on('new_data', this.handlePacket);
       this._socket.connect();
     }
   }
@@ -74,6 +93,7 @@ export default class App extends Component<Record<string, string>, AppState> {
   // handle disconnection from local data server, when components are removed from DOM
   componentWillUnmount(): void {
     this._socket?.disconnect();
+    this._stopDemo?.();
     if (this._animateInterval) {
       clearInterval(this._animateInterval);
     }
@@ -94,6 +114,7 @@ export default class App extends Component<Record<string, string>, AppState> {
       <>
         <Box id="main-box">
           <div className="top-panel">
+            {this.state.demo && <div className="demo-badge">Demo data</div>}
             <Box>
               <SpeedDial
                 ariaLabel="Settings"
