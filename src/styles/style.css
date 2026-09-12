@@ -57,6 +57,18 @@ body {
     padding: 10px;
 }
 
+.demo-badge {
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-warning);
+    border: 2px solid var(--color-warning);
+    border-radius: 8px;
+    padding: 4px 10px;
+}
+
 .bottom-panel {
     grid-column: 1 / 4;
     display: flex;

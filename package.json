@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:demo": "REACT_APP_DEMO=8 react-scripts start",
     "build": "react-scripts build",
     "DO_NOT_USE_eject": "react-scripts eject",
     "lint": "npx eslint src/**/*.tsx --fix"
